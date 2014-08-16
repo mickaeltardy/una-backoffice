@@ -1,0 +1,50 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<beans:bean id="errorAEP"
+		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+	<beans:bean id="emptyAEP"
+		class="com.mtdev.una.security.EmptyAuthenticationEntryPoint">
+	</beans:bean>
+
+	<http use-expressions="true" pattern="/app/resources/**"
+		entry-point-ref="emptyAEP">
+		<form-login />
+		<logout />
+	</http>
+	<http use-expressions="true" pattern="/app/services/**"
+		entry-point-ref="emptyAEP">
+		<form-login />
+		<logout />
+	</http>
+	<http use-expressions="true" pattern="/app/welcome/**">
+		<form-login login-page="/spring_security_login" />
+		<logout />
+	</http>
+	<http use-expressions="true" >
+		<form-login />
+		<logout />
+	</http>
+	<!-- <beans:bean id="customAuthenticationProvider" class="com.mtdev.una.security.CustomAuthenticationProvider"> 
+		<beans:property name="userDetailsService" ref="userServiceImpl" /> <beans:property 
+		name="passwordEncoder" ref="customPasswordEncoder" /> </beans:bean> -->
+	<beans:bean id="customPasswordEncoder"
+		class="com.mtdev.una.security.CustomPasswordEncoder"></beans:bean>
+	<beans:bean id="userServiceImpl" class="com.mtdev.una.security.UserSeviceImpl"></beans:bean>
+	<!-- <authentication-manager> <authentication-provider ref="customAuthenticationProvider" 
+		/> </authentication-manager> -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="userServiceImpl">
+			<!-- <password-encoder ref="customPasswordEncoder" />
+			 -->
+			  <password-encoder hash="md5" />
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

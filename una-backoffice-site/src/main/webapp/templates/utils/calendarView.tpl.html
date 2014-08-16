@@ -1,0 +1,147 @@
+<style>
+.calendar .calendarHeader,.calendar .calendarDisplay,.calendar .calendarToolbox
+	{
+	clear: both;
+	display: block;
+}
+
+.calendar .calendarHeader .month,.calendar .calendarHeader .year,.calendar .calendarToolbox div
+	{
+	display: block;
+	float: left;
+}
+
+.calendar .calendarHeader .month,.calendar .calendarHeader .year {
+	font-size: 130%;
+	padding-right: 20px;
+	padding-bottom: 20px;
+}
+
+.calendar .calendarToolbox div {
+	padding: 5px;
+	border: 1px #000000 solid;
+	background-color: #cccccc;
+	margin-right: 10px;
+	margin-bottom: 20px;
+	cursor: pointer;
+    font-size: 90%;
+}
+
+.calendarTable .header,.calendarTable .day:nth-child(7n+1) {
+	clear: both;
+}
+
+.calendarTable .day {
+	display: block;
+	float: left;
+	width: 13%;
+	height: 130px;
+	padding: 5px;
+	border: 1px #cccccc dotted;
+}
+
+.calendarTable .day ul.controls,
+.calendarList .day ul.controls {
+	font-size: 80%;
+	list-style-type: none;
+	padding: 0;
+	margin-left: 0;
+    margin-top:2px;
+    margin-botom:2px;
+}
+
+.calendarTable .day ul.controls li,
+.calendarList .day ul.controls li {
+	cursor: pointer;
+    font-style: italic;
+}
+
+.calendarTable .day ul.controls li:hover {
+	text-decoration: underline;
+}
+
+.calendarTable .dayLabel {
+	display: block;
+	clear: both;
+}
+
+.calendarTable .dayHeader {
+	font-weight: bold;
+	height: 15px;
+}
+
+.day.outside {
+	background-color: #eeeeee !important;
+}
+
+.day.today {
+	background-color: rgba(255, 0, 0, 0.05);
+}
+
+.day.future {
+	background-color: rgba(0, 255, 0, 0.05);
+}
+
+.day.past {
+	background-color: rgba(0, 0, 255, 0.05);
+}
+
+.calendarList,.calendar {
+	overflow: auto;
+	width: 100%;
+}
+
+.calendarList .day.outside,.calendarList .dayHeader {
+	display: none !important;
+}
+
+.calendarList .day {
+	display: block;
+	width: 80%;
+	min-height: 40px;
+	padding: 10px;
+	border: 1px #000000 solid;
+}
+.calendarDisplay .dayLabel{
+    font-size:80%;
+    margin:2px;
+}
+
+
+.calendarDisplay p{
+    font-size: 75%;
+    margin:2px;
+    text-align:center;
+}
+
+</style>
+<div class="calendar">
+    <div class="calendarHeader">
+        <div class="month">{{getMonthLabel(month)}}</div>
+        <div class="year">{{year}}</div>
+    </div>
+    <div class="calendarToolbox">
+
+        <div data-ng-click="prevMonth()">&lt;&lt;&lt; Mois
+            précédent</div>
+        <div data-ng-click="nextMonth()">Mois suivant &gt;&gt;&gt;</div>
+        <div data-ng-click="switchCalendarView()">Changer la vue
+            (liste/tableau)</div>
+
+    </div>
+    <div class="calendarDisplay" data-ng-class="calendarViewStyle">
+        <div data-ng-repeat="day in dayNames" class="day dayHeader">{{day}}</div>
+        <div data-ng-repeat="day in days" class="day"
+            data-ng-class="{'outside' : !day.inside, 'today' : day.today == 0, 'past' : day.today == -1, 'future' : day.today == 1}">
+            <div class="dayLabel">{{day.label}}</div>
+            <p
+                        data-ng-bind-html-unsafe= "call(dayContentMethod, day)"></p>
+            <ul class="controls">
+                <li data-ng-repeat="control in controls"
+                    data-ng-show="(!control.display || (control.display == 'past' && day.today <= 0) || (control.display == 'future' && day.today >= 0)) && (!control.displayMethod || call(control.displayMethod, day)) "
+                    data-ng-click="call(control.method, day)">{{control.label}}
+                    {{call(control.dynLabel, day)}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

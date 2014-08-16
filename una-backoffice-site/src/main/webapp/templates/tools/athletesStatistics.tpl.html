@@ -1,0 +1,39 @@
+<style>
+.membersList,
+.stats {
+display:block;
+float:left;
+}
+.membersList {
+width:40%;
+margin-right:20px
+}
+.stats {
+padding-left:20px;
+width:55%;
+border-left:#cccccc dotted thin;
+}
+.membersList ul li{
+margin: 3px 0px 5px 0px;
+border-bottom:#cccccc dotted thin;
+}
+.membersList ul li:hover,
+.membersList ul li.selected
+{
+background: #cccccc;
+}
+</style>
+
+<div class="membersList">
+
+<div
+                            data-ng-repeat="d in workoutData.athleteCategory"
+                            data-ng-value="d.code">{{d.label}}
+<ul>
+<li data-ng-repeat="member in getMembersOfCategory(members, d.code) | orderBy: orderProp" class="clickable" data-ng-click="setActiveMemberForStats(member)" data-ng-class="{'selected' : activeMember.id==member.id}">{{getSimpleMemberName(member.name)}} {{member.surname}}</li>
+</ul>
+</div>
+</div>
+<div class="stats">
+    <div data-ng-repeat="currentStatistics in personalStatistics" data-ng-include="workoutsStatistics"></div>
+</div>

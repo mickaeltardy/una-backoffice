@@ -1,0 +1,37 @@
+<div class="workoutsPersonalStats">
+    <div class="title">{{messages.statistics.titles[currentStatistics.label]}}</div>
+    <div class="header">
+
+        <div class="label">Categorie</div>
+        <div class="eval">Realisé</div>
+        <div class="goal">Objectif</div>
+        <div class="achievement">Pourcentage</div>
+
+    </div>
+    <div class="data">
+        <div class="item"
+            data-ng-repeat="objective in currentStatistics.stats"
+            data-ng-click="toggleShowSpecific(objective)">
+            <div class="statisticsLine"
+                data-ng-class="{'boostedItem' : objective.specific != null}">
+                <div class="label">{{objective.label}}
+                    {{getWorkoutTypeLabel(specific.type)}}</div>
+                <div class="eval">{{objective.value}}</div>
+                <div class="goal">{{objective.goal}}</div>
+                <div class="achievement">{{objective.achievement}}</div>
+            </div>
+            <div class="specific"
+                data-ng-repeat="specific in objective.specific"
+                data-ng-show="objective.showSpecific">
+                <div class="statisticsLine">
+                    <div class="label">{{getWorkoutTypeLabel(specific.type)}}</div>
+                    <div class="eval">{{specific.value}}</div>
+                    <div class="goal">{{specific.goal}}</div>
+                    <div class="achievement">{{specific.achievement}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </table>
+</div>

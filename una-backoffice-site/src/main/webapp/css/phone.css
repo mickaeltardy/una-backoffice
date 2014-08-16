@@ -1,0 +1,43 @@
+@media only screen and (orientation: portrait) {
+    body {
+        background: #aaffaa;
+    }
+    #mainMenu {
+        display:none;
+    }
+}
+
+
+@media only screen and (orientation: landscape) {
+    body {
+        background: #ffffff;
+    }
+    #mainMenu {
+        display:none;
+    }
+}
+
+
+#main-menu{
+    width:100%;
+}
+/*
+#nav-panel {
+    display: none;
+}
+*/
+#main-menu > ul > li > span {
+    font-size: 120%;
+    padding: 10px 10px;
+}
+
+#profile{
+    height:80px;
+}
+#content{
+    padding: 10px;
+}
+
+.openedEditor{
+    display:none;
+}

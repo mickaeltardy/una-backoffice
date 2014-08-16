@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="css/membersSupervisor.css" media="all" type="text/css" />
+<div class="controlPanel">
+<div><button data-ng-click="getCsv()">Download CSV</button></div>
+<div><button data-ng-click="doStuffWithMembers()">Remove members</button></div>
+                        <select data-ng-model="filterCategory" data-ng-change="filterMembersByCategory(this)">
+                            <option></option>
+                            <option
+                                data-ng-repeat="c in categories" value="{{c.code}}">{{getMessage(c.code,
+                                    "categories")}}</option>
+                        </select>
+                        <select data-ng-model="filterState" data-ng-change="filterMembersByState(this)">
+                        <option></option>
+                        <option value="0">En attente</option>
+                        <option value="1">Validé</option>
+                            
+                        </select>
+                         
+<!--                           
+                         <select data-ng-model="filterCategory" data-ng-options="c.code for c in categories" data-ng-change="alertStuff()">
+      -->
+</div>          
+<table class="dataTable">
+    <tr>
+        <th>Invalid</th>
+        <th>Etat</th>
+        <th>Nom Prénom</th>
+        <th>Catégorie d'inscription</th>
+        <th>Mail</th>
+        <th>Tel</th>
+        <th>Date d'inscription</th>
+    </tr>
+    <tr data-ng-repeat="member in filteredMembers |  orderBy:orderProp" data-ng-style="{'background-color':(member.state == 1 ? '#cccccc' : '#ffffff')}">
+        <td class="clickable" data-ng-click="updateMemberInvalid(member);">{{member.invalid}}</td>
+        <td class="clickable" data-ng-click="updateMemberState(member);">{{getMemberState(member.state)}}</td>
+        <td>{{member.surname}} {{member.name}}</td>
+        <td>{{getMessage(member.dump.category.code, "categories")}}</td>
+        <td>{{member.dump.email}}</td>
+        <td>{{member.dump.telephone}}</td>
+        <td>{{member.insert_date}}</td>
+    </tr>
+</table>

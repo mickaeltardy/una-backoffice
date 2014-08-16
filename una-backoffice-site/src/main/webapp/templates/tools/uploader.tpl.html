@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="css/dragndrop.uploader.css" />
+<link rel="stylesheet" href="css/classic.uploader.css" /> 
+
+<div class="panel">{{loggedUser}} <div class="button" data-ng-click="logout()">({{messages.labels.logout}})</div></div>
+
+<h2>{{messages.legends.fileManagement}}</h2>
+<div id="memberSelect" data-ng-init="getMembersList()"
+    data-ng-show="activeMember == '' || (members && members.length > 0)">
+    <h3>{{messages.legends.selectMember}}</h3>
+    <ul class="membersList">
+        <li class="memberItem" data-ng-repeat="member in members"
+            data-ng-click="setActiveMember(member)"
+            data-ng-class="getCssClass(member)"><span class="name">{{member.name}}
+                {{member.surname}}</span> / <span class="licence">{{messages.labels.licenceNo}}
+                : <span data-ng-show="member.licence==''">{{messages.errors.noLicenceYet}}</span><span
+                data-ng-show="member.licence!=''">{{member.licence}}</span>
+        </span> / <span class="birthdate">{{messages.labels.birthdate}}
+                : {{member.birthdate}}</span></li>
+    </ul>
+</div>
+
+
+<div id="uploader"
+    data-ng-show="activeMember != '' && activeMember.id > 0">
+    <h3>{{messages.legends.uploadFile}}</h3>
+    <div class="uploadNotice">{{messages.info.uploadNotice}}</div>
+    <div
+        data-ng-show="fileUpload.notification && fileUpload.notification !=''"
+        class="uploadStatus {{fileUpload.cssClass}}">{{fileUpload.notification}}</div>
+    <div id="classicUpload">
+        <form enctype="multipart/form-data">
+            <uploader action="../server/service/uploadFile"></uploader>
+        </form>
+    </div>
+    <div id="seperator">{{messages.labels.or}}</div>
+    <div id="dragNdropUpload">
+        <dnduploader action="../server/service/uploadFile"></dnduploader>
+    </div>
+</div>
+<div id="memberSelect"
+    data-ng-show="activeMember != '' && activeMember.id > 0 && activeMember.documents.length > 0">
+    <h3>{{messages.legends.uploadedDocs}}</h3>
+    <div
+        data-ng-show="fileUpdate.notification && fileUpdate.notification !=''"
+        class="updateStatus {{fileUpdate.cssClass}}">{{fileUpdate.notification}}</div>
+
+    <ul class="documentsList">
+        <li data-ng-repeat="document in activeMember.documents"
+            class="documentItem"><span class="documentAction"
+            data-ng-click="deleteDocument(document)">{{messages.labels.delete}}</span>
+            <span class="documentState">{{getDocumentStatus(document.state)}}</span>
+            <span class="documentLabel">{{document.label}}</span></li>
+    </ul>
+</div>
+<div id="preloader" data-ng-show="fileUploadOngoing">
+    <div id="dialogBox">
+        <img src="img/loader.gif" width="48px" height="48px" />
+        <div>{{messages.info.sendingFile}}</div>
+    </div>
+</div>

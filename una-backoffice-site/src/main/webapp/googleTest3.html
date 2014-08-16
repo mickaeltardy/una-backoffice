@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Test google+</title>
+
+<!-- In the callback, you would hide the gSignInWrapper element on a
+successful sign in -->
+</head>
+<body>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+
+  function render() {
+    gapi.signin.render('customBtn', {
+      //'callback': 'signinCallback',
+      'clientid': '130454341595-b6j29gukglcd2lpn8k5morb9n5nj5u1v.apps.googleusercontent.com',
+      'cookiepolicy': 'single_host_origin',
+      'scope': 'profile'
+    });
+  }
+  </script>
+  <style type="text/css">
+    #customBtn {
+      display: inline-block;
+      background: #dd4b39;
+      color: white;
+      width: 130px;
+      height:25px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    #customBtn:hover {
+      background: #e74b37;
+      cursor: hand;
+    }
+    span.label {
+      font-weight: bold;
+    }
+    span.icon {
+      background: url('https://developers.google.com/+/images/branding/btn_red_32.png') transparent 5px 50% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width: 45px;
+      height: 25px;
+      border-right: #bb3f30 1px solid;
+    }
+    span.buttonText {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      /* Use the Roboto font that is loaded in the <head> */
+      font-family: 'Roboto',arial,sans-serif;
+    }
+  </style>
+  <!-- In the callback, you would hide the gSignInWrapper element on a
+  successful sign in -->
+  <div id="gSignInWrapper">
+    <div id="customBtn" class="customGPlusSignIn">
+      <span class="icon"></span>
+      <span class="buttonText">Sign in</span>
+    </div>
+  </div>
+</body>
+</html>

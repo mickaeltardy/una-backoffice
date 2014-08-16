@@ -1,0 +1,28 @@
+@media only screen and (orientation: portrait) {
+    body {
+        background: #aaaaaa;
+    }
+    #mainMenu {
+        display: none;
+    }
+}
+
+@media only screen and (orientation: landscape) {
+    body {
+        background: #ffffff;
+    }
+    #mainMenu {
+        display: none;
+    }
+}
+
+#nav-panel {
+    display: none;
+}
+#content {
+    padding: 10px;
+}
+
+.openedEditor{
+    display:none;
+}

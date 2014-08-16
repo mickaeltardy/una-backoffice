@@ -1,0 +1,73 @@
+
+<div>
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th><select data-ng-model="filter.member_name"
+                    data-ng-change="applyFilter()"><option value=""></option>
+                        <option data-ng-repeat="member in members"
+                            value="{{member}}">{{member}}</option>
+                </select></th>
+                <th><select data-ng-model="filter.athlete_category"
+                    data-ng-change="applyFilter()"><option value=""></option>
+                        <option
+                            data-ng-repeat="d in workoutData.athleteCategory"
+                            data-ng-value="d.code" value="{{d.code}}">{{d.label}}</option>
+                </select></th>
+                <th><select data-ng-model="filter.athlete_level"
+                    data-ng-change="applyFilter()"><option value=""></option>
+                        <option
+                            data-ng-repeat="d in workoutData.athleteLevel"
+                            data-ng-value="d.code" value="{{d.code}}">{{d.label}}</option>
+                </select></th>
+                <th><select data-ng-model="filter.athlete_sex"
+                    data-ng-change="applyFilter()"><option value=""></option>
+                        <option
+                            data-ng-repeat="d in workoutData.athleteSex"
+                            data-ng-value="d.code" value="{{d.code}}">{{d.label}}</option>
+                </select></th>
+                <th><select data-ng-model="filter.workout_class"
+                    data-ng-change="applyFilter()"><option value=""></option>
+                        <option
+                            data-ng-repeat="d in workoutData.workoutClasses"
+                            data-ng-value="d.code" value="{{d.code}}">{{d.label}}</option>
+                </select></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'date'}"
+                    data-ng-click="changeOrder('date')">Date</th>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'member_name'}"
+                    data-ng-click="changeOrder('member_name')">Member</th>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'athlete_category'}"
+                    data-ng-click="changeOrder('athlete_category')">Category</th>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'athlete_level'}"
+                    data-ng-click="changeOrder('athlete_level')">Level</th>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'athlete_sex'}"
+                    data-ng-click="changeOrder('athlete_sex')">Sex</th>
+                <th class="clickable"
+                    data-ng-class="{'selected':orderProp == 'workout_class'}"
+                    data-ng-click="changeOrder('workout_class')">Workout Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                data-ng-repeat="workout in filteredWorkouts | orderBy:orderProp  ">
+                <td>{{workout.date}}</td>
+                <td>{{workout.member_name}}</td>
+                <td>{{workout.athlete_category}}</td>
+                <td>{{workout.athlete_level}}</td>
+                <td>{{workout.athlete_sex}}</td>
+                <td>{{workout.workout_class}}</td>
+                <td>{{getWorkoutLabel(workout)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

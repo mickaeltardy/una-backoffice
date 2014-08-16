@@ -1,0 +1,120 @@
+<div data-calendar-view
+    data-controls-list="[{'label': 'Ajouter un objectif', 'method' : 'addGoal', 'display' : 'future'}, 
+    {'label' : 'Voir les objectifs', 'displayMethod' : 'isGoalsNotNull', 'method' : 'viewGoals', 'dynLabel' : 'getGoalsCnt'}, 
+    {'label' : 'Voir les résultats', 'displayMethod' : 'isResultsNotNull', 'method' : 'viewResults', 'dynLabel' : 'getResultsCnt', 'display' : 'past'}]"
+    data-data-retreive-method="getAllWorkoutData"
+    data-data-refresh-method="refreshWorkoutData"></div>
+<div class="frontEnd" data-ng-show="showWorkoutsShow">
+
+    <div class="workoutsList">
+        <div class="title">{{operationName}}</div>
+        <div class="closeBtn" data-ng-click="closeViewer()">Close</div>
+        <ul>
+            <li class="clickable"
+                data-ng-repeat="workout in filteredWorkouts"
+                data-ng-click="editWorkout(workout);">
+                <div data-ng-show="workout.type==0">
+                    {{workout.description}} {{workout.athlete_category}}
+                    {{workout.athlete_sex}} {{workout.athlete_level}}</div>
+                <div data-ng-show="workout.type==1">
+                    {{workout.member_name}}: {{workout.description}}</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="frontEnd" data-ng-show="editWorkoutShow">
+    <div class="workoutEditor">
+        <div class="title">{{operationName}}</div>
+        <div class="closeBtn" data-ng-click="closeEditor()">Close</div>
+        <ul>
+            <li><label for="workoutDate" class="fieldLabel">Date</label><input
+                type="date" id="workoutDate"
+                data-ng-init="setDatePicker()"
+                data-ng-model="currentWorkout.date"
+                data-ng-change="changeDate()" /></li>
+            
+            
+            <li><label for="workoutClass" class="fieldLabel">Class</label><select
+                data-ng-model="currentWorkout.workout_class" data-ng-options="class.code as class.label for class in workoutData.workoutClasses">
+                    <option></option>
+            </select></li>
+            <li><label for="workoutClass" class="fieldLabel">Type</label><select
+                data-ng-model="currentWorkout.workout_type" data-ng-options="class.code as class.label for class in workoutData.workoutTypes.rowing.concat(workoutData.workoutTypes.building)">
+                    <option></option>
+            </select></li>
+            <li><label for="workoutClass" class="fieldLabel">Boat</label><select
+                data-ng-model="currentWorkout.workout_boat" data-ng-options="class.code as class.label for class in workoutData.boatTypes">
+                    <option></option>
+            </select></li>
+            <li><label for="workoutLabel" class="fieldLabel">Description</label>
+            <textarea id="workoutDescription"
+                    data-ng-model="currentWorkout.description"></textarea></li>
+            <li><label for="workoutDistance" class="fieldLabel">Distance</label><input
+                type="text" id="workoutDistance"
+                data-ng-model="currentWorkout.distance" /></li>
+            <li><label for="workoutDuration" class="fieldLabel">Durée</label><input
+                type="text" id="workoutDuration"
+                data-ng-model="currentWorkout.duration" /></li>
+            <li><label for="workoutLaps" class="fieldLabel">Tours</label><input
+                type="text" id="workoutLaps"
+                data-ng-model="currentWorkout.laps" /></li>
+            <li><label for="workoutComment" class="fieldLabel">Commentaire</label>
+                <textarea id="workoutComment"
+                    data-ng-model="currentWorkout.comment"></textarea></li>
+            <li>Catégorie sexe
+                <ul class="itemsSet">
+                    <li class="formItem"
+                        data-ng-repeat="d in workoutData.athleteSex">
+                        <input type="checkbox" value="d.code"
+                        data-ng-checked="currentWorkout.athlete_sex.indexOf(d.code)>=0"
+                        data-ng-click="setArrayValue(d.code, 'athlete_sex')"
+                        id="member.athleteSex{{d.code}}" /> <label
+                        for="member.athleteSex{{d.code}}">{{d.label}}</label>
+                    </li>
+                </ul>
+            </li>
+            <li>Catégorie sportive
+                <ul class="itemsSet">
+                    <li class="formItem"
+                        data-ng-repeat="d in workoutData.athleteCategory">
+                        <input type="checkbox" value="d.code"
+                        data-ng-checked="currentWorkout.athlete_category.indexOf(d.code)>=0"
+                        data-ng-click="setArrayValue(d.code, 'athlete_category')"
+                        id="member.athleteCategory{{d.code}}" /> <label
+                        for="member.athleteCategory{{d.code}}">{{d.label}}</label>
+                    </li>
+                </ul>
+            </li>
+            <li>Niveau
+                <ul class="itemsSet">
+                    <li class="formItem"
+                        data-ng-repeat="d in workoutData.athleteLevel">
+                        <input type="checkbox" value="d.code"
+                        data-ng-checked="currentWorkout.athlete_level.indexOf(d.code)>=0"
+                        data-ng-click="setArrayValue(d.code, 'athlete_level')"
+                        id="member.athleteLevel{{d.code}}" /> <label
+                        for="member.athleteLevel{{d.code}}">{{d.label}}</label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div id="formControl">
+            <button data-ng-click="submit()">Valider</button>
+            <button data-ng-click="closeEditor()">Annuler</button>
+
+        </div>
+
+        <!-- 
+            Date : date field, autoselect
+            Label
+            Description
+            Type of training : List
+            Athlete category : List 
+            Athlete level : List 
+            Athlete sex : list
+            
+            
+             -->
+
+    </div>
+</div>

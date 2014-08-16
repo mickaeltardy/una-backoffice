@@ -1,0 +1,66 @@
+body{
+    background:#ffffff;
+}
+
+header , footer{
+        position: absolute;
+    z-index: 1000;
+    left: 0px;
+    right: 0px;
+}
+
+#nav-panel {
+    position: relative;
+    height: 100%;
+    width: 20%;
+    float: left;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+#main-menu {
+    overflow: visible;
+    width: 100%;
+}
+#nav-button {
+    display:none;
+}
+
+#page {
+    top: 50px;
+    bottom: 30px;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+#content {
+    overflow: scroll;
+    height: 100%;
+    
+        padding: 10px;
+
+    
+}
+
+
+#editorContainer {
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    position: absolute;
+}
+
+#editor {
+    display: block;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    margin-right: 80px;
+    margin-left: 80px;
+    background: #cccccc;
+}

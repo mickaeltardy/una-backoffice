@@ -1,0 +1,80 @@
+<div class="frontEnd" data-ng-show="showWorkoutsShow">
+
+    <div class="workoutsList">
+        <div class="title">{{operationName}}</div>
+        <div class="closeBtn" data-ng-click="closeViewer()">Close</div>
+        <ul>
+            <li class="clickable"
+                data-ng-repeat="workout in filteredWorkouts"
+                data-ng-click="editWorkout(workout);">
+                <div data-ng-show="workout.type==0">
+                    {{workout.description}} {{workout.category}}
+                    {{workout.sex}} {{workout.level}}</div>
+                <div data-ng-show="workout.type==1">
+                    {{workout.member_name}}: {{workout.description}}</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="frontEnd" data-ng-show="editWorkoutShow">
+    <div class="workoutEditor">
+        <div class="title">{{operationName}}</div>
+        <div class="closeBtn" data-ng-click="closeEditor()">Close</div>
+        <ul>
+            <li><label for="workoutDate" class="fieldLabel">Date</label><input
+                type="date" id="workoutDate"
+                data-ng-init="setDatePicker()"
+                data-ng-model="currentWorkout.date"
+                data-ng-change="changeDate()" /></li>
+            <li><label for="workoutLabel" class="fieldLabel">Description</label>
+                <textarea id="workoutDescription"
+                    data-ng-model="currentWorkout.description"></textarea></li>
+            <li><label for="workoutType" class="fieldLabel">Type</label><select
+                data-ng-model="currentWorkout.workout_category">
+                    <option></option>
+                    <option
+                        data-ng-repeat="d in workoutData.workoutCategory"
+                        data-ng-value="d.code">{{d.label}}</option>
+            </select></li>
+            <li><label for="workoutDistance" class="fieldLabel">Distance</label><input
+                type="text" id="workoutDistance"
+                data-ng-model="currentWorkout.distance" /></li>
+            <li><label for="workoutDuration" class="fieldLabel">Durée</label><input
+                type="text" id="workoutDuration"
+                data-ng-model="currentWorkout.duration" /></li>
+            <li><label for="workoutComment" class="fieldLabel">Commentaire</label>
+                <textarea id="workoutComment"
+                    data-ng-model="currentWorkout.comment"></textarea></li>
+            <li><label for="members">Membres d'équipage</label> <textarea
+                    data-ng-model="currentWorkout.members_dump"
+                    data-ng-change="promptMember(this, true)"></textarea>
+            </li>
+        </ul>
+        <div id="formControl">
+            <button data-ng-click="submit()">Valider</button>
+            <button data-ng-click="closeEditor()">Annuler</button>
+
+        </div>
+        <div id="athletesPrompt" data-ng-style="getPromptStyle()"
+            data-ng-show="displayPrompt && (athletes | filter:promptFilter).length > 0 && promptFilter.length > 0">
+            <ul id="athletesPromptList">
+                <li class="athletePrompt"
+                    data-ng-click="addMember(this)"
+                    data-ng-repeat="athlete in athletes | filter:promptFilter | orderBy:orderProp">
+                    {{athlete.name}} {{athlete.surname}}</li>
+            </ul>
+        </div>
+        <!-- 
+            Date : date field, autoselect
+            Label
+            Description
+            Type of training : List
+            Athlete category : List 
+            Athlete level : List 
+            Athlete sex : list
+            
+            
+             -->
+
+    </div>
+</div>

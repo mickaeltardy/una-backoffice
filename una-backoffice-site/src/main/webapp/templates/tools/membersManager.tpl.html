@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="css/membersSupervisor.css" media="all"
+    type="text/css" />
+<div class="controlPanel">
+    <div>
+        <button data-ng-click="getCsv()">Download CSV</button>
+    </div>
+    <div>
+        <button data-ng-click="doStuffWithMembers()">Remove
+            members</button>
+    </div>
+    <select data-ng-model="filterCategory"
+        data-ng-change="filterMembersByCategory(this)">
+        <option></option>
+        <option data-ng-repeat="c in categories" value="{{c.code}}">{{getMessage(c.code,
+            "categories")}}</option>
+    </select> <select data-ng-model="filterState"
+        data-ng-change="filterMembersByState(this)">
+        <option></option>
+        <option value="0">En attente</option>
+        <option value="1">Validé</option>
+
+    </select>
+
+    <!--                           
+                         <select data-ng-model="filterCategory" data-ng-options="c.code for c in categories" data-ng-change="alertStuff()">
+      -->
+</div>
+<table class="dataTable">
+    <tr>
+        <th>Nom Prénom</th>
+        <th>Numéro de licence</th>
+        <th>Sex</th>
+        <th>Catégorie</th>
+        <th>Niveau</th>
+        <th>Autonomie</th>
+    </tr>
+    <tr data-ng-repeat="member in filteredMembers |  orderBy:orderProp"
+        data-ng-style="{'background-color':(member.state == 1 ? '#cccccc' : '#ffffff')}">
+        <td>{{member.surname}} {{member.name}}</td>
+        <td>{{member.licence_number}}</td>
+        <td>{{member.sex}}</td>
+        <td class="clickable"
+            data-ng-click="changeMemberCategory(member);">{{member.category}}</td>
+        <td class="clickable" data-ng-click="updateMemberLevel(member);">{{member.level}}</td>
+        <td class="clickable"
+            data-ng-click="updateMemberAutonomy(member);">{{member.autonomous}}</td>
+
+    </tr>
+</table>
+<div data-ng-show="changeCategory" class="categoryModifier" id="categoryModifierDiv">
+    <ul>
+        <li class="clickable"
+            data-ng-repeat="d in workoutData.athleteCategory" data-ng-click="updateMemberCategory(activeMember, d.code)">{{d.label}}</li>
+    </ul>
+</div>

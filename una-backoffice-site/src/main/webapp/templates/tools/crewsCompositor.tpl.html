@@ -1,0 +1,176 @@
+<style>
+#athletesPrompt {
+	border: #000000 solid 1px;
+	background: #ffffff;
+}
+
+.athletePrompt {
+	list-style: none;
+}
+
+.athletePrompt:hover {
+	background: #eeeeee;
+}
+
+#athletesPromptList {
+	padding: 5px;
+}
+
+#teamsSelector {
+	overflow: auto;
+}
+
+#teamsSelector .categories button {
+	float: left;
+	clear: both;
+	padding: 5px 10px 5px 10px;
+}
+
+#compositions {
+	overflow: auto;
+	float: none;
+	clear: both;
+}
+
+#compositions ul {
+	clear: left;
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+#compositions ul li {
+	margin-bottom: 5px;
+	padding: 5px 0px 5px 0px;
+}
+
+#compositions ul li .compositionItem:hover {
+	background: #cccccc;
+}
+#teams ul>li .removeBtn:hover,
+#compositions ul>li .removeBtn:hover{
+    background: rgba(255, 0, 0, 0.1);
+}
+
+#compositions ul>li .removeBtn,
+#compositions ul>li .compositionItem {
+    float : left;
+    padding : 10px;
+    border-bottom:1px #cccccc dotted;
+    
+}
+#teams ul>li .removeBtn{
+    float : left;
+    padding : 3px;
+}
+#teams ul>li .removeBtn,
+#compositions ul>li .removeBtn{
+    max-width:20px;
+    width:10%;
+    text-align: center;
+    font-weight: bold
+    
+}
+#compositions ul li {
+    clear:both;
+    overflow: auto;
+    padding:0px;
+    margin:0px;
+}
+
+#compositions ul{
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0px;
+}
+
+.athleteNum,.athlete {
+	float: left;
+	clear: none;
+}
+
+.athlethes li {
+	float: left;
+	clear: both;
+	width: 98%;
+}
+
+.athleteNum {
+	padding: 10px;
+}
+
+.athlete {
+	width: 80%;
+}
+
+.athlete input {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 50%;
+	border: 1px solid #999999;
+}
+
+.teamTitle{
+    display:inline;
+}
+.team{
+    overflow:auto;
+}
+</style>
+<button data-ng-click="saveComposition(false)" data-ng-show="currentComposition && currentComposition.id">Overwrite</button>
+<button data-ng-click="saveComposition(true)">Save new</button>
+<button data-ng-click="validateTeams()">Get CSV</button>
+<button data-ng-click="selectTeam()">Add Team</button>
+<div id="compositions">
+    <ul class="compositionsList">
+        <li
+            data-ng-repeat="composition in compositions"
+            >
+            <div class="removeBtn"
+                data-ng-click="removeComposition(composition);">X</div>
+            <div class="compositionItem" data-ng-click="selectComposition(composition)">{{composition.label}}
+                ({{composition.insert_date}})</div>
+        </li>
+    </ul>
+</div>
+<div id="teamsSelector" data-ng-show="displayTeamsSelector">
+    <ul class="categories">
+        <li class="teamItem" data-ng-repeat="category in categories">
+            <button data-ng-click="addTeam(category)">{{category.label}}</button>
+        </li>
+    </ul>
+</div>
+<div id="compositionLabelDiv">
+    <label for="compositionLabel">Label</label> <input type="text"
+        id="compositionLabel" data-ng-model="currentComposition.label" />
+</div>
+<div id="teams">
+<ul class="teams">
+    <li class="team" data-ng-repeat="team in currentComposition.teams">
+    <div class="removeBtn"
+                data-ng-click="removeTeam($index);">X</div>
+                <div class="teamTitle">{{team.label}}</div>
+        <input type="text" data-ng-model="team.name" />
+        <ul class="athlethes">
+            <li data-ng-repeat="athlete in team.athletes">
+                <div class="athleteNum">{{$index+1}}</div>
+                <div class="athlete">
+                    <input type="text" data-ng-model="athlete.name"
+                        data-ng-change="promptAthlete(this, true, $event)"
+                        data-ng-click="promptAthlete(this, false, $event)" />
+
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+</div>
+
+<div id="athletesPrompt" data-ng-style="getPromptStyle()"
+    data-ng-show="displayPrompt && (athletes | filter:promptFilter).length > 0">
+    <ul id="athletesPromptList">
+        <li class="athletePrompt" data-ng-click="selectAthlete(this)"
+            data-ng-repeat="athlete in athletes | filter:promptFilter | orderBy:orderProp">
+            {{athlete.surname}} {{athlete.name}} {{athlete.licence}}</li>
+    </ul>
+</div>
