@@ -1,0 +1,132 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto"
+	rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+#customBtn {
+	display: inline-block;
+	background: #dd4b39;
+	color: white;
+	width: 130px;
+	height: 25px;
+	border-radius: 5px;
+	white-space: nowrap;
+}
+
+#customBtn:hover {
+	background: #e74b37;
+	cursor: hand;
+}
+
+span.label {
+	font-weight: bold;
+}
+
+span.icon {
+	background:
+		url('https://developers.google.com/+/images/branding/btn_red_32.png')
+		transparent 2px 50% no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	width: 35px;
+	height: 25px;
+	border-right: #bb3f30 1px solid;
+}
+
+span.buttonText {
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	/* Use the Roboto font that is loaded in the <head> */
+	font-family: 'Roboto', arial, sans-serif;
+}
+
+.externalConnectors>div {
+	float: right
+}
+
+#gSignInWrapper {
+	overflow: auto;
+	margin-left: 20px;
+}
+
+.fb-login-button {
+	width: 80px;
+}
+
+.fb-login-button span, .fb-login-button iframe {
+	width: 120px ! important;
+	height: 25px ! important;
+}
+
+.externalConnectors {
+	float: none;
+	width: 100%;
+}
+</style>
+<div class="notificationsContainer"
+	data-ng-show="notifications && notifications.length > 0">
+	<ul>
+		<li data-ng-repeat="notification in notifications | orderBy:'order'"
+			data-ng-class="notification.cssClass">{{notification.text}}</li>
+	</ul>
+</div>
+<form id="authForm" data-ng-init="checkAuth()" novalidate>
+	<fieldset id="fs.entryType" class="sectionFs">
+		<legend> {{messages.legends.authentification}} </legend>
+
+		<ul>
+			<li class="formItemTf"><input type="text"
+				data-ng-model="auth.login" name="auth.login" id="auth.login"
+				placeholder="{{messages.labels.email}}" /></li>
+
+			<li class="formItemTf"><input type="password"
+				data-ng-model="auth.password" name="auth.password"
+				id="auth.password" placeholder="{{messages.labels.password}}" /></li>
+		</ul>
+
+	</fieldset>
+	<div id="alerts">
+		<p>{{auth.error}}</p>
+	</div>
+	<div id="formControl">
+		<button data-ng-click="authenticate(auth.login, auth.password)">
+			{{messages.labels.login}}</button>
+		<button data-ng-click="forgetPassword()">
+			{{messages.labels.forgetPassword}}</button>
+	</div>
+	<fieldset id="fs.entryType" class="sectionFs">
+		<legend> {{messages.legends.loginAlt}} </legend>
+
+		<div class="externalConnectors">
+			<div id="gSignInWrapper">
+				<div id="customBtn" class="customGPlusSignIn">
+					<span class="icon"></span> <span class="buttonText">Sign in</span>
+				</div>
+			</div>
+
+			<div id="fbButton" class="fb-login-button" data-max-rows="1"
+				data-size="large" data-show-faces="false"
+				data-auto-logout-link="true" data-onlogin="checkLoginState()"
+				data-scope="public_profile,email">Log in</div>
+
+		</div>
+	</fieldset>
+	<div class="frontEnd" data-ng-show="passwordForgotten">
+		<div class="resetPasswordUI">
+			<div class="title">Mot de passe oublié</div>
+			<div class="closeBtn" data-ng-click="closePasswordResetter()">Close</div>
+			<ul>
+				<li class="formItemTf"><input type="email"
+					data-ng-model="auth.forget" name="auth.forget" id="auth.forget"
+					placeholder="{{messages.labels.email}}" /></li>
+			</ul>
+			<button data-ng-click="resetPassword()">
+				{{messages.labels.resetPassword}}</button>
+		</div>
+	</div>
+</form>
+
+<div id="fb-root"></div>

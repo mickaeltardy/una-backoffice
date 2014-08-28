@@ -1,0 +1,275 @@
+{
+    "categories": {
+        "school": "Ecole d'aviron (10-17 ans)",
+        "student": "",
+        "studentUniv": "Etudiant Université de Nantes",
+        "studentMines": "Etudiant École des Mines de Nantes",
+        "studentCentrale": "Etudiant École Centrale de Nantes ",
+        "studentOther": "Etudiant hors Université de Nantes",
+        "adultUniv": "Personnel de l’Université de Nantes",
+        "adult": "Tous publics (à partir de 18 ans)"
+    },
+    "entryTypes" : {
+        "new" : "Première inscription",
+        "old" :  "Réinscription",
+        "migration":  "Mutation"
+    },
+    "federalDiploma": {
+        "monitor": "Initiateur",
+        "instructor": "Educateur",
+        "coach": "Entraineur"
+    },
+    
+    "family": {
+        "first": "Premier",
+        "second": "Deuxième",
+        "third": "Troisième",
+        "more": "Plus que troisième"
+    },
+    "driverLicence": {
+        "b96": "Formation B96",
+        "BE": "Permis remorque BE (ancien E)"
+    },
+    "boatLicence": {
+        "river": "Rivière",
+        "sea": "Mer côtier"
+    },
+    "legends": {
+    	"signUpTitle" : "Ouverture du compte",
+        "formTitle": "Formulaire d'inscription",
+        "formSubTitle": "Saison 2014 / 2015",
+        "category": "Choisissez le tarif d'inscription",
+        "entryType": "Indiquez le type d'inscription",
+        "personalInfo": "Données personnelles",
+        "driverLicence": "Permis de conduire",
+        "boatLicence": "Permis bateau",
+        "federalDiploma": "Diplôme fédéral d'encadrement",
+        "personalDetails": "Données complementaires",
+        "medical": "Certificat médical",
+        "insurance": "Assurance complémentaire I.A.Sport+",
+        "payment": "Détails sur le payement",
+        "donation": "Donation",
+        "docsToProvide": "A fournir lors de l'inscription",
+        "forInfo": "A savoir", 
+        "entryDetails" : "Détails sur l'inscription", 
+        "paymentDetails" : "Détails sur le paiement",
+        "fileDetails" : "A fournir avec la fiche d'inscription",
+        "parentPermission" : "Autorisation parentale", 
+        "honnorDeclaration" : "Autorisation sur l'honneur (+ 18 ans)",
+        "accountInfo" : "Compte utilisateur",
+        "authentification" : "Authentification",
+        "loginAlt" : "Ou",
+        "memberZone" : "Espace membre",
+        "fileManagement" : "Gestion du dossier d'inscription",
+        "selectMember" : "Choisissez le dossier",
+        "uploadFile" : "Chargez les documents",
+        "uploadedDocs" : "Modifiez vos documents" ,
+        
+        "membersZoneTitle": "Espace membre"
+       
+    },
+    "notifications" : {
+    	"emailExists" : "Cet e-mail existe déjà dans la base de donnée", 
+    	"emailsDiff" : "Les e-mails ne sont pas identiques", 
+    	"badPassword" : "Le mot de passe est trop court (8 charactères min)",
+    	"passwordsDiff" : "Les mots de passe ne sont pas identiques",
+    	"nameEmpty" : "Le prénom doit être renseigné",
+    	"surnameEmpty": "Le nom doit être renseingé",
+    	"emailEmpty": "L'e-mail doit être renseingé",
+    	"emailCanNotBeChecked": "L'e-mail ne peut pas être vérifié",
+    	"emailInvalid": "L'email n'est pas valide",
+    	
+    	 
+    	"accountCreated" : "Votre compte est créé. Vous pouvez maintenant vous authentifier"
+    },
+    "labels": {
+        "boatLicence": "Avez-vous le permis bateau (rivière ou mer côtier) ?",
+        "family" : "Membre de famille inscrit (ATTENTION : seuls les inscrits dans la catégorie Tous publics sont concernés)",
+        "driverLicence": "Avez-vous le permis BE ?",
+        "category": "Choisissez votre catégorie",
+        "categoryType": "Tarif",
+        "entryType" : "Type d'inscription",
+        "firstRegistration": "Première inscription",
+        "reRegistration": "Réinscription",
+        "migration": "Mutation",
+        "licenceNo": "Numéro licence FFSA",
+        "previousClub": "Club d’origine (si mutation)",
+        "surname": "Nom",
+        "name": "Prénoms",
+        "sex": "Sexe",
+        "birthdate": "Date de naissance",
+        "nationality": "Nationalité",
+        "address": "Adresse",
+        "zipcode": "Code postal",
+        "city": "Ville",
+        "telephone": "Téléphone",
+        "email": "E-mail",
+        "emailConfirmation": "Confirmation de  l'e-mail",
+        "password" : "Mot de passe",
+        "passwordConfirmation" : "Confirmation du mot de passe",
+        "ufr": "Unité de Formation et de Recherche",
+        "school": "Etablissement",
+        "class": "Classe",
+        "insurance": {
+            "label" : "Assurance supplementaire I.A.Sport+", 
+            "accept" : "Je souhaite souscrire la garantie I. A. Sport+ qui se substituera, en cas d'accident corporel, à la garantie de base de la licence. J'intègre la cotisation complémentaire de 10,65e pour la saison sportive 2014/2015 au règlement de ma cotisation. J’ai bien noté que la garantie I. A. Sport+ serait acquise à compter de la date de souscription jusqu’à la fin de période de validité de ma licence.",
+            "refuse" : "Je ne souhaite pas souscrire cette garantie."},
+        "insuranceDetail": "Souscrire",
+        "insuranceDetailLink": "Plus de détails",
+        "certificate": "Date du certificat médical (si déjà délivré)",
+        "confirmSwim": "Je déclare savoir nager 50m",
+        "confirmInsurance": "Je déclare avoir pris connaissance de l'assurance complémentaire proposée par la MAIF",
+        "confirmConditions" : "Je déclare avoir pris connaissance avec la décharge de résponsabilité et je donne mon accord.",
+        "save" : "Valider", 
+        "reset" : "Nettoyer", 
+        "entryPrice" : "Montant cotisation", 
+        "insurancePrice" : "Montant Assurance complémentaire", 
+        "totalPrice" : "Total payment", 
+        "yes" : "oui",
+        "no" : "non", 
+        "registrationNumber" : "Numéro d'inscription",
+        "donation" : {
+            "accept" : "Oui ! Je voudrais faire un don de ",
+            "refuse" : "Désolé, je ne peux pas faire de don maintenant, peut-être une autre fois",
+            "differentAmmount" : "autre montant"  
+        }, 
+        "conditions" : {"show" : "voir", "hide" : "cacher"},
+        
+        
+        "signup" : "S'inscrire",
+        "login" : "Se connecter",
+        "forgetPassword" : "Mot de passe oublié",
+        "resetPassword" : "Obtenir un nouveau mot de passe par email",
+        "selectFile" : "Choisissez un fichier",
+        "or" : "ou",
+        
+        "delete" : "Supprimer", 
+        "file" : "Le fichier",
+        "fileWaitingApprouval" : "En attente de validation",
+        "fileApprouved" : "Validé",
+        
+        "logout" : "Déconnexion"
+    },
+    "info": {
+        "formDetails": ["La licence de l’UNA est valable du 1er septembre 2013 au 31 août 2014 inclus", "Règlement de la cotisation en 3 paiements possible : 3 chèques doivent être établis dont un premier de 60€ minimum", "En cas de démission au cours de la saison la cotisation reste entièrement acquise à l ’UNA", "Chèques Pass Culture & Sport 2014 sont acceptés (ne sont pas pris ceux de 2013)", "L’UNA s’autorise l’exploitation des photos et vidéos de ses sociétaires à des fins exclusivement promotionnelles"],
+        "localAddress": "Veuillez indiquer votre adresse nantaise",
+        "localAddressAlert": "Veuillez indiquer votre adresse nantaise lorsque vous allez renseigner les info personelles",
+        "noPrice": "Veuillez remplir le formulaire pour afficher le prix de l'inscription",
+        "priceToPay": "Montant à règler :",
+        "donation": "Le club fonctionne grâce à vous, ses adhérents : grâce aux bénévoles qui n'hésitent pas à donner de leur temps pour faire vivre le club et aussi grâce à votre aide financière. Pensez à faire un don, même petit, car la somme de tous les dons au club est une aide considérable.",
+        "requiredFields" : "Champs obligatoires",
+        "contact" : "Pour toute information concernant ce formulaire, son contenu ou son disfonctionnement, n'hésitez pas à nous contacter par email support [at] una-club.fr.",
+        "description" : "Ce formulaire est un formulaire de pré-inscription. Suite à sa validation vous recevrez un courriel sur votre boîte mail. Imprimez et signez le document en pièce jointe et apportez le avec tous les documents nécessaires le jour de votre inscription.",
+        "formErrors" : "Le formulaire n'est pas rempli correctement", 
+        "parentPermission" : "Je soussigné(e), &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />autorise mon enfant à pratiquer l’aviron à l’UNA. <br />Lu et approuvé&nbsp;&nbsp;&nbsp;&nbsp;Le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Signature",
+        "honnorDeclaration" : "Je déclare avoir pris connaissance de l'assurance complémentaire proposée par la MAIF.<br />Je déclare savoir nager 50 mètres.<br />Lu et approuvé &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Signature",
+        "validatingForm" : "Validation du formulaire en cours ...",
+        "formValidated" : "Le formulaire est validé avec succès. Veuillez vérifiez votre boîte mail pour plus d'instructions.", 
+        "priceSuffix" : " Euros",
+        "accountDetails" : "Ces informations vous permettront d'accèder à l'éspace membre du club. Vous pourriez notamment complêter votre dossier d'inscription en ligne.",
+        "existentEmail" : "Cette adresse e-mail existe déjà dans la base de données. Merci d'indiquer le mot de passe associé ou de spécifier une adresse différente.",
+        "insurance" : "L'option facultative \"I.A.Sport+\" est proposée par la MAIF à tous les adhérents. Cette option permet de bénéficier de capitaux plus élevés et de prestations supplémentaires en cas d'accident (cf. liste figurant sur le document MAIF <a href=\"http://www.avironfrance.asso.fr/EspaceClub/Assurances/NoticeDommagesCorporels/NoticeIndividuelleMAIF2013-2014.pdf\" target=\"_blank\">[pdf] saison 2013-2014</a>).",
+        "volunteer" : "Si vous pouvez et souhaitez vous investir dans la vie du club (encadrement, déplacements, etc.) ces informations nous seront bien utiles.",
+        "docs" : "Vous pouvez apporter tous ces documents le jour de votre inscription ou bien les télécharger depuis votre éspace membre.",
+        "legalTitle" : "Décharge de résponsabilité",
+        "legalText" : "Je soussigné (adulte adhérent ou Représentant Légal du jeune): ............................................................ <ul><li>Dois m'assurer de la présence de l'entraineur en début de chaque séance avant de confier mon enfant pour tout entrainement d'Aviron.</li><li>Décharge l'UNA et la personne encadrant mon enfant mineur ou moi-même de toute responsabilité en cas de vol lors des déplacements, des entraînements, et de toutes autres manifestations organisées par le club.</li><li>Autorise cette même personne à prendre toutes les décisions qui s'imposent au cas où mon enfants mineur serait victime d'un accident (hospitalisation, intervention chirurgicale). D'autre part, je signale que mon enfant ou moi-même est (suis): allergique à ..................... et/ou qu'il suit (que je suis) un traitement particulier pour : (exemple, asthme d'effort d'où Ventoline) .................................... </li><li>Autorise le club à publier les photos de mon enfants mineur ou moi-même majeur sur Internet et la plaquette du club.</li><li>Utilisation du véhicule personnel: dans le cas où j'utilise mon véhicule personnel pour transporter des compétiteurs, j'atteste que mon véhicule est : correctement assuré, y compris pour les personnes transportées et conforme aux normes actuelles sur la sécurité des véhicules (ceintures, contrôle technique, etc.)</li><li>Atteste avoir pris connaissance qu'une notice reprenant les garanties d'assurance liées à la licence de la Fédération Française des Sociétés d'Aviron est disponible sur le site du club. Cette notice informe les licenciés des possibilités de souscription de garanties complémentaires.</li><li>Atteste avoir pris connaissance que les documents décrivant les statuts et le règlement intérieur sont disponibles sur le site et dégage l'UNA de toute responsabilité en cas de non-respect</li></ul>",
+        "legalSignature" : {"labelParent" : "Le Représentant légal", "labelMember" :  "L'Adhérent Pratiquant", "notice" : "Nom, Prénom, date et signature:", "required" : "(Précédés de la mention \"lu et approuvé\")"},
+        "dropFilesHere" : "Déposez les fichiers directement ici",
+        "fileUploaded" : "le fichier est chargé  avec succès",
+        "fileRemoved" : "le fichier est supprimé",
+        "uploadNotice" : "Vous pouvez charger les copies de documents nécessaires pour completer le dossier. Les formats accéptés sont : .jpg, .bmp, .png, .tiff, .pdf, .doc, .odt",
+        "notAvailableYet" : "Nous sommes désolés, cette fonctionnalité n'est pas encore disponible",
+        "confirmDocRemoval" : "Etes-vous sûr de vouloir supprimer le document ?",
+        
+        "sendingFile" : "Le fichier est en cours de chargement"
+        
+    },
+    "docs": {
+        "certificate": "Certificat médical (avec mention «non contre indication à la pratique de l’aviron en compétition» pour les étudiants et les - de 18).",
+        "photo": "Photo d'identité",
+        "payment": "Réglement du montant",
+        "studentCard": "Photocopie de la carte d'étudiant",
+        "employeeCard": "Photocopie de la carte du personnel de l'université",
+        "swimmingCertificate": "Brevet de natation de 50m minimum (pour les -18 ans)",
+        "signedForm" : "Décharge de résponsabilité signé par membre adhérent (ou par un représentant légal pour les -18 ans)"
+    },
+    "placeholder": {
+        "email": "Votre e-mail",
+        "emailConfirmation": "Re-votre e-mail ",
+        "date": "JJ/MM/AAAA",
+        "name": "Prénom",
+        "surname": "Nom",
+        "password": "Mot de passe",
+        "passwordConfirmation": "Re-mot de passe"
+    },
+    "errors" : {
+        "entryTypeEmpty" : "Le type d'inscription n'est pas indiqué",
+        "licenceNoEmpty" : "Le numéro de licence n'est pas renseigné",
+        "licenceNoInvalid" : "Le numéro de licence n'est pas correct",
+        "previousClubEmpty" : "Le nom du club d'origine n'est pas renseigné",
+        "categoryEmpty" : "Le tarif d'inscription n'est pas choisi",
+        "ufrEmpty" : "L'UFR n'est pas renseigné",
+        "schoolEmpty" : "Le nom de l'établissement n'est pas renseigné",
+        "classEmpty" : "La classe n'est pas renseignée",
+        "surnameEmpty" : "Le nom n'est pas renseigné",
+        "nameEmpty" : "Le prénom n'est pas renseigné",
+        "sexEmpty" : "Le sexe n'est pas renseigné",
+        "birthdateEmpty" : "La date de naissance n'est pas renseignée",
+        "birthdateInvalid" : "La date de naissance n'est pas en bon format (format requis JJ/MM/AAAA)",
+        "nationalityEmpty" : "La nationalité n'est pas renseignée",
+        "addressEmpty" : "L'adresse n'est pas renseignée",
+        "zipEmpty" : "Le code postal n'est pas renseigné",
+        "zipInvalid" : "Le code postal n'est pas correct (format réquis: 5 chiffres)",
+        "cityEmpty" : "La ville n'est pas renseignée",
+        "telephoneEmpty" : "Le numéro de téléphone n'est pas renseigné",
+        "telephoneInvalid" : "Le numéro de téléphone n'est pas correct : la valeur doit contenir au moins 8 chiffres eventuellement précédés du signe \"+\" ",
+        "emailEmpty" : "L'adresse email n'est pas renseignée",
+        "emailInvalid" : "L'adresse email n'est pas correcte",
+        "emailConfirmationIncorrect" : "L'adresse e-mail n'est pas confirmée",
+        "passwordEmpty" : "Le mot de passe n'est pas renseigné",
+        "passwordConfirmationIncorrect" : "Le mot de passe n'est pas confirmé",
+        "confirmSwimEmpty" : "Vous devez confirmer que vous savez nager 50m",
+        "confirmInsuranceEmpty" : "Vous devez accepter ou refuser la souscription à l'Assurance complementaire I.A.Sport+",
+        "confirmConditionsEmpty" : "Vous devez accepter la décharge de résponsabilités",
+        "invalidForm" : "Le formulaire n'est pas rempli correctement",
+        "serverError" : "Erreur de sauvegarde du formulaire. Veuillez reessayer ultérieurement",
+        "invalidPassword" : "Le mot de passe ne correspond pas à celui spécifié pour cette adresse e-mail",
+        "donationEmpty" : "Veuillez préciser la somme de donation souhaitée",
+        "invalidAuth" : "Les données invalides",
+        
+        
+        "unknownError" : "Quelque chose n'a pas fonctionné comme il faut",
+        
+        "mimeerror" : "Ce type de fichier n'est pas accepté",
+        "noLicenceYet" : "Pas encore attribué"
+    },
+    "mail" : {
+        "registration" : {
+            "title" : "[Aviron] Inscription au club d'aviron Université Nantes Aviron"
+        },
+        "account" : {"title" : "[Aviron] Création du compte de l'éspace membre du club d'aviron Université Nantes Aviron"}
+    },
+    "statistics" : {
+        "labels" : {
+            "boat" : "Bateau", 
+            "longBoat" : "Bateau long",
+            "shortBoat" : "Bateau court", 
+            "jogging" : "Footing",
+            "building" : "Musculation", 
+            "ergo" : "Ergo",
+            "C2" : "C2",
+            "custom" : "Circuit spécifique",
+            "C1dc" : "C1 DC",
+            "C1tr" : "C1 TR",
+            "C1ep" :  "C1 EP",
+            "C1sq" : "C1 SQ",
+            "newbie" : "Renforcement musculaire"
+        },
+        "titles" : {
+            "common" : "Statistiques",
+            "week" : "Semaine",
+            "month" : "Mois",
+            "full" : "Saison"
+        }
+    }
+}

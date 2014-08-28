@@ -66,6 +66,20 @@
 			<groupId>com.mtdev</groupId>
 			<artifactId>una-backoffice-server</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf-itext5</artifactId>
+			<version>9.0.6</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>

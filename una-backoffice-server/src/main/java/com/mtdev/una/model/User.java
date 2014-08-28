@@ -1,19 +1,26 @@
 package com.mtdev.una.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Data
 @Document(collection = "users")
 public class User {
 
 	@Id
 	private String id;
+
+	@Field
+	int status;
 
 	@Field
 	String username;
@@ -26,22 +33,10 @@ public class User {
 
 	@Field
 	Map<String, String> openids;
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
+	@Field
+	Date insertDate;
+	
 
 	public User(String username, String password) {
 		super();
@@ -78,4 +73,39 @@ public class User {
 
 		this.openids.put(pKey, pValue);
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int pStatus) {
+		status = pStatus;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String pUsername) {
+		username = pUsername;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String pPassword) {
+		password = pPassword;
+	}
+
+	public Date getInsertDate() {
+		return insertDate;
+	}
+
+	public void setInsertDate(Date pInsertDate) {
+		insertDate = pInsertDate;
+	}
+
+	
+	
 }

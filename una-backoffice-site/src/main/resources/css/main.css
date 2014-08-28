@@ -1,0 +1,292 @@
+body {
+	font-family: Helvetica;
+	background: #FFFFFF url('../img/header.jpg') no-repeat top center;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.content {
+	margin: 200px auto 0px;
+	display: block;
+	padding: 10px;
+	font-size: 90%;
+}
+
+li {
+	list-style: none;
+}
+
+fieldset fieldset {
+	border: none;
+	padding: 0px;
+}
+
+fieldset.sectionFs {
+	padding: 10px;
+	margin: 0px auto;
+	border: 0px solid #999999;
+	border-top: 1px solid;
+}
+
+.prompt {
+	color: #999999;
+}
+
+fieldset.sectionFs>legend {
+	background: none;
+	font-weight: bold;
+	font-size: 120%;
+}
+
+fieldset>div {
+	width: 45%;
+	float: left;
+	clear: none;
+}
+
+li.formItemTf {
+	padding: 5px;
+}
+
+li.formItemTf>label {
+	display: block;
+}
+
+li.formItemTf>input[type=text], li.formItemTf>input[type=date], li.formItemTf>input[type=email],
+	li.formItemTf>input[type=password] {
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 100%;
+	border: 1px solid #999999;
+}
+
+input[type=checkbox] {
+	border: 1px solid #999999;
+	background: #FFFFFF;
+}
+
+fieldset#docsToProvide li, #alerts li {
+	list-style: circle;
+}
+
+fieldset#docsToProvide ul {
+	-webkit-padding-start: 40px;
+}
+
+fieldset ul {
+	-webkit-padding-start: 0px;
+}
+
+button {
+	padding: 6px 30px 6px 30px;
+	border: 1px solid #CCCCCC;
+	background: #000000;
+	color: #FFFFFF;
+	float: right;
+	font-weight: bold;
+	font-size: 90%;
+}
+
+#formControl {
+	height: 40px;
+}
+
+#formNotesTop>p:before, #formNotes>p:before, .required>label:after {
+	content: "*";
+	color: #FF0000;
+}
+
+.formItemTf>label.supLabel {
+	display: inline;
+}
+
+label.supLabel:after {
+	content: "";
+}
+
+#contact {
+	border-top: 1px solid #999999;
+	clear: both;
+}
+
+#contact>p {
+	text-align: center;
+	color: #999999;
+}
+
+#formDescription {
+	border-bottom: 1px solid #999999;
+}
+
+#formDescription>p {
+	color: #999999;
+}
+
+.legend {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+#alerts p, #alerts li {
+	color: #FF0000;
+}
+
+#preloader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 9998;
+}
+
+#dialogBox {
+	width: 50%;
+	border: 1px #FFFFFF solid;
+	height: 30%;
+	background: #000000;
+	margin: 20% auto;
+}
+
+#dialogBox>img {
+	margin: 10% auto 10px;
+	width: 48px;
+	display: block;
+}
+
+#dialogBox>div {
+	margin: 0px auto;
+	color: #ffffff;
+	width: auto;
+	text-align: center;
+}
+
+#legalConditions {
+	color: #999999;
+	font-style: italic;
+	font-size: 80%;
+	border: 1px solid #cccccc;
+	padding: 10px;
+	margin: 20px;
+}
+
+#signupForm, #authForm {
+	margin: 10px 10px;
+	padding: 10px;
+	border: 1px #999999 solid;
+	width: 50%;
+}
+
+#authForm {
+	overflow: auto;
+}
+
+#seperator {
+	clear: both;
+	width: auto;
+	text-align: center;
+	margin: 10px auto;
+}
+
+.membersList>li {
+	padding: 5px;
+}
+
+.membersList>li:hover {
+	background: #999999;
+	cursor: pointer;
+}
+
+.membersList>li.selected {
+	background: #aaaaaa;
+	cursor: default;
+}
+
+.documentsList .documentItem {
+	list-style: circle;
+}
+
+.documentsList .documentItem .documentAction {
+	width: 100px;
+	cursor: pointer;
+	display: inline-block;
+	text-decoration: underline;
+}
+
+.documentsList .documentItem .documentState {
+	width: 160px;
+	display: inline-block;
+}
+
+.documentsList .documentItem .documentLabel {
+	padding-right: 10px;
+	display: inline-block;
+}
+
+.membersList>li.memberItem {
+	list-style: circle;
+}
+
+.membersList>li.memberItem .name {
+	font-weight: bold;
+}
+
+.membersList>li.memberItem .licence, .membersList>li.memberItem .birthdate
+	{
+	font-style: italic;
+}
+
+.uploadStatus, .updateStatus {
+	padding: 10px 0px 10px 0px;
+	font-style: italic;
+}
+
+.notification {
+	color: #999999;
+}
+
+.error {
+	color: #FF0000;
+}
+
+.panel {
+	position: relative;
+	float: right;
+	top: -40px;
+}
+
+.panel .button {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.signinForm input {
+	font-size: 120%;
+	padding: 7px;
+}
+
+.notificationsContainer>ul>li {
+	margin: 0px;
+	padding: 10px;
+}
+.notificationsContainer>ul {
+	margin: 0px;
+	padding: 0px;
+}
+.notificationsContainer>ul>li {
+	margin-top: 10px;
+	padding: 6px;	
+	text-align:center;
+}
+
+.notificationsContainer>ul>li.info {
+	border: thin solid rgb(0, 150, 255);
+	background: rgba(0, 150, 255, 0.2);
+}
+
+.notificationsContainer>ul>li.error {
+	border: thin solid rgb(255, 0, 0);
+	background: rgba(255, 0, 0, 0.2);
+}

@@ -1,0 +1,92 @@
+<style>
+.errorFormNotif {
+	border: rgba(255, 0, 0, 1) thin solid;
+	background: rgba(255, 0, 0, 0.1);
+	padding: 6px;
+}
+
+.signupFormNotif {
+	top: -36px;
+	float: left;
+	position: relative; margin-bottom : -40px; display : block; margin-left
+	: 106%;
+	width: 80%;
+	position: relative;
+	margin-bottom: -40px;
+	display: block;
+	margin-left: 106%;
+	margin-bottom: -40px;
+	display: block;
+	margin-left: 106%;
+}
+
+#signupForm input {
+	float: left;
+}
+#signupForm .required:after{
+	content: "";
+}
+
+button.inactive {
+	background: #666666;
+	color: #cccccc;
+}
+</style>
+<form id="signupForm" method="post" novalidate>
+
+	<fieldset id="fs.entryType" class="sectionFs">
+		<legend> {{messages.legends.signUpTitle}} </legend>
+		<ul>
+			<li class="formItemTf required"><input type="text"
+				data-ng-model="member.email" id="member.email"
+				data-ng-blur="checkEmailExistence()"
+				placeholder="{{messages.placeholder.email}}"
+				data-auto-fillable-field />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.email">{{errorMsgs.email}}</div></li>
+
+			<li class="formItemTf required"><input type="text"
+				data-ng-blur="checkEmailConfirmation()"
+				data-ng-model="member.emailConfirmation"
+				id="member.emailConfirmation"
+				placeholder="{{messages.placeholder.emailConfirmation}}"
+				data-auto-fillable-field />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.emailsDiff">{{messages.notifications.emailsDiff}}</div></li>
+
+			<li class="formItemTf required"><input type="password"
+				data-ng-change="checkPassword()"
+				placeholder="{{messages.placeholder.password}}"
+				data-ng-model="member.password" id="member.password" />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.badPassword">{{messages.notifications.badPassword}}</div></li>
+			<li class="formItemTf required"><input type="password"
+				data-ng-blur="checkPasswordConfirmation()"
+				placeholder="{{messages.placeholder.passwordConfirmation}}"
+				data-ng-model="member.passwordConfirmation"
+				id="member.passwordConfirmation" />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.passwordsDiff">{{messages.notifications.passwordsDiff}}</div></li>
+
+			<li class="formItemTf required"><input type="text"
+				data-ng-model="member.name" id="member.name"
+				data-ng-blur="checkName($event)"
+				placeholder="{{messages.placeholder.name}}" data-auto-fillable-field />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.nameEmpty">{{messages.notifications.nameEmpty}}</div></li>
+
+			<li class="formItemTf required"><input type="text"
+				data-ng-model="member.surname" id="member.surname"
+				data-ng-blur="checkSurname()"
+				placeholder="{{messages.placeholder.surname}}"
+				data-auto-fillable-field />
+				<div class="errorFormNotif signupFormNotif"
+					data-ng-show="errors.surnameEmpty">{{messages.notifications.surnameEmpty}}</div></li>
+		</ul>
+	</fieldset>
+	<div id="formControl">
+		<button data-ng-click="submit()"
+			data-ng-class="{'inactive' : !canFormBeValidated()}">
+			{{messages.labels.signup}}</button>
+	</div>
+</form>

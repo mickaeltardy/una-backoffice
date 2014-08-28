@@ -1,0 +1,323 @@
+
+
+<div class="form">
+	<form id="regForm" method="post" novalidate>
+		<h1>{{messages.legends.formTitle}}</h1>
+		<h2>{{messages.legends.formSubTitle}}</h2>
+
+		<div id="formDescription">
+			<p>{{messages.info.description}}</p>
+		</div>
+
+		<div id="formNotesTop">
+			<p>{{messages.info.requiredFields}}</p>
+		</div>
+		<fieldset id="fs.entryType" class="sectionFs">
+			<legend> {{messages.legends.entryType}} </legend>
+			<div>
+				<ul>
+					<li class="formItem"
+						data-ng-repeat="entryType in ['new', 'old', 'migration']"><input
+						type="radio" data-ng-model="member.entryType"
+						name="member.entryType" data-ng-value="entryType"
+						id="member.{{entryType}}" /> <label for="member.{{entryType}}">{{getMessage(entryType,
+							"entryTypes")}}</label></li>
+
+				</ul>
+			</div>
+			<div>
+				<ul>
+					<li class="formItemTf"
+						data-ng-show="(member.entryType=='migration') || (member.entryType=='old')">
+						<label for="member.licenceNo">{{messages.labels.licenceNo}}</label>
+						<input type="text" data-ng-model="member.licenceNo"
+						id="member.licenceNo" placeholder="X123456" />
+
+					</li>
+					<li class="formItemTf required"
+						data-ng-show="(member.entryType=='migration')"><label
+						for="member.previousClub">{{messages.labels.previousClub}}</label>
+						<input type="text" data-ng-model="member.previousClub"
+						id="member.previousClub" /></li>
+				</ul>
+			</div>
+		</fieldset>
+		<fieldset id="fs.category" class="sectionFs">
+			<legend> {{messages.legends.category}} </legend>
+			<div>
+				<ul>
+					<li class="formItem" data-ng-repeat="c in categories"><input
+						type="radio" data-ng-click="setMemberCategory(c)" value="{{c.id}}" data-ng-model="member.category.id" 
+						name="member.category" id="category{{c.code}}" /> <label
+						for="category{{c.code}}">{{getMessage(c.code,
+							"categories")}} {{getCorrectedCategoryPrice(c, 0)}}</label></li>
+				</ul>
+			</div>
+			<div>
+				<ul>
+
+					<li class="formItemTf required" data-ng-show="isUniversity()"><label
+						for="member.ufr">{{messages.labels.ufr}}</label> <input
+						type="text" data-ng-model="member.ufr" id="member.ufr" /></li>
+					<li class="formItemTf required" data-ng-show="isStudentOther()"><label
+						for="member.establishment">{{messages.labels.school}}</label> <input
+						type="text" data-ng-model="member.school"
+						id="member.establishment" /></li>
+					<li class="formItemTf required  " data-ng-show="isScolar()"><label
+						for="member.school">{{messages.labels.school}}</label> <input
+						type="text" data-ng-model="member.school" id="member.school" /></li>
+					<li class="formItemTf" data-ng-show="isScolar()"><label
+						for="member.school">{{messages.labels.class}}</label> <input
+						type="text" data-ng-model="member.class" id="member.class" /></li>
+					<li class="formItemTf required"
+						data-ng-show="isAdult() && !isAdultUniv()">
+						{{messages.labels.family}}
+						<ul>
+							<li class="formItem" data-ng-repeat="d in data.family"><input
+								type="radio" data-ng-model="member.family" data-ng-value="d"
+								id="member.family{{d.code}}" name="member.family" /> <label
+								for="member.family{{d.code}}">{{getMessage(d.code,
+									"family")}} {{getCorrectedCategoryPrice(member.category,
+									d.price)}}</label></li>
+						</ul>
+
+					</li>
+				</ul>
+			</div>
+
+		</fieldset>
+		<fieldset id="member.account" class="sectionFs">
+			<legend> {{messages.legends.accountInfo}} </legend>
+			<p data-ng-bind-html-unsafe="messages.info.accountDetails"></p>
+			<ul>
+				<li class="formItemTf required"><label for="member.email">{{messages.labels.email}}</label>
+					<input type="text" data-ng-model="member.email" id="member.email"
+					data-ng-blur="checkEmail()"
+					placeholder="{{messages.placeholder.email}}"
+					data-auto-fillable-field /></li>
+
+				<li class="formItemTf required" data-ng-show="!emailExists"><label
+					for="member.emailConfirm">{{messages.labels.emailConfirmation}}</label>
+					<input type="text" data-ng-model="member.emailConfirmation"
+					id="member.emailConfirmation"
+					placeholder="{{messages.placeholder.email}}"
+					data-auto-fillable-field /></li>
+				<li class="formItemTf required"><label for="member.password">{{messages.labels.password}}</label>
+					<input type="password"
+					data-ng-change="emailExists && checkPassword()"
+					data-ng-model="member.password" id="member.password" /></li>
+				<li class="formItemTf required" data-ng-show="!emailExists"><label
+					for="member.passwordConfirmation">{{messages.labels.passwordConfirmation}}</label>
+					<input type="password" data-ng-model="member.passwordConfirmation"
+					id="member.passwordConfirmation" /></li>
+			</ul>
+			<p data-ng-bind-html-unsafe="alerts.account.validation"></p>
+
+		</fieldset>
+		<fieldset id="member.personal" class="sectionFs">
+			<legend> {{messages.legends.personalInfo}} </legend>
+			<ul>
+				<li class="formItemTf required"><label for="member.surname">{{messages.labels.surname}}</label>
+					<input type="text" data-ng-model="member.surname"
+					id="member.surname" data-auto-fillable-field /></li>
+				<li class="formItemTf required"><label for="member.name">{{messages.labels.name}}</label>
+					<input type="text" data-ng-model="member.name" id="member.name"
+					data-auto-fillable-field /></li>
+				<li class="formItemTf required"><label for="member.sex.f">{{messages.labels.sex}}</label>
+					<input type="radio" data-ng-model="member.sex" value="f"
+					id="member.sex.f" /> <label for="member.sex.f" class="supLabel">F</label>
+					<input type="radio" data-ng-model="member.sex" value="m"
+					id="member.sex.m" /> <label for="member.sex.m" class="supLabel">M</label></li>
+				<li class="formItemTf required"><label for="member.birthdate">{{messages.labels.birthdate}}</label>
+					<input type="date" placeholder="{{messages.placeholder.date}}"
+					data-ng-model="member.birthdate" id="member.birthdate" /></li>
+				<li class="formItemTf required"><label for="member.nationality">{{messages.labels.nationality}}</label>
+					<input type="text" data-ng-model="member.nationality"
+					id="member.nationality" /></li>
+				<li class="formItemTf required"><label for="member.address">{{messages.labels.address}}</label>
+					<input type="text" data-ng-model="member.address"
+					id="member.address" data-auto-fillable-field />
+					<div data-ng-show="isStudent()" class="prompt">
+						({{messages.info.localAddress}})</div></li>
+				<li class="formItemTf required"><label for="member.zipcode">{{messages.labels.zipcode}}</label>
+					<input type="text" data-ng-model="member.zipcode"
+					id="member.zipcode" placeholder="12345" data-auto-fillable-field /></li>
+				<li class="formItemTf required"><label for="member.city">{{messages.labels.city}}</label>
+					<input type="text" data-ng-model="member.city" id="member.city"
+					data-auto-fillable-field /></li>
+				<li class="formItemTf required"><label for="member.telephone">{{messages.labels.telephone}}</label>
+					<input type="text" data-ng-model="member.telephone"
+					id="member.telephone" placeholder="0123456789"
+					data-auto-fillable-field /></li>
+				<!--
+                        <li class="formItem" data-ng-repeat="dataItem in personalData">
+                        <label for="{{dataItem.code}}Id">{{dataItem.label}}</label><input type="{{dataItem.type}}" data-ng-model="member" id="{{dataItem.code}}Id" name="{{dataItem.code}}"/>
+                        </li>
+                        -->
+			</ul>
+		</fieldset>
+		<fieldset id="fs.details" class="sectionFs">
+			<legend> {{messages.legends.personalDetails}} </legend>
+			<p data-ng-bind-html-unsafe="messages.info.volunteer"></p>
+			<fieldset
+				data-ng-repeat="detail in ['federalDiploma', 'driverLicence', 'boatLicence']"
+				id="fs.{{detail}}">
+				<legend> {{messages.legends[detail]}} </legend>
+				<ul>
+					<li class="formItem" data-ng-repeat="d in data[detail]"><input
+						type="checkbox" data-ng-click="setArrayValue(d, detail)" 
+						value="{{d.code}}" id="{{detail}}{{d.code}}" /> <label
+						for="{{detail}}{{d.code}}">{{getMessage(d.code, detail)}}</label></li>
+				</ul>
+			</fieldset>
+
+		</fieldset>
+		<fieldset id="fs.medical" class="sectionFs">
+			<legend> {{messages.legends.medical}} </legend>
+			<ul>
+				<li class="formItemTf"><label for="member.certificate">{{messages.labels.certificate}}</label>
+					<input type="date" data-ng-model="member.certificate"
+					id="member.certificate" /></li>
+			</ul>
+		</fieldset>
+		<fieldset id="fs.insurance" class="sectionFs">
+			<legend> {{messages.legends.insurance}} </legend>
+			<p data-ng-bind-html-unsafe="messages.info.insurance"></p>
+			<ul>
+				<li class="formItemTf"><input type="radio"
+					data-ng-model="member.insurance" id="member.insuranceAccept"
+					name="member.insurance" value="1"
+					data-ng-true-value="{{messages.labels.yes}}" /> <label
+					for="member.insuranceAccept" class="supLabel">{{messages.labels.insurance.accept}}
+				</label></li>
+				<li class="formItemTf"><input type="radio"
+					data-ng-model="member.insurance" name="member.insurance"
+					id="member.insuranceRefuse" value="0"
+					data-ng-true-value="{{messages.labels.no}}" /> <label
+					for="member.insuranceRefuse" class="supLabel">{{messages.labels.insurance.refuse}}
+				</label></li>
+			</ul>
+		</fieldset>
+		<fieldset id="fs.payment" class="sectionFs">
+			<legend> {{messages.legends.payment}} </legend>
+			{{getRegistrationPrice()}}
+		</fieldset>
+		<fieldset id="fs.donation" class="sectionFs">
+			<legend> {{messages.legends.donation}} </legend>
+			<p data-ng-bind-html-unsafe="messages.info.donation"></p>
+			<p>
+				{{messages.labels.donation.accept}}<input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="100"
+					id="member.donation.fixedAmmount.100" /> <label
+					for="member.donation.fixedAmmount.100">100
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="50"
+					id="member.donation.fixedAmmount.50" /> <label
+					for="member.donation.fixedAmmount.50">50
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="30"
+					id="member.donation.fixedAmmount.30" /> <label
+					for="member.donation.fixedAmmount.30">30
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="20"
+					id="member.donation.fixedAmmount.20" /> <label
+					for="member.donation.fixedAmmount.20">20
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="10"
+					id="member.donation.fixedAmmount.10" /> <label
+					for="member.donation.fixedAmmount.10">10
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="5"
+					id="member.donation.fixedAmmount.5" /> <label
+					for="member.donation.fixedAmmount.5">5
+					{{messages.info.priceSuffix}}</label>, <input type="radio"
+					data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" value="-1"
+					id="member.donation.fixedAmmount.-1" /> <label
+					for="member.donation.fixedAmmount.-1">
+					{{messages.labels.donation.differentAmmount}}</label> <input
+					data-ng-show="member.donation.fixedAmmount == -1" type="text"
+					data-ng-model="member.donation.ammount"
+					name="member.donation.ammount" value="" />
+			</p>
+			<p>
+				<input type="radio" data-ng-model="member.donation.fixedAmmount"
+					name="member.donation.fixedAmmount" id="member.donation.refuse"
+					value="0" /> <label for="member.donation.refuse">{{messages.labels.donation.refuse}}</label>
+			</p>
+		</fieldset>
+
+		<fieldset id="fs.formConfirm" class="sectionFs">
+			<ul>
+				<li class="formItem"><input type="checkbox"
+					data-ng-model="member.confirmSwim" id="member.confirmSwim" /> <label
+					for="member.confirmSwim">{{messages.labels.confirmSwim}}</label></li>
+				<li class="formItem"><input type="checkbox"
+					data-ng-model="member.confirmConditions"
+					id="member.confirmConditions" /> <label
+					for="member.confirmConditions">{{messages.labels.confirmConditions}}
+						(<a href="#" data-ng-click="showConditions=!showConditions;"
+						onclick="return false;"><span data-ng-show="showConditions">{{messages.labels.conditions.hide}}</span><span
+							data-ng-show="!showConditions">{{messages.labels.conditions.show}}</span></a>)
+				</label>
+					<p data-ng-show="showConditions"
+						data-ng-bind-html-unsafe="messages.info.legalText"
+						id="legalConditions"></p></li>
+
+			</ul>
+		</fieldset>
+		<div id="formNotes">
+			<p>{{messages.info.requiredFields}}</p>
+		</div>
+
+
+		<div id="alerts" data-ng-show="errors.length>0">
+			<span class="legend">{{messages.info.formErrors}}</span>
+			<ul>
+				<li data-ng-repeat="error in errors">{{getMessage(error,
+					"errors")}}</li>
+			</ul>
+		</div>
+
+		<div id="formControl">
+			<button data-ng-click="submit()">{{messages.labels.save}}</button>
+			<button data-ng-click="reset()">{{messages.labels.reset}}</button>
+
+		</div>
+
+		<fieldset id="docsToProvide" class="sectionFs">
+			<p data-ng-bind-html-unsafe="messages.info.docs"></p>
+			<legend> {{messages.legends.docsToProvide}} </legend>
+			<ul>
+
+				<li data-ng-repeat="doc in getDocsToProvide()">{{doc}}</li>
+
+			</ul>
+		</fieldset>
+
+		<fieldset id="forInfo" class="sectionFs info">
+			<legend> {{messages.legends.forInfo}} </legend>
+
+			<p>{{messages.info.formDetails}}</p>
+		</fieldset>
+
+	</form>
+</div>
+<div id="validatedForm" data-ng-show="completeForm">
+	<p data-ng-bind-html-unsafe="messages.info.formValidated"></p>
+</div>
+<div id="contact">
+	<p data-ng-bind-html-unsafe="messages.info.contact"></p>
+</div>
+<div id="preloader" data-ng-show="validatingForm">
+	<div id="dialogBox">
+		<img src="img/loader.gif" width="48px" height="48px" />
+		<div>{{messages.info.validatingForm}}</div>
+	</div>
+</div>
