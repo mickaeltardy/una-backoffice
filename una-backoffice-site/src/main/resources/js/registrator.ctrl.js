@@ -1,12 +1,13 @@
 var lData;
 function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope,
+			$location);
 
 	var mInsurancePrice = 10.65;
 	var mAdultDiscount = 20;
 	var mCategoryDetails = [ 'ufr', 'establishment', 'school', 'class',
 			'family' ];
-	
+
 	$http.get('datasource/data.json').success(function(data) {
 		$scope.categories = data.categeries;
 		$scope.data = data;
@@ -15,27 +16,51 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	$http.get('datasource/personalData.json').success(function(data) {
 		$scope.personalData = data;
 	});
-	
+
 	$scope.loggedUser = $rootScope.loggedUser;
-	
-	$scope.mergeOptions = function(obj1,obj2){
-	    var obj3 = {};
-	    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-	    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-	    return obj3;
-	}
-	
-	
-	$http.get('app/profile/getProfile?username='+$scope.loggedUser).success(function(data) {
-		debugger;
-		if(data.profile){
-			var lData = data.profile.data;
-			delete data.profile.data;
-			
-			$scope.member = $scope.mergeOptions(data.profile, lData);
-			$scope.setMemberCategory($scope.member.category);
+
+	$scope.mergeOptions = function(obj1, obj2) {
+		var obj3 = {};
+		for ( var attrname in obj1) {
+			obj3[attrname] = obj1[attrname];
 		}
-	});
+		for ( var attrname in obj2) {
+			obj3[attrname] = obj2[attrname];
+		}
+		return obj3;
+	}
+
+	$scope.getCategoryPrice = function(pCategory) {
+		if ($scope.categories) {
+			var lLength = $scope.categories.length;
+			var lPrice = 0;
+			for (var i = 0; i < lLength; i++) {
+				if ($scope.categories[i].code == pCategory) {
+					lPrice = $scope.categories[i].price;
+					break;
+				}
+			}
+		}
+		return lPrice;
+	}
+
+	$http.get('app/profile/getProfile?username=' + $scope.loggedUser).success(
+			function(data) {
+				debugger;
+				if (data.profile) {
+					var lData = data.profile.data;
+					delete data.profile.data;
+
+					$scope.member = $scope.mergeOptions(data.profile, lData);
+					var lDate = new Date($scope.member.insertDate)
+					/*
+					 * $scope.member.birthdate = ""+lDate.getFullYear() + "-0" +
+					 * (lDate.getMonth()+1) + "-" + lDate.getDate();
+					 * 
+					 * alert($scope.member.birthdate);
+					 */
+				}
+			});
 
 	$scope.token = function(text) {
 		return text;
@@ -150,7 +175,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 
 	$scope.isCategory = function(pCategory) {
 		return ($scope.member) && $scope.member.category
-				&& ($scope.member.category.code.indexOf(pCategory) !== -1)
+				&& ($scope.member.category.indexOf(pCategory) !== -1)
 	};
 
 	$scope.isStudent = function() {
@@ -229,9 +254,9 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	$scope.getCorrectedCategoryPrice = function(pCategory, pCorrection) {
 		var lResult = "";
 		if (pCategory) {
-			lResult = pCategory.price;
+			lResult = $scope.getCategoryPrice(pCategory);
 
-			if ($scope.member.entryType == 'old' && pCategory.code == "adult")
+			if ($scope.member.entryType == 'old' && pCategory == "adult")
 				lResult = lResult - mAdultDiscount;
 
 			if (lResult > 0) {
@@ -247,9 +272,9 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	$scope.getRegistrationPrice = function() {
 		var lResult = "";
 		if ($scope.member && $scope.member.category) {
-			lResult = $scope.member.category.price;
+			lResult = $scope.getCategoryPrice($scope.member.category);
 			if ($scope.member.entryType == 'old'
-					&& $scope.member.category.code == "adult")
+					&& $scope.member.category == "adult")
 				lResult = lResult - mAdultDiscount;
 			if ($scope.member.family) {
 				lResult = lResult / 1 - $scope.member.family.price;
@@ -340,8 +365,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 				}
 			}
 
-			if (!$scope.member.category
-					|| isFieldEmpty($scope.member.category.code)) {
+			if (!$scope.member.category || isFieldEmpty($scope.member.category)) {
 				lBool = false;
 				pErrors.push("categoryEmpty");
 			} else {
@@ -423,35 +447,30 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 					pErrors.push("telephoneInvalid");
 				}
 			}
-			if (isFieldEmpty($scope.member.email)) {
-				lBool = false;
-				pErrors.push("emailEmpty");
-			} else {
-				var lMailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-				if (!lMailRegex.test($scope.member.email)) {
+			if ($rootScope.loggedUser == null) {
+				if (isFieldEmpty($scope.member.email)) {
 					lBool = false;
-					pErrors.push("emailInvalid");
+					pErrors.push("emailEmpty");
+				} else {
+					var lMailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+					if (!lMailRegex.test($scope.member.email)) {
+						lBool = false;
+						pErrors.push("emailInvalid");
+					}
 				}
-			}
-			if (!isFieldEmpty($scope.member.emailConfirmation)
-					&& $scope.member.emailConfirmation != $scope.member.email) {
-				lBool = false;
-				pErrors.push("emailConfirmationIncorrect");
-			}
-
-			if (isFieldEmpty($scope.member.password)) {
-				lBool = false;
-				pErrors.push("passwordEmpty");
-			}
-			if ($scope.member.password != $scope.member.passwordConfirmation) {
-				lBool = false;
-				pErrors.push("passwordConfirmationIncorrect");
-			}
-
-			if (!isFieldEmpty($scope.member.email)) {
-				if ($scope.emailExists && !$scope.passwordValid) {
+				if (!isFieldEmpty($scope.member.emailConfirmation)
+						&& $scope.member.emailConfirmation != $scope.member.email) {
 					lBool = false;
-					pErrors.push("invalidPassword");
+					pErrors.push("emailConfirmationIncorrect");
+				}
+
+				if (isFieldEmpty($scope.member.password)) {
+					lBool = false;
+					pErrors.push("passwordEmpty");
+				}
+				if ($scope.member.password != $scope.member.passwordConfirmation) {
+					lBool = false;
+					pErrors.push("passwordConfirmationIncorrect");
 				}
 
 			}
@@ -477,7 +496,10 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 				lBool = false;
 				pErrors.push("confirmConditionsEmpty");
 			}
-
+			if ($rootScope.loggedUser)
+				$scope.member.username = $rootScope.loggedUser
+			else
+				$scope.member.username = $scope.member.email;
 		}
 		return lBool;
 	};
@@ -493,7 +515,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	$scope.completeForm = false;
 	$scope.emailExists = false;
 	$scope.alerts = new Object();
-	
+
 }
 
 var myApp = angular.module('myApp', []);

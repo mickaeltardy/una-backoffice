@@ -77,23 +77,14 @@ function AuthenticationCtrl($scope, $http, $routeParams, $rootScope, $location) 
 
 	}
 
-	$scope.checkAuth = function() {
+	$scope.redirectToModule = function(data){
+		var lRedirection = ($rootScope.redirection) ? $rootScope.redirection
+				: $rootScope.defaultPath;
 
-		$http
-				.get('app/auth/check')
-				.success(
-						function(data) {
-							debugger;
-							if (data.auth == "true") {
-								$rootScope.loggedUser = data.username;
-								var lRedirection = ($rootScope.redirection) ? $rootScope.redirection
-										: $rootScope.defaultPath;
-
-								$location.path(lRedirection);
-							}
-						});
-
+		$location.path(lRedirection);
 	}
+	
+	$scope.$on("auth.success", $scope.redirectToModule);
 
 	$scope.logout = function() {
 		$http.get(' j_spring_security_logout').success(function(data) {

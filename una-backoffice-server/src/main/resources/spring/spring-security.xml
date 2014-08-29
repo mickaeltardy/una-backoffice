@@ -6,7 +6,7 @@
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
+	<global-method-security pre-post-annotations="enabled"/>
 	<beans:bean id="errorAEP"
 		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 	<beans:bean id="emptyAEP"
@@ -14,23 +14,37 @@
 	</beans:bean>
 
 	<http use-expressions="true" pattern="/app/resources/**"
-		entry-point-ref="emptyAEP">
-		<form-login />
-		<logout />
+		entry-point-ref="emptyAEP" create-session="always">
+		<form-login authentication-success-handler-ref="successAuthHandler" />
+		<logout success-handler-ref="successLogoutHandler" />
 	</http>
 	<http use-expressions="true" pattern="/app/services/**"
-		entry-point-ref="emptyAEP">
-		<form-login />
-		<logout />
+		entry-point-ref="errorAEP" create-session="always">
+		<form-login authentication-success-handler-ref="successAuthHandler" />
+		<logout success-handler-ref="successLogoutHandler" />
 	</http>
-	<http use-expressions="true" pattern="/app/welcome/**">
-		<form-login login-page="/spring_security_login" />
-		<logout />
+	<http use-expressions="true" pattern="/app/**" entry-point-ref="errorAEP"
+		create-session="always">
+
+		<form-login login-page="/spring_security_login"
+			authentication-success-handler-ref="successAuthHandler" />
+		<logout success-handler-ref="successLogoutHandler" />
 	</http>
-	<http use-expressions="true" >
-		<form-login />
-		<logout />
+
+
+	<http use-expressions="true" entry-point-ref="errorAEP"
+		create-session="always">
+		<form-login authentication-success-handler-ref="successAuthHandler" />
+		<logout success-handler-ref="successLogoutHandler" />
 	</http>
+
+
+	<beans:bean class="com.mtdev.una.security.AuthenticationSuccessHandler"
+		id="successAuthHandler" />
+
+	<beans:bean class="com.mtdev.una.security.LogoutSuccessHandler"
+		id="successLogoutHandler" />
+
 	<!-- <beans:bean id="customAuthenticationProvider" class="com.mtdev.una.security.CustomAuthenticationProvider"> 
 		<beans:property name="userDetailsService" ref="userServiceImpl" /> <beans:property 
 		name="passwordEncoder" ref="customPasswordEncoder" /> </beans:bean> -->
@@ -41,9 +55,8 @@
 		/> </authentication-manager> -->
 	<authentication-manager>
 		<authentication-provider user-service-ref="userServiceImpl">
-			<!-- <password-encoder ref="customPasswordEncoder" />
-			 -->
-			  <password-encoder hash="md5" />
+			<password-encoder ref="customPasswordEncoder" />
+			<!-- <password-encoder hash="md5" /> -->
 		</authentication-provider>
 	</authentication-manager>
 

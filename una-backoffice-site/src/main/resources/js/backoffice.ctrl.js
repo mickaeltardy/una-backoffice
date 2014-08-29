@@ -1,27 +1,48 @@
 var lData;
 function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 
+	$http.get('datasource/messages.json').success(function(data) {
+		$rootScope.messages = data;
+		$scope.messages = data;
+		$rootScope.$broadcast("messagesLoaded", 1);
+	});
 
+	
 	$scope.messages = $rootScope.messages;
 
 	$scope.loggedUser = $rootScope.loggedUser;
-	
+
 	$scope.logout = function() {
 
 		$rootScope.$broadcast('logout', 1);
 	};
-	
-	$rootScope.validateExternalAccount = function(pRequest){
-		$scope.serverRequestOngoing(true);
-		$http({
-			method : "POST",
-			data : $scope.param(pRequest),
-			url : 'app/registration/external',
-			headers : {
-				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8'
+
+	$scope.checkAuth = function() {
+
+		$http.get('app/auth/check').success(function(data) {
+
+			if (data.auth == "true") {
+				$rootScope.loggedUser = data.username;
+				$rootScope.$broadcast("auth.success", data);
+			} else {
+				$rootScope.$broadcast("auth.failed", data);
 			}
-		}).success(function(data) {
-			if (data.result=="success") {
+		});
+
+	}
+
+	$rootScope.validateExternalAccount = function(pRequest) {
+		$scope.serverRequestOngoing(true);
+		$http(
+				{
+					method : "POST",
+					data : $scope.param(pRequest),
+					url : 'app/registration/external',
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8'
+					}
+				}).success(function(data) {
+			if (data.result == "success") {
 				$scope.authenticate(data.username, data.openid);
 			} else {
 				$scope.serverRequestOngoing(false);
@@ -32,7 +53,6 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 			}
 		});
 	}
-
 
 	$scope.param = function(obj) {
 		var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
@@ -156,22 +176,18 @@ var CommonCtrl = function($rootScope, $http, $route) {
 	}
 
 	$rootScope.requestRedirect = false;
-	
+
 	$rootScope.tool = ($route.current.params.tool) ? $route.current.params.tool
 			: 'login';
 
-	$http.get('datasource/messages.json').success(function(data) {
-		$rootScope.messages = data;
-		$rootScope.$broadcast("messagesLoaded", 1);
-	});
 
 	$http.get('app/modules').success(function(data) {
 		$rootScope.tools = data;
 	});
 	$rootScope.menuUrl = "app/resources/templates-menu.backoffice.html";
 	if ($route.current.params.tool) {
-		$rootScope.redirection = "backoffice/" + $route.current.params.tool
-				+ "/";
+		$rootScope.redirection = $route.current.params.tool + "/";
+
 		$rootScope.toolUrl = "app/resources/templates-tools-"
 				+ $route.current.params.tool + ".tpl.html";
 	}
@@ -256,6 +272,15 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 		 * #login, no redirect // needed } else { // not going to #login, we //
 		 * should redirect now $location.path("/login"); } }
 		 */
+		if ($rootScope.loggedUser == null) {
+			// no logged user, we should be going to #login
+			if (next.templateUrl == "templates/login.gui.html") {
+				// already going to #login, no redirect needed
+			} else {
+				// not going to #login, we should redirect now
+				$location.path("/login");
+			}
+		}
 	});
 });
 

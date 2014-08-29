@@ -29,9 +29,9 @@
 				<ul>
 					<li class="formItemTf"
 						data-ng-show="(member.entryType=='migration') || (member.entryType=='old')">
-						<label for="member.licenceNo">{{messages.labels.licenceNo}}</label>
-						<input type="text" data-ng-model="member.licenceNo"
-						id="member.licenceNo" placeholder="X123456" />
+						<label for="member.licence">{{messages.labels.licenceNo}}</label>
+						<input type="text" data-ng-model="member.licence"
+						id="member.licence" placeholder="X123456" />
 
 					</li>
 					<li class="formItemTf required"
@@ -47,10 +47,11 @@
 			<div>
 				<ul>
 					<li class="formItem" data-ng-repeat="c in categories"><input
-						type="radio" data-ng-click="setMemberCategory(c)" value="{{c.id}}" data-ng-model="member.category.id" 
-						name="member.category" id="category{{c.code}}" /> <label
-						for="category{{c.code}}">{{getMessage(c.code,
-							"categories")}} {{getCorrectedCategoryPrice(c, 0)}}</label></li>
+						type="radio" data-ng-click="setMemberCategory(c.code)"
+						value="{{c.code}}" data-ng-model="member.category"
+						name="member.category" id="category{{c.code}}"
+						data-ng-value="c.code" /> <label for="category{{c.code}}">{{getMessage(c.code,
+							"categories")}} {{getCorrectedCategoryPrice(c.code, 0)}}</label></li>
 				</ul>
 			</div>
 			<div>
@@ -86,7 +87,7 @@
 			</div>
 
 		</fieldset>
-		<fieldset id="member.account" class="sectionFs">
+		<fieldset id="member.account" class="sectionFs" data-ng-show="!loggedUser">
 			<legend> {{messages.legends.accountInfo}} </legend>
 			<p data-ng-bind-html-unsafe="messages.info.accountDetails"></p>
 			<ul>
@@ -156,7 +157,7 @@
                         -->
 			</ul>
 		</fieldset>
-		<fieldset id="fs.details" class="sectionFs">
+		<fieldset id="fs.details" class="sectionFs" data-ng-show="0">
 			<legend> {{messages.legends.personalDetails}} </legend>
 			<p data-ng-bind-html-unsafe="messages.info.volunteer"></p>
 			<fieldset
@@ -165,7 +166,7 @@
 				<legend> {{messages.legends[detail]}} </legend>
 				<ul>
 					<li class="formItem" data-ng-repeat="d in data[detail]"><input
-						type="checkbox" data-ng-click="setArrayValue(d, detail)" 
+						type="checkbox" data-ng-click="setArrayValue(d, detail)"
 						value="{{d.code}}" id="{{detail}}{{d.code}}" /> <label
 						for="{{detail}}{{d.code}}">{{getMessage(d.code, detail)}}</label></li>
 				</ul>
@@ -304,7 +305,10 @@
 		<fieldset id="forInfo" class="sectionFs info">
 			<legend> {{messages.legends.forInfo}} </legend>
 
-			<p>{{messages.info.formDetails}}</p>
+			<ul>
+				<li
+					data-ng-repeat="detail in messages.info.formDetails">{{detail}}</li>
+			</ul>
 		</fieldset>
 
 	</form>

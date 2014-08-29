@@ -328,7 +328,7 @@ width:100%;
 	
 }
 
-.required:after{
+label.required:after{
 	content: "*";
 	color: #ff0000;
 	

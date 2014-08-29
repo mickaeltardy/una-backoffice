@@ -1,23 +1,18 @@
 {
     "categeries": [
         {
-            "id": 1,
             "code": "studentUniv",
             "price": "85" 
         }, {
-            "id": 2,
             "code": "studentOther",
             "price": "130" 
         }, {
-            "id": 3,
             "code": "adultUniv",
             "price": "170" 
         }, {
-            "id": 4,
             "code": "school",
             "price": "150" 
         }, {
-            "id": 5,
             "code": "adult",
             "price": "250"
         }
