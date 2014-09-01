@@ -38,4 +38,10 @@ public class ResourcesService {
 		return mResourcesManager.getResourceFile("/html/"+pHtmlFileName+".html");
 	}
 
+	@RequestMapping(value = "/{datasourceFile}.datasource", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getDatasourceFile(@PathVariable("datasourceFile") String pDatasourceFileName) {
+		return mResourcesManager.getResourceFile("/datasource/"+pDatasourceFileName+".json");
+	}
+
 }

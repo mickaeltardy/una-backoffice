@@ -1,12 +1,11 @@
 function AuthenticationCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope,
 			$location);
-	
-	$scope.checkLogin = function(){
+
+	$scope.checkLogin = function() {
 		debugger;
 		alert($scope.auth.login)
 	}
-	
 
 	$scope.authenticate = function(pUsername, pPassword) {
 		$http(
@@ -63,35 +62,41 @@ function AuthenticationCtrl($scope, $http, $routeParams, $rootScope, $location) 
 	}
 
 	$scope.resetPassword = function() {
-		$http({
-			method : "POST",
-			data : $scope.auth,
-			url : '../server/service/resetPassword'
-		}).success(function(data) {
-			if (data.status == "ok") {
+		$http(
+				{
+					method : "POST",
+					data : $scope.param({
+						"username" : $scope.auth.forget
+					}),
+					url : 'app/registration/restorePassword',
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8'
+					}
+				}).success(function(data) {
+			if (data.status == "success") {
 				$scope.passwordForgotten = false;
+
+				$rootScope.notifications.push({
+					"cssClass" : "info",
+					"text" : $scope.messages.notifications.passwordReset
+				});
 			} else {
-				alert("Fail");
+				alert($scope.messages.errors.passwordReset);
 			}
 		});
 
 	}
 
-	$scope.redirectToModule = function(data){
+	$scope.redirectToModule = function(data) {
 		var lRedirection = ($rootScope.redirection) ? $rootScope.redirection
 				: $rootScope.defaultPath;
 
 		$location.path(lRedirection);
 	}
-	
+
 	$scope.$on("auth.success", $scope.redirectToModule);
 
-	$scope.logout = function() {
-		$http.get(' j_spring_security_logout').success(function(data) {
-			$location.path("");
-		});
-	}
-
+	
 	$scope.forgetPassword = function() {
 		$scope.passwordForgotten = true;
 	}

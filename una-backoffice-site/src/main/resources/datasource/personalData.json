@@ -1,0 +1,62 @@
+[
+    {
+        "code" : "surname",
+        "type" : "text", 
+        "label" : "Nom"
+    },
+    {
+        "code" : "name",
+        "type" : "text", 
+        "label" : "Prénom"
+    },
+    {
+        "code" : "sex",
+        "type" : "radio", 
+        "label" : "Sex",
+        "options" : [{"code" : "f", "value" : "F"}, {"code" : "m", "value" : "M"}]
+    },
+    {
+        "code" : "date",
+        "type" : "date", 
+        "label" : "Date de naissance"
+    },
+    {
+        "code" : "nationality",
+        "type" : "text", 
+        "label" : "Nationalité"
+    },
+    {
+        "code" : "address",
+        "type" : "text", 
+        "label" : "Adresse"
+    },
+    {
+        "code" : "zipcode",
+        "type" : "number", 
+        "label" : "Code postal"
+    },
+    {
+        "code" : "city",
+        "type" : "text", 
+        "label" : "Ville"
+    },
+    {
+        "code" : "tel",
+        "type" : "text", 
+        "label" : "Téléphone"
+    },
+    {
+        "code" : "email",
+        "type" : "email", 
+        "label" : "E-mail"
+    }
+    
+            
+            
+             
+            
+             
+            
+            
+            
+]

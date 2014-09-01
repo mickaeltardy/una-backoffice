@@ -251,15 +251,15 @@ label.supLabel:after {
 	color: #FF0000;
 }
 
-.panel {
-	position: relative;
-	float: right;
-	top: -40px;
+.panel .button, .panel .user {
+	padding: 10px;
 }
 
 .panel .button {
 	display: inline-block;
 	cursor: pointer;
+	text-decoration: underline;
+	font-style: italic;
 }
 
 .signinForm input {
@@ -271,14 +271,16 @@ label.supLabel:after {
 	margin: 0px;
 	padding: 10px;
 }
+
 .notificationsContainer>ul {
 	margin: 0px;
 	padding: 0px;
 }
+
 .notificationsContainer>ul>li {
 	margin-top: 10px;
-	padding: 6px;	
-	text-align:center;
+	padding: 6px;
+	text-align: center;
 }
 
 .notificationsContainer>ul>li.info {

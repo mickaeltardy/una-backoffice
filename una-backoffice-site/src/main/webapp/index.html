@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<div id="nav-panel">
-			<div id="profile"></div>
+			<div id="profile"><div class="panel" data-ng-show="loggedUser"><div class="user">{{loggedUser}} </div><div class="button" data-ng-click="logout()">{{messages.labels.logout}}</div></div></div>
 			<nav id="main-menu">
 				<ul>
 					<li data-ng-repeat="item in tools | orderBy:'order'"><span

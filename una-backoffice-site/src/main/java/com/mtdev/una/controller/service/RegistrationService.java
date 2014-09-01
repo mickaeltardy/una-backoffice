@@ -1,5 +1,6 @@
 package com.mtdev.una.controller.service;
 
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mtdev.una.business.DataRenderer;
+import com.mtdev.una.business.MailManager;
 import com.mtdev.una.business.interfaces.ProfilesManager;
 import com.mtdev.una.business.interfaces.UsersManager;
 import com.mtdev.una.model.User;
@@ -25,11 +28,18 @@ import com.mtdev.una.tools.Toolbox;
 public class RegistrationService {
 
 	@Autowired
-	//UserDao mUserDao;
+	// UserDao mUserDao;
 	UsersManager mUsersManager;
 
 	@Autowired
 	ProfilesManager mProfilesManager;
+
+	@Autowired
+	protected DataRenderer mDataRenderer;
+
+	@Autowired
+	protected MailManager mMailManager;
+	
 
 	@RequestMapping(value = "/external", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("true")
@@ -50,7 +60,8 @@ public class RegistrationService {
 			if (lDbUser == null) {
 				lDbUser = mUsersManager.createUser(pUsername, null, false);
 				// TODO Refactoring
-				mProfilesManager.createProfile(pUsername, pName, pSurname, true);
+				mProfilesManager
+						.createProfile(pUsername, pName, pSurname, true);
 
 				lResponse.put("status", "created");
 			}
@@ -96,7 +107,7 @@ public class RegistrationService {
 			User lUser = mUsersManager.createUser(pUsername, pPassword, false);
 			// TODO Refactoring
 			mProfilesManager.createProfile(pUsername, pName, pSurname, true);
-			
+
 			if (mUsersManager.saveUser(lUser))
 				return Toolbox.generateResult("result", "success");
 
@@ -110,7 +121,7 @@ public class RegistrationService {
 	@RequestMapping(value = "/restorePassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("true")
 	public @ResponseBody Object restorePassword(
-			@RequestParam("email") String pUsername) {
+			@RequestParam("username") String pUsername) {
 		User lDbUser = mUsersManager.getUserByUsername(pUsername);
 		if (lDbUser != null) {
 
@@ -120,7 +131,19 @@ public class RegistrationService {
 
 			lDbUser.setPassword(lNewEncPassword);
 
-			mUsersManager.saveUser(lDbUser);
+
+
+			if(mUsersManager.saveUser(lDbUser)){
+				Map<Object, Object> lContext = new HashMap<Object, Object>();
+				lContext.put("newPassword", lNewPassword);
+
+				mDataRenderer
+						.setResourceTemplate("/templates/mail/newPassMailNotification.html");
+				Writer lOutput = mDataRenderer.renderData(lContext,
+						"/templates/mail/newPassMailNotification.html");
+				
+				mMailManager.sendMail(lDbUser.getUsername(), "[UNA] Nouveau mot de passe", lOutput.toString());
+			}
 
 			return Toolbox.generateResult("status", "success");
 
@@ -129,6 +152,7 @@ public class RegistrationService {
 		}
 
 	}
+
 	/**
 	 * 
 	 * TODO to implement
@@ -152,5 +176,6 @@ public class RegistrationService {
 
 		return lResult;
 	}
+	
 
 }

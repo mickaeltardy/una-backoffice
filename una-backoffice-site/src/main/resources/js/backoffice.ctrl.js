@@ -1,7 +1,7 @@
 var lData;
 function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 
-	$http.get('datasource/messages.json').success(function(data) {
+	$http.get('app/resources/messages.datasource').success(function(data) {
 		$rootScope.messages = data;
 		$scope.messages = data;
 		$rootScope.$broadcast("messagesLoaded", 1);
@@ -12,11 +12,9 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.loggedUser = $rootScope.loggedUser;
 
-	$scope.logout = function() {
+	
 
-		$rootScope.$broadcast('logout', 1);
-	};
-
+	
 	$scope.checkAuth = function() {
 
 		$http.get('app/auth/check').success(function(data) {
@@ -30,6 +28,7 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 		});
 
 	}
+	$scope.checkAuth();
 
 	$rootScope.validateExternalAccount = function(pRequest) {
 		$scope.serverRequestOngoing(true);
@@ -260,6 +259,13 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 		return true;
 	}
 
+	$rootScope.logout = function() {
+		$http.get(' j_spring_security_logout').success(function(data) {
+			$location.path("");
+		});
+	}
+	
+	
 	// register listener to watch route changes
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {
 		if ($rootScope.checkModuleAccess(next.params.tool)) {
@@ -272,6 +278,7 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 		 * #login, no redirect // needed } else { // not going to #login, we //
 		 * should redirect now $location.path("/login"); } }
 		 */
+		/*
 		if ($rootScope.loggedUser == null) {
 			// no logged user, we should be going to #login
 			if (next.templateUrl == "templates/login.gui.html") {
@@ -281,6 +288,7 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 				$location.path("/login");
 			}
 		}
+		*/
 	});
 });
 

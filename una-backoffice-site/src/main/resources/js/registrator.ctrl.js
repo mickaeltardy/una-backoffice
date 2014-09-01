@@ -8,14 +8,44 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	var mCategoryDetails = [ 'ufr', 'establishment', 'school', 'class',
 			'family' ];
 
-	$http.get('datasource/data.json').success(function(data) {
+	$http.get('app/resources/data.datasource').success(function(data) {
 		$scope.categories = data.categeries;
 		$scope.data = data;
 	});
 
-	$http.get('datasource/personalData.json').success(function(data) {
+	$http.get('app/resources/personalData.datasource').success(function(data) {
 		$scope.personalData = data;
 	});
+
+	$scope.init = function() {
+		$scope.months = $scope.generateIntegersArray(1, 12);
+		$scope.days = $scope.generateIntegersArray(1, 31);
+		$scope.birthYears = $scope.generateIntegersArray(2004, 1920);
+		$scope.certificateYears = $scope.generateIntegersArray(2014, 2013);
+
+		$scope.member = new Object();
+		$scope.validatingForm = false;
+		$scope.inProgress = true;
+		$scope.completeForm = false;
+		$scope.emailExists = false;
+		$scope.alerts = new Object();
+	}
+
+	$scope.generateIntegersArray = function(pFrom, pTo, pStep) {
+		var lOutput = new Array();
+		if (!pStep)
+			pStep = 1;
+		var pDir = (pTo - pFrom) / Math.abs(pTo - pFrom);
+
+		if (pDir > 0)
+			for (var i = pFrom; i <= pTo; i += pStep)
+				lOutput.push(i);
+		else
+			for (var i = pFrom; i >= pTo; i -= pStep)
+				lOutput.push(i);
+
+		return lOutput;
+	}
 
 	$scope.loggedUser = $rootScope.loggedUser;
 
@@ -43,24 +73,48 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 		}
 		return lPrice;
 	}
+	
 
-	$http.get('app/profile/getProfile?username=' + $scope.loggedUser).success(
-			function(data) {
-				debugger;
-				if (data.profile) {
-					var lData = data.profile.data;
-					delete data.profile.data;
+	$scope.loadProfile = function(){
+	$http
+			.get('app/profile/getProfile?username=' + $rootScope.loggedUser)
+			.success(
+					function(data) {
+						debugger;
+						if (data.profile) {
+							var lData = data.profile.data;
+							delete data.profile.data;
 
-					$scope.member = $scope.mergeOptions(data.profile, lData);
-					var lDate = new Date($scope.member.insertDate)
-					/*
-					 * $scope.member.birthdate = ""+lDate.getFullYear() + "-0" +
-					 * (lDate.getMonth()+1) + "-" + lDate.getDate();
-					 * 
-					 * alert($scope.member.birthdate);
-					 */
-				}
-			});
+							$scope.member = $scope.mergeOptions(data.profile,
+									lData);
+							if ($scope.member.birthdate) {
+								$scope.member.birthdate = new Date(
+										$scope.member.birthdate)
+								$scope.member.birthdayDay = $scope.member.birthdate
+										.getDate();
+								$scope.member.birthdayMonth = $scope.member.birthdate
+										.getMonth() + 1;
+								$scope.member.birthdayYear = $scope.member.birthdate
+										.getFullYear();
+							}
+							if ($scope.member.certificate) {
+								$scope.member.certificate = new Date(
+										$scope.member.certificate)
+								$scope.member.certificateDay = $scope.member.certificate
+										.getDate();
+								$scope.member.certificateMonth = $scope.member.certificate
+										.getMonth() + 1;
+								$scope.member.certificateYear = $scope.member.certificate
+										.getFullYear();
+							}
+
+						}
+					});
+	}
+	
+	
+	$scope.$on("auth.success", $scope.loadProfile);
+	$scope.checkAuth();
 
 	$scope.token = function(text) {
 		return text;
@@ -68,6 +122,20 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 
 	$scope.reset = function() {
 		$scope.member = new Object();
+	}
+
+	$scope.canShowController = function() {
+		return ($scope.loggedUser && $scope.validate(new Array()));
+
+	}
+
+	$scope.generatePdf = function() {
+
+		var iframe = jQuery("<iframe/>").attr({
+			src : "app/profile/getpdf?username=" + $rootScope.loggedUser,
+			style : "visibility:hidden;display:none"
+		}).appendTo("#pdfDownloadBtn");
+
 	}
 	$scope.submit = function() {
 		var lResult = true;
@@ -80,20 +148,27 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 		} else {
 			$scope.errors = new Array();
 			$scope.validatingForm = true;
-
+			$rootScope.notifications = new Array();
 			$http({
 				method : 'POST',
 				url : "app/profile/saveProfile",
 				data : $scope.member
-			}).success(function(data, status) {
-				if (data.status == "success") {
-					$scope.completeForm = true;
-					$scope.inProgress = false;
-					$('html,body').scrollTop(0);
-				} else
-					alert($scope.messages.errors.serverError);
-				$scope.validatingForm = false;
-			});
+			})
+					.success(
+							function(data, status) {
+								if (data.status == "success") {
+									$scope.completeForm = true;
+									$scope.inProgress = false;
+									jQuery('html,body,#content').scrollTop(0);
+									$rootScope.notifications
+											.push({
+												"cssClass" : "info",
+												"text" : $scope.messages.notifications.profileSuccesfullyValidated
+											});
+								} else
+									alert($scope.messages.errors.serverError);
+								$scope.validatingForm = false;
+							});
 		}
 		if (lMessage)
 			alert(lMessage);
@@ -173,6 +248,25 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 			return "";
 	};
 
+	$scope.tryToSetUpBirthdate = function() {
+		if ($scope.member.birthdayDay > 0 && $scope.member.birthdayMonth > 0
+				&& $scope.member.birthdayYear > 0) {
+			$scope.member.birthdate = new Date($scope.member.birthdayYear,
+					$scope.member.birthdayMonth - 1, $scope.member.birthdayDay,
+					0, 0, 0, 0);
+		}
+	}
+
+	$scope.tryToSetUpCertificateDate = function() {
+		if ($scope.member.certificateDay > 0
+				&& $scope.member.certificateMonth > 0
+				&& $scope.member.certificateYear > 0) {
+			$scope.member.certificate = new Date($scope.member.certificateYear,
+					$scope.member.certificateMonth - 1,
+					$scope.member.certificateDay, 0, 0, 0, 0);
+		}
+	}
+
 	$scope.isCategory = function(pCategory) {
 		return ($scope.member) && $scope.member.category
 				&& ($scope.member.category.indexOf(pCategory) !== -1)
@@ -204,9 +298,8 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	};
 
 	$scope.isMinor = function() {
-		if (!isFieldEmpty($scope.member.birthdate)) {
-			var lBirthdate = new Date($scope
-					.formatDate($scope.member.birthdate));
+		if ($scope.member.birthdate && $scope.member.birthdate instanceof Date) {
+			var lBirthdate = $scope.member.birthdate;
 			var lToday = new Date();
 			if (lToday >= new Date(lBirthdate.getFullYear() + 18, lBirthdate
 					.getMonth(), lBirthdate.getDate())) {
@@ -406,14 +499,6 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 			if (isFieldEmpty($scope.member.birthdate)) {
 				lBool = false;
 				pErrors.push("birthdateEmpty");
-			} else {
-				var lDateRegexChrome = /^\d{4}-\d{2}-\d{2}$/;
-				var lDateRegexFF = /^\d{2}\/\d{2}\/\d{4}$/;
-				if (!lDateRegexChrome.test($scope.member.birthdate)
-						&& !lDateRegexFF.test($scope.member.birthdate)) {
-					lBool = false;
-					pErrors.push("birthdateInvalid");
-				}
 			}
 			if (isFieldEmpty($scope.member.nationality)) {
 				lBool = false;
@@ -503,18 +588,15 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 		}
 		return lBool;
 	};
+
 	var validate = $scope.validate;
 	var isFieldEmpty = $scope.isFieldEmpty;
 	var isScolar = $scope.isScolar;
 	var isStudent = $scope.isStudent;
 	var isAdultUniv = $scope.isAdultUniv;
 	var isMinor = $scope.isMinor;
-	$scope.member = new Object();
-	$scope.validatingForm = false;
-	$scope.inProgress = true;
-	$scope.completeForm = false;
-	$scope.emailExists = false;
-	$scope.alerts = new Object();
+
+	$scope.init();
 
 }
 

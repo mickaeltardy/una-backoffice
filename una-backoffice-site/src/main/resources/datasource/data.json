@@ -1,0 +1,58 @@
+{
+    "categeries": [
+        {
+            "code": "studentUniv",
+            "price": "85" 
+        }, {
+            "code": "studentOther",
+            "price": "130" 
+        }, {
+            "code": "adultUniv",
+            "price": "170" 
+        }, {
+            "code": "school",
+            "price": "150" 
+        }, {
+            "code": "adult",
+            "price": "250"
+        }
+    ],
+    "driverLicence": [
+        {
+            "code": "b96"
+        }, {
+            "code": "BE"
+        }
+    ],
+    "boatLicence": [
+        {
+            "code": "river"
+        }, {
+            "code": "sea"
+        }
+    ],
+    "federalDiploma": [
+        {
+            "code": "monitor"
+        }, {
+            "code": "instructor"
+        }, {
+            "code": "coach"
+        }
+    ],
+    "family": [
+        {
+            "code": "first",
+            "price": 0
+        },{
+            "code": "second",
+            "price": 10
+        }, {
+            "code": "third",
+            "price": 20
+        }, {
+            "code": "more",
+            "price": 30
+        }
+    ]
+}

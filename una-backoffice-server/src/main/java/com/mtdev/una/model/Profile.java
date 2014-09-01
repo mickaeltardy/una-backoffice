@@ -34,7 +34,7 @@ public class Profile {
 	String licence;
 
 	@Field
-	String birthdate;
+	Date birthdate;
 
 	@Field
 	String address;
@@ -105,10 +105,10 @@ public class Profile {
 	public void setLicence(String pLicence) {
 		licence = pLicence;
 	}
-	public String getBirthdate() {
+	public Date getBirthdate() {
 		return birthdate;
 	}
-	public void setBirthdate(String pBirthdate) {
+	public void setBirthdate(Date pBirthdate) {
 		birthdate = pBirthdate;
 	}
 	public String getAddress() {

@@ -1,17 +1,29 @@
+<style>
+.control button {
+	float: none;
+}
 
+.control {
+	float: none;
+}
+</style>
 
 <div class="form">
 	<form id="regForm" method="post" novalidate>
 		<h1>{{messages.legends.formTitle}}</h1>
 		<h2>{{messages.legends.formSubTitle}}</h2>
 
-		<div id="formDescription">
+		<div id="formDescription" data-ng-show="!loggedUser">
 			<p>{{messages.info.description}}</p>
 		</div>
-
+		<div class="control"
+			data-ng-show="canShowController()">
+			<button data-ng-click="generatePdf()" id="pdfDownloadBtn">{{messages.labels.generatePdf}}</button>
+		</div>
 		<div id="formNotesTop">
 			<p>{{messages.info.requiredFields}}</p>
 		</div>
+
 		<fieldset id="fs.entryType" class="sectionFs">
 			<legend> {{messages.legends.entryType}} </legend>
 			<div>
@@ -68,8 +80,8 @@
 						for="member.school">{{messages.labels.school}}</label> <input
 						type="text" data-ng-model="member.school" id="member.school" /></li>
 					<li class="formItemTf" data-ng-show="isScolar()"><label
-						for="member.school">{{messages.labels.class}}</label> <input
-						type="text" data-ng-model="member.class" id="member.class" /></li>
+						for="member.school">{{messages.labels.schoolClass}}</label> <input
+						type="text" data-ng-model="member.schoolClass" id="member.schoolClass" /></li>
 					<li class="formItemTf required"
 						data-ng-show="isAdult() && !isAdultUniv()">
 						{{messages.labels.family}}
@@ -87,7 +99,8 @@
 			</div>
 
 		</fieldset>
-		<fieldset id="member.account" class="sectionFs" data-ng-show="!loggedUser">
+		<fieldset id="member.account" class="sectionFs"
+			data-ng-show="!loggedUser">
 			<legend> {{messages.legends.accountInfo}} </legend>
 			<p data-ng-bind-html-unsafe="messages.info.accountDetails"></p>
 			<ul>
@@ -130,8 +143,20 @@
 					<input type="radio" data-ng-model="member.sex" value="m"
 					id="member.sex.m" /> <label for="member.sex.m" class="supLabel">M</label></li>
 				<li class="formItemTf required"><label for="member.birthdate">{{messages.labels.birthdate}}</label>
-					<input type="date" placeholder="{{messages.placeholder.date}}"
-					data-ng-model="member.birthdate" id="member.birthdate" /></li>
+					<div>
+						<select data-ng-model="member.birthdayDay"
+							data-ng-change="tryToSetUpBirthdate()"><option
+								data-ng-value="" value="">JJ</option>
+							<option data-ng-repeat="day in days" data-ng-value="day">{{day}}
+							</option></select><select data-ng-model="member.birthdayMonth"
+							data-ng-change="tryToSetUpBirthdate()"><option
+								data-ng-value="" value="">MM</option>
+							<option data-ng-repeat="month in months" data-ng-value="month">{{month}}</option></select><select
+							data-ng-model="member.birthdayYear"
+							data-ng-change="tryToSetUpBirthdate()"><option
+								data-ng-value="" value="">AAAA</option>
+							<option data-ng-repeat="year in birthYears" data-ng-value="year">{{year}}</option></select>
+					</div></li>
 				<li class="formItemTf required"><label for="member.nationality">{{messages.labels.nationality}}</label>
 					<input type="text" data-ng-model="member.nationality"
 					id="member.nationality" /></li>
@@ -157,7 +182,7 @@
                         -->
 			</ul>
 		</fieldset>
-		<fieldset id="fs.details" class="sectionFs" data-ng-show="0">
+		<fieldset id="fs.details" class="sectionFs">
 			<legend> {{messages.legends.personalDetails}} </legend>
 			<p data-ng-bind-html-unsafe="messages.info.volunteer"></p>
 			<fieldset
@@ -177,8 +202,21 @@
 			<legend> {{messages.legends.medical}} </legend>
 			<ul>
 				<li class="formItemTf"><label for="member.certificate">{{messages.labels.certificate}}</label>
-					<input type="date" data-ng-model="member.certificate"
-					id="member.certificate" /></li>
+					<div>
+						<select data-ng-model="member.certificateDay"
+							data-ng-change="tryToSetUpCertificateDate()"><option
+								data-ng-value="" value="">JJ</option>
+							<option data-ng-repeat="day in days" data-ng-value="day">{{day}}
+							</option></select><select data-ng-model="member.certificateMonth"
+							data-ng-change="tryToSetUpCertificateDate()"><option
+								data-ng-value="" value="">MM</option>
+							<option data-ng-repeat="month in months" data-ng-value="month">{{month}}</option></select><select
+							data-ng-model="member.certificateYear"
+							data-ng-change="tryToSetUpCertificateDate()"><option
+								data-ng-value="" value="">AAAA</option>
+							<option data-ng-repeat="year in certificateYears"
+								data-ng-value="year">{{year}}</option></select>
+					</div></li>
 			</ul>
 		</fieldset>
 		<fieldset id="fs.insurance" class="sectionFs">
@@ -306,8 +344,7 @@
 			<legend> {{messages.legends.forInfo}} </legend>
 
 			<ul>
-				<li
-					data-ng-repeat="detail in messages.info.formDetails">{{detail}}</li>
+				<li data-ng-repeat="detail in messages.info.formDetails">{{detail}}</li>
 			</ul>
 		</fieldset>
 

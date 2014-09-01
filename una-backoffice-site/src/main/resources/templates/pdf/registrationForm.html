@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+<style>
+html,body {
+	font-family: Arial;
+	font-size: 6px;
+	padding:0px;
+	margin:0px;
+}
+
+.body {
+	padding-top: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 11px;
+}
+
+#photo {
+	width: 100px;
+	height: 70px;
+	border: 1px solid #000000;
+	float: right;
+	text-align: center;
+	padding-top: 50px;
+}
+
+.logo {
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin-right: 20px;
+}
+
+#title {
+	float: left;
+	margin-left: 10px;
+	width: auto;
+}
+
+#dataTable {
+	width: 100%;
+}
+
+.data {
+	float: left;
+	width: 100%;
+	padding-bottom: 10px;
+}
+
+.data ul {
+	width: 80%;
+}
+
+hr.half {
+	width: 50%;
+}
+
+.data .field {
+	margin-bottom: 5px;
+	width: auto;
+}
+
+.data .dataGroup {
+	float: left;
+	width: 50%;
+}
+
+.field.important {
+	font-weight: bold;
+}
+
+.data .legend {
+	font-size: 120%;
+	font-weight: bold;
+	border-bottom: 1px #000000 solid;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+#confirmationContent ul {
+	width: 100%;
+}
+
+#confirmationContent ul li {
+	padding-bottom: 5px;
+}
+
+#confirmationContent {
+	line-height: 22px;
+	text-align: justify;
+}
+
+#confirmationDetails>table>tr>td {
+	padding: 15px;
+}
+
+@page {
+	size: landscape;
+	padding:0px;
+	margin:0px;
+}
+</style>
+</head>
+<body>
+
+	<div class="body">
+		<table style="width: 95%">
+			<tr>
+				<td style="width: 45%">
+					<div class="header">
+						<img class="logo" src="img/logo_una_blanc_small.jpg" width="80px"
+							height="80px" />
+						<h3 style="margin: 5px; padding: 0px">$messages.legends.formTitle</h3>
+						<h4 style="margin: 5px; padding: 0px">$messages.legends.formSubTitle</h4>
+						
+					</div>
+					<div id="personalDetails" class="data">
+						<div class="legend">$messages.legends.personalInfo</div>
+						<table id="dataTable">
+							<tr>
+								<td style="width: 80%;">
+
+									<div class="field">
+										<b>$messages.labels.surname</b>: <i>$data.surname</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.name</b>: <i>$data.name</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.sex</b>: <i>$data.sex</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.birthdate</b>: <i>$DataTools.formatDate($data.birthdate)</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.nationality</b>: <i>$data.nationality</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.address</b>: <i>$data.address</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.zipcode</b>: <i>$data.zipcode</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.city</b>: <i>$data.city</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.email</b>: <i>$data.username</i>
+									</div>
+									<div class="field">
+										<b>$messages.labels.telephone</b>: <i>$data.telephone</i>
+									</div>
+
+								</td>
+								<td style="width: 20%;">
+									<div id="photo">PHOTO</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="entryDetails" class="data">
+						<div class="legend">$messages.legends.entryDetails</div>
+						<div class="field">
+							<b>$messages.labels.entryType</b>: <i>$DataTools.getLabelFromMap($messages.entryTypes,
+								$data.entryType)</i>
+						</div>
+						<div class="field">
+							<b>$messages.labels.categoryType</b>: <i>$DataTools.getLabelFromMap($messages.categories,
+								$data.category)</i>
+						</div>
+						<div class="field">
+							<b>$messages.labels.certificate</b>: <i>$DataTools.formatDate($data.certificate)</i>
+						</div>
+						#if ($data.insurance == "1" || $data.insurance ==
+						$messages.labels.yes)
+						<div class="field">
+							<b>$messages.labels.insurance.label</b>: <i>$messages.labels.yes</i>
+						</div>
+						#end #if ($data.licenceNo != "")
+						<div class="field">
+							<b>$messages.labels.licenceNo</b>: <i>$data.licenceNo</i>
+						</div>
+						#end #if ($data.previousClub && $data.previousClub != "")
+						<div class="field">
+							<b>$messages.labels.previousClub</b>: <i>$data.previousClub</i>
+						</div>
+						#end #if ($data.ufr != "")
+						<div class="field">
+							<b>$messages.labels.ufr</b>: <i>$data.ufr</i>
+						</div>
+						#end #if ($data.school != "")
+						<div class="field">
+							<b>$messages.labels.school</b>: <i>$data.school</i>
+						</div>
+						#end #if ($data.schoolClass != "")
+						<div class="field">
+							<b>$messages.labels.schoolClass</b>: <i>$data.schoolClass</i>
+						</div>
+						#end
+					</div>
+					<div id="paymentDetails" class="data">
+						<div class="legend">$messages.legends.paymentDetails</div>
+						<div class="field">
+							<b>$messages.labels.entryPrice</b>: <i>$data.entryPrice Euros</i>
+						</div>
+						#if ($data.insurance == "1" || $data.insurance ==
+						$messages.labels.yes)
+						<div class="field">
+							<b>$messages.labels.insurancePrice</b>: <i>$data.insurancePrice
+								Euros</i>
+						</div>
+						#end
+						<div class="field important">
+							<b>$messages.labels.totalPrice</b>: <i>$data.totalPrice Euros</i>
+						</div>
+					</div>
+					<div id="fileDetails" class="data">
+						<div class="legend">$messages.legends.fileDetails</div>
+						<ul>
+							#foreach ($doc in $data.docsToProvide)
+							<li>$doc</li> #end
+						</ul>
+					</div>
+
+
+				</td>
+				<td style="padding-left: 80px; width: 50%">
+
+					<div id="confirmationDetails" class="data">
+						<div class="legend">$messages.info.legalTitle</div>
+						<p id="confirmationContent">$messages.info.legalText</p>
+
+						<table style="width: 80%">
+							<tr>
+								<th>$messages.info.legalSignature.labelMember</th>
+								<th>$messages.info.legalSignature.labelParent</th>
+							</tr>
+							<tr>
+								<td>$messages.info.legalSignature.notice</td>
+								<td>$messages.info.legalSignature.notice</td>
+							</tr>
+							<tr>
+								<td>$messages.info.legalSignature.required</td>
+								<td>$messages.info.legalSignature.required</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+
+</body>
+</html>

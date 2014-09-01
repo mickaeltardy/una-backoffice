@@ -29,6 +29,7 @@
 		<commons-lang3.version>3.3.2</commons-lang3.version>
 		<commons-io.version>2.4</commons-io.version>
 		<lombok.version>1.14.4</lombok.version>
+		<velocity.version>1.7</velocity.version>
 	</properties>
 
 	<dependencyManagement>
@@ -138,6 +139,12 @@
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
+			</dependency>
+				
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocity.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

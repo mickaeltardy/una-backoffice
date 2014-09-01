@@ -1,5 +1,6 @@
 package com.mtdev.una.business;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class ProfilesManagerImpl implements ProfilesManager {
 				lProfile.setUsername((String) pData.get("username"));
 			}
 			lProfile.setAddress((String) pData.get("address"));
-			lProfile.setBirthdate((String)pData.get("birthdate"));
+			lProfile.setBirthdate(parse((String)pData.get("birthdate")));
 			lProfile.setCity((String) pData.get("city"));
 			lProfile.setLicence((String) pData.get("licence"));
 			lProfile.setName((String) pData.get("name"));
@@ -72,6 +73,28 @@ public class ProfilesManagerImpl implements ProfilesManager {
 		return lResult;
 	}
 
+	public static Date parse( String input ) throws java.text.ParseException {
+
+        //NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
+        //things a bit.  Before we go on we have to repair this.
+        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSz" );
+        
+        //this is zero time so we need to add that TZ indicator for 
+        if ( input.endsWith( "Z" ) ) {
+            input = input.substring( 0, input.length() - 1) + "GMT-00:00";
+        } else {
+            int inset = 6;
+        
+            String s0 = input.substring( 0, input.length() - inset );
+            String s1 = input.substring( input.length() - inset, input.length() );
+
+            input = s0 + "GMT" + s1;
+        }
+        
+        return df.parse( input );
+        
+    }
+	
 	protected Date getDateFromString(Object pObject) {
 
 		try {
@@ -151,10 +174,19 @@ public class ProfilesManagerImpl implements ProfilesManager {
 					break;
 				}
 			}
-			if(lKeep)
+			if(((String)lEntry.getKey()).compareTo("certificate") == 0){
+				try {
+					lCleanData.put(lEntry.getKey(), parse((String)lEntry.getValue()));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else if(lKeep)
 				lCleanData.put(lEntry.getKey(), lEntry.getValue());
 		}
 
+		
+		
 		return lCleanData;
 	}
 
