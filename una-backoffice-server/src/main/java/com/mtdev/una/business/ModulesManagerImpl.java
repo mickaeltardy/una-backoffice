@@ -17,11 +17,11 @@ public class ModulesManagerImpl implements ModulesManager {
 	public List<Module> getNoAuthModules() {
 		List<Module> lModules = new ArrayList<Module>();
 
-		Module lSignup = new Module("signup", "Sign up");
+		Module lSignup = new Module("signup", "Ouvrir le compte");
 		lSignup.setOrder(20);
 		lModules.add(lSignup);
 
-		Module lLogin = new Module("login", "Sign in");
+		Module lLogin = new Module("login", "S'authentifier");
 		lLogin.setOrder(10);
 		lModules.add(lLogin);
 
@@ -33,7 +33,7 @@ public class ModulesManagerImpl implements ModulesManager {
 	@PreAuthorize("@AccessTool.isAuthenticated()")
 	public List<Module> getAuthOnlyModules() {
 		List<Module> lModules = new ArrayList<Module>();
-		Module lReg = new Module("profile", "Ma fiche d'inscription");
+		Module lReg = new Module("registrator", "Ma fiche d'inscription");
 		lReg.setOrder(40);
 		lModules.add(lReg);
 		return lModules;

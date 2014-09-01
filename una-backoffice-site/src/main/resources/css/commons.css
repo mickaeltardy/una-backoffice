@@ -160,9 +160,10 @@ footer {
 
 #profile {
     background: #eeeeee;
-    height: 150px;
+    height: 80px;
     border-bottom: thin solid #999999;
     border-right: thin solid #999999;
+   	padding:20px;
 }
 
 #copyright {

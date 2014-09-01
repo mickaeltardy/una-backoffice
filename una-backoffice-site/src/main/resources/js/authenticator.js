@@ -41,25 +41,7 @@ function AuthenticationCtrl($scope, $http, $routeParams, $rootScope, $location) 
 						});
 	}
 
-	$scope.attemptLogin = function() {
-		$http({
-			method : "POST",
-			data : $scope.auth,
-			url : '../server/service/authenticate'
-		})
-				.success(
-						function(data) {
-							if (data.status == "ok") {
-								$rootScope.loggedUser = data.userName;
-								var lRedirection = ($rootScope.redirection) ? $rootScope.redirection
-										: $rootScope.defaultPath;
-								$location.path(lRedirection);
-							} else {
-								$scope.auth.error = $scope.messages.errors.invalidAuth;
-							}
-						});
-
-	}
+	
 
 	$scope.resetPassword = function() {
 		$http(

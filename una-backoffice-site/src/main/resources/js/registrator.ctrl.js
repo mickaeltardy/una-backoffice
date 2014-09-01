@@ -47,8 +47,6 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 		return lOutput;
 	}
 
-	$scope.loggedUser = $rootScope.loggedUser;
-
 	$scope.mergeOptions = function(obj1, obj2) {
 		var obj3 = {};
 		for ( var attrname in obj1) {
@@ -73,46 +71,48 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 		}
 		return lPrice;
 	}
-	
 
-	$scope.loadProfile = function(){
-	$http
-			.get('app/profile/getProfile?username=' + $rootScope.loggedUser)
-			.success(
-					function(data) {
-						debugger;
-						if (data.profile) {
-							var lData = data.profile.data;
-							delete data.profile.data;
+	$scope.loadProfile = function() {
+		$http
+				.get('app/profile/getProfile?username=' + $rootScope.loggedUser)
+				.success(
+						function(data) {
+							debugger;
+							if (data.profile) {
+								var lData = data.profile.data;
+								delete data.profile.data;
 
-							$scope.member = $scope.mergeOptions(data.profile,
-									lData);
-							if ($scope.member.birthdate) {
-								$scope.member.birthdate = new Date(
-										$scope.member.birthdate)
-								$scope.member.birthdayDay = $scope.member.birthdate
-										.getDate();
-								$scope.member.birthdayMonth = $scope.member.birthdate
-										.getMonth() + 1;
-								$scope.member.birthdayYear = $scope.member.birthdate
-										.getFullYear();
+								$scope.member = $scope.mergeOptions(
+										data.profile, lData);
+								if ($scope.member.birthdate) {
+									$scope.member.birthdate = new Date(
+											$scope.member.birthdate)
+									$scope.member.birthdayDay = $scope.member.birthdate
+											.getDate();
+									$scope.member.birthdayMonth = $scope.member.birthdate
+											.getMonth() + 1;
+									$scope.member.birthdayYear = $scope.member.birthdate
+											.getFullYear();
+								}
+								if ($scope.member.certificate) {
+									$scope.member.certificate = new Date(
+											$scope.member.certificate)
+									$scope.member.certificateDay = $scope.member.certificate
+											.getDate();
+									$scope.member.certificateMonth = $scope.member.certificate
+											.getMonth() + 1;
+									$scope.member.certificateYear = $scope.member.certificate
+											.getFullYear();
+								}
+
 							}
-							if ($scope.member.certificate) {
-								$scope.member.certificate = new Date(
-										$scope.member.certificate)
-								$scope.member.certificateDay = $scope.member.certificate
-										.getDate();
-								$scope.member.certificateMonth = $scope.member.certificate
-										.getMonth() + 1;
-								$scope.member.certificateYear = $scope.member.certificate
-										.getFullYear();
-							}
-
-						}
-					});
+						});
 	}
-	
-	
+	$scope.updateScope = function() {
+		$scope.loggedUser = $rootScope.loggedUser;
+	}
+
+	$scope.$on("auth.success", $scope.updateScope);
 	$scope.$on("auth.success", $scope.loadProfile);
 	$scope.checkAuth();
 
@@ -130,17 +130,45 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	}
 
 	$scope.generatePdf = function() {
+		$http({
+			method : 'POST',
+			url : "app/profile/saveProfile",
+			data : $scope.member
+		}).success(function(data, status) {
+			var iframe = jQuery("<iframe/>").attr({
+				src : "app/profile/getpdf?username=" + $rootScope.loggedUser,
+				style : "visibility:hidden;display:none"
+			}).appendTo("#pdfDownloadBtn");
+		});
 
-		var iframe = jQuery("<iframe/>").attr({
-			src : "app/profile/getpdf?username=" + $rootScope.loggedUser,
-			style : "visibility:hidden;display:none"
-		}).appendTo("#pdfDownloadBtn");
+	}
+
+	$scope.authenticate = function(pUsername, pPassword) {
+		$http(
+				{
+					method : "POST",
+					data : $scope.param({
+						"j_username" : pUsername,
+						"j_password" : pPassword
+					}),
+					url : 'j_spring_security_check',
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8'
+					}
+				}).success(function(data) {
+			$scope.serverRequestOngoing(false);
+			if (data.status == "success") {
+				$scope.checkAuth();
+				$scope.$on("auth.success", $rootScope.getModules)
+			}
+		});
 
 	}
 	$scope.submit = function() {
 		var lResult = true;
 		var lMessage = ""
 		var lErrors = new Array();
+		$scope.serverRequestOngoing(false);
 		if (!validate(lErrors)) {
 			lResult = false;
 			lMessage = $scope.messages.errors.invalidForm;
@@ -157,6 +185,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 					.success(
 							function(data, status) {
 								if (data.status == "success") {
+									$rootScope.notifications = new Array();
 									$scope.completeForm = true;
 									$scope.inProgress = false;
 									jQuery('html,body,#content').scrollTop(0);
@@ -165,8 +194,15 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 												"cssClass" : "info",
 												"text" : $scope.messages.notifications.profileSuccesfullyValidated
 											});
-								} else
+									if (data.username && data.password)
+										$scope.authenticate(data.username,
+												data.password);
+									else
+										$scope.serverRequestOngoing(false);
+								} else {
+									$scope.serverRequestOngoing(false);
 									alert($scope.messages.errors.serverError);
+								}
 								$scope.validatingForm = false;
 							});
 		}

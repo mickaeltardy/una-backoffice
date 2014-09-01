@@ -15,7 +15,7 @@ public class SpringMongoConfig {
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		// return new SimpleMongoDbFactory(new MongoClient(), "test", new
 		// UserCredentials("admin", "password"));
-		return new SimpleMongoDbFactory(new MongoClient(), "una-database-test");
+		return new SimpleMongoDbFactory(new MongoClient(), "una-database");
 	}
 
 	public @Bean MongoOperations mongoTemplate() throws Exception {

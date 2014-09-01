@@ -179,10 +179,13 @@ var CommonCtrl = function($rootScope, $http, $route) {
 	$rootScope.tool = ($route.current.params.tool) ? $route.current.params.tool
 			: 'login';
 
-
-	$http.get('app/modules').success(function(data) {
-		$rootScope.tools = data;
-	});
+	$rootScope.getModules = function(){
+		$http.get('app/modules').success(function(data) {
+			$rootScope.tools = data;
+		});
+	}
+	$rootScope.getModules();
+	
 	$rootScope.menuUrl = "app/resources/templates-menu.backoffice.html";
 	if ($route.current.params.tool) {
 		$rootScope.redirection = $route.current.params.tool + "/";
@@ -252,7 +255,7 @@ lBackOfficeApp
 lBackOfficeApp.run(function($rootScope, $http, $location) {
 	// $rootScope.loggedUser = "yyy";
 
-	$rootScope.defaultPath = "backoffice";
+	$rootScope.defaultPath = "registrator";
 
 	$rootScope.checkModuleAccess = function(pModule) {
 		console.log(pModule);

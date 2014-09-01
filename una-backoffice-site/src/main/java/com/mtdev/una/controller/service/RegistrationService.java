@@ -131,14 +131,11 @@ public class RegistrationService {
 
 			lDbUser.setPassword(lNewEncPassword);
 
-
-
 			if(mUsersManager.saveUser(lDbUser)){
 				Map<Object, Object> lContext = new HashMap<Object, Object>();
 				lContext.put("newPassword", lNewPassword);
 
-				mDataRenderer
-						.setResourceTemplate("/templates/mail/newPassMailNotification.html");
+				
 				Writer lOutput = mDataRenderer.renderData(lContext,
 						"/templates/mail/newPassMailNotification.html");
 				

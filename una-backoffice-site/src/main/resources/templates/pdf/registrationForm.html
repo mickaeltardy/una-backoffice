@@ -179,7 +179,7 @@ hr.half {
 						<div class="field">
 							<b>$messages.labels.insurance.label</b>: <i>$messages.labels.yes</i>
 						</div>
-						#end #if ($data.licenceNo != "")
+						#end #if ($data.licence && $data.licence != "")
 						<div class="field">
 							<b>$messages.labels.licenceNo</b>: <i>$data.licenceNo</i>
 						</div>
@@ -233,10 +233,10 @@ hr.half {
 						<div class="legend">$messages.info.legalTitle</div>
 						<p id="confirmationContent">$messages.info.legalText</p>
 
-						<table style="width: 80%">
+						<table style="width: 90%">
 							<tr>
-								<th>$messages.info.legalSignature.labelMember</th>
-								<th>$messages.info.legalSignature.labelParent</th>
+								<th width="50%">$messages.info.legalSignature.labelMember</th>
+								<th width="50%">$messages.info.legalSignature.labelParent</th>
 							</tr>
 							<tr>
 								<td>$messages.info.legalSignature.notice</td>

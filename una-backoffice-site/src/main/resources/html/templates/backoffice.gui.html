@@ -1,1 +1,8 @@
+<div class="notificationsContainer"
+	data-ng-show="notifications && notifications.length > 0">
+	<ul>
+		<li data-ng-repeat="notification in notifications | orderBy:'order'"
+			data-ng-class="notification.cssClass">{{notification.text}}</li>
+	</ul>
+</div>
 <div class="boContent" data-ng-include="toolUrl"></div>

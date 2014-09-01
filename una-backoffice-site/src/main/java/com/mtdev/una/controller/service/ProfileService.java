@@ -3,9 +3,7 @@ package com.mtdev.una.controller.service;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +55,8 @@ public class ProfileService {
 
 		String lProfileUsername = (pProfileInput.containsKey("username")) ? (String) pProfileInput
 				.get("username") : null;
+		String lProfilePassword = (pProfileInput.containsKey("password")) ? (String) pProfileInput
+				.get("password") : null;
 		String lAuthUsername = mSecurityToolbox.getUsername();
 		if ((mSecurityToolbox.isUserRoleOnly() && (lAuthUsername != null
 				&& lProfileUsername != null && (mSecurityToolbox.getUsername()
@@ -71,7 +71,9 @@ public class ProfileService {
 			if (!mUsersManager.doesUserExist(lProfileUsername)) {
 
 				if (mProfilesManager.saveProfileAndUser(pProfileInput)) {
-					return Toolbox.generateResult("status", "success");
+					return Toolbox.generateResult("status", "success",
+							"username", lProfileUsername, "password",
+							lProfilePassword);
 				}
 			}
 		}
@@ -118,13 +120,13 @@ public class ProfileService {
 			lDocsToProvide.add((String) lDocs.get("photo"));
 			lDocsToProvide.add((String) lDocs.get("payment"));
 
-			if (isStudent((String)lData.get("category")))
+			if (isStudent((String) lData.get("category")))
 				lDocsToProvide.add((String) lDocs.get("studentCard"));
 
-			if (isAdultUniv((String)lData.get("category")))
+			if (isAdultUniv((String) lData.get("category")))
 				lDocsToProvide.add((String) lDocs.get("employeeCard"));
 
-			if (isMinor((Date)lData.get("birthdate")))
+			if (isMinor((Date) lData.get("birthdate")))
 				lDocsToProvide.add((String) lDocs.get("swimmingCertificate"));
 
 			lData.put("docsToProvide", lDocsToProvide);
@@ -150,7 +152,7 @@ public class ProfileService {
 			return response;
 		} catch (Exception lE) {
 
-			return null;	
+			return null;
 
 		}
 	}
@@ -158,7 +160,6 @@ public class ProfileService {
 	private Map<Object, Object> getMapFromProfile(Profile pProfile) {
 		Map<Object, Object> lOutput = new HashMap<Object, Object>();
 
-		
 		Field[] lFields = pProfile.getClass().getDeclaredFields();
 		for (Field lField : lFields) {
 			try {
