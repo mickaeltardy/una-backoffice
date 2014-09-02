@@ -1,43 +1,48 @@
 @media only screen and (orientation: portrait) {
-    body {
-        background: #aaffaa;
-    }
-    #mainMenu {
-        display:none;
-    }
+	body {
+		background: #ffffff;
+	}
+	#mainMenu {
+		display: none;
+	}
+	#signupForm, #authForm {
+		width: 100%;
+	}
 }
-
 
 @media only screen and (orientation: landscape) {
-    body {
-        background: #ffffff;
-    }
-    #mainMenu {
-        display:none;
-    }
+	body {
+		background: #ffffff;
+	}
+	#mainMenu {
+		display: none;
+	}
+	#signupForm, #authForm {
+		width: 100%;
+	}
 }
 
-
-#main-menu{
-    width:100%;
+#main-menu {
+	width: 100%;
 }
 /*
 #nav-panel {
     display: none;
 }
 */
-#main-menu > ul > li > span {
-    font-size: 120%;
-    padding: 10px 10px;
+#main-menu>ul>li>span {
+	font-size: 120%;
+	padding: 10px 10px;
 }
 
-#profile{
-    height:80px;
-}
-#content{
-    padding: 10px;
+#profile {
+	height: 80px;
 }
 
-.openedEditor{
-    display:none;
+#content {
+	padding: 10px;
+}
+
+.openedEditor {
+	display: none;
 }

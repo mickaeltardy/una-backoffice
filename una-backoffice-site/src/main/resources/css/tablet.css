@@ -1,28 +1,35 @@
 @media only screen and (orientation: portrait) {
-    body {
-        background: #aaaaaa;
-    }
-    #mainMenu {
-        display: none;
-    }
+	body {
+		background: #ffffff;
+	}
+	#mainMenu {
+		display: none;
+	}
+	#signupForm, #authForm {
+		width: 100%;
+	}
 }
 
 @media only screen and (orientation: landscape) {
-    body {
-        background: #ffffff;
-    }
-    #mainMenu {
-        display: none;
-    }
+	body {
+		background: #ffffff;
+	}
+	#mainMenu {
+		display: none;
+	}
+	#signupForm, #authForm {
+		width: 100%;
+	}
 }
 
 #nav-panel {
-    display: none;
-}
-#content {
-    padding: 10px;
+	display: none;
 }
 
-.openedEditor{
-    display:none;
+#content {
+	padding: 10px;
+}
+
+.openedEditor {
+	display: none;
 }

@@ -83,7 +83,7 @@
     	 
     	"accountCreated" : "Votre compte est créé. Vous pouvez maintenant vous authentifier",
     	"passwordReset" : "Le nouveau mot de passe est envoyé sur l'adresse indiqué",
-    	"profileSuccesfullyValidated" : "Votre profil est validé avec succes. Vous pouvez maintenant charger un PDF et l'imprimer."
+    	"profileSuccesfullyValidated" : "Votre profil est validé avec succes. Vous pouvez maintenant charger le formulaire en PDF et l'imprimer."
     },
     "labels": {
         "boatLicence": "Avez-vous le permis bateau (rivière ou mer côtier) ?",
@@ -155,7 +155,7 @@
         "generatePdf" : "Charger le PDF"
     },
     "info": {
-        "formDetails": ["La licence de l’UNA est valable du 1er septembre 2013 au 31 août 2014 inclus", "Règlement de la cotisation en 3 paiements possible : 3 chèques doivent être établis dont un premier de 60€ minimum", "En cas de démission au cours de la saison la cotisation reste entièrement acquise à l ’UNA", "Chèques Pass Culture & Sport 2014 sont acceptés (ne sont pas pris ceux de 2013)", "L’UNA s’autorise l’exploitation des photos et vidéos de ses sociétaires à des fins exclusivement promotionnelles"],
+        "formDetails": ["La licence de l’UNA est valable du 1er septembre 2014 au 31 août 2015 inclus", "Règlement de la cotisation en 3 paiements possible : 3 chèques doivent être établis dont un premier de 60€ minimum", "En cas de démission au cours de la saison la cotisation reste entièrement acquise à l ’UNA", "Chèques Pass Culture & Sport 2014 sont acceptés (ne sont pas pris ceux de 2013)", "L’UNA s’autorise l’exploitation des photos et vidéos de ses sociétaires à des fins exclusivement promotionnelles"],
         "localAddress": "Veuillez indiquer votre adresse nantaise",
         "localAddressAlert": "Veuillez indiquer votre adresse nantaise lorsque vous allez renseigner les info personelles",
         "noPrice": "Veuillez remplir le formulaire pour afficher le prix de l'inscription",
@@ -163,7 +163,7 @@
         "donation": "Le club fonctionne grâce à vous, ses adhérents : grâce aux bénévoles qui n'hésitent pas à donner de leur temps pour faire vivre le club et aussi grâce à votre aide financière. Pensez à faire un don, même petit, car la somme de tous les dons au club est une aide considérable.",
         "requiredFields" : "Champs obligatoires",
         "contact" : "Pour toute information concernant ce formulaire, son contenu ou son disfonctionnement, n'hésitez pas à nous contacter par email support [at] una-club.fr.",
-        "description" : "Ce formulaire est un formulaire de pré-inscription. Suite à sa validation vous recevrez un courriel sur votre boîte mail. Imprimez et signez le document en pièce jointe et apportez le avec tous les documents nécessaires le jour de votre inscription.",
+        "description" : "Ce formulaire est un formulaire de pré-inscription. Suite à sa validation vous pourrez télécharger et imprimer le formulaire d'inscription, le signer et l'apporter avec tous les documents nécessaires le jour de votre inscription.",
         "formErrors" : "Le formulaire n'est pas rempli correctement", 
         "parentPermission" : "Je soussigné(e), &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />autorise mon enfant à pratiquer l’aviron à l’UNA. <br />Lu et approuvé&nbsp;&nbsp;&nbsp;&nbsp;Le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Signature",
         "honnorDeclaration" : "Je déclare avoir pris connaissance de l'assurance complémentaire proposée par la MAIF.<br />Je déclare savoir nager 50 mètres.<br />Lu et approuvé &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Le &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Signature",
@@ -172,7 +172,7 @@
         "priceSuffix" : " Euros",
         "accountDetails" : "Ces informations vous permettront d'accèder à l'éspace membre du club. Vous pourriez notamment complêter votre dossier d'inscription en ligne.",
         "existentEmail" : "Cette adresse e-mail existe déjà dans la base de données. Merci d'indiquer le mot de passe associé ou de spécifier une adresse différente.",
-        "insurance" : "L'option facultative \"I.A.Sport+\" est proposée par la MAIF à tous les adhérents. Cette option permet de bénéficier de capitaux plus élevés et de prestations supplémentaires en cas d'accident (cf. liste figurant sur le document MAIF <a href=\"http://www.avironfrance.asso.fr/EspaceClub/Assurances/NoticeDommagesCorporels/NoticeIndividuelleMAIF2013-2014.pdf\" target=\"_blank\">[pdf] saison 2013-2014</a>).",
+        "insurance" : "L'option facultative \"I.A.Sport+\" est proposée par la MAIF à tous les adhérents. Cette option permet de bénéficier de capitaux plus élevés et de prestations supplémentaires en cas d'accident (cf. liste figurant sur le document MAIF <a href=\"http://www.avironfrance.asso.fr/EspaceClub/Assurances/NoticeDommagesCorporels/NoticeIndividuelleMAIF2013-2014.pdf\" target=\"_blank\">[pdf] saison 2014-2015</a>).",
         "volunteer" : "Si vous pouvez et souhaitez vous investir dans la vie du club (encadrement, déplacements, etc.) ces informations nous seront bien utiles.",
         "docs" : "Vous pouvez apporter tous ces documents le jour de votre inscription ou bien les télécharger depuis votre éspace membre.",
         "legalTitle" : "Décharge de résponsabilité",

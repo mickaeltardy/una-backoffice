@@ -1,7 +1,9 @@
 package com.mtdev.una.controller.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Writer;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.mtdev.una.business.DataRenderer;
+import com.mtdev.una.business.MailManager;
 import com.mtdev.una.business.PdfGenerator;
 import com.mtdev.una.business.interfaces.ProfilesManager;
 import com.mtdev.una.business.interfaces.UsersManager;
@@ -48,6 +52,12 @@ public class ProfileService {
 	@Autowired
 	protected PdfGenerator mPdfGenerator;
 
+	@Autowired
+	protected MailManager mMailManager;
+
+	@Autowired
+	protected DataRenderer mDataRenderer;
+
 	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("true")
 	public @ResponseBody Object registerNewApplicationAccount(
@@ -63,14 +73,27 @@ public class ProfileService {
 				.compareTo(lProfileUsername)) == 0))
 				|| mSecurityToolbox.isAdminRole()) {
 
-			if (mProfilesManager.saveProfile(pProfileInput))
+			if (mProfilesManager.saveProfile(pProfileInput)) {
+				
 				return Toolbox.generateResult("status", "success");
+
+			}
 
 		}
 		if (lAuthUsername == null) {
 			if (!mUsersManager.doesUserExist(lProfileUsername)) {
 
 				if (mProfilesManager.saveProfileAndUser(pProfileInput)) {
+					Map<Object, Object> lContext = new HashMap<Object, Object>();
+					lContext.put("password", lProfilePassword);
+					lContext.put("username", lProfileUsername);
+
+					Writer lOutput = mDataRenderer.renderData(lContext,
+							"/templates/mail/mailAccountCreation.html");
+
+					mMailManager.sendMail(lProfileUsername,
+							"[UNA] Votre compte de membre", lOutput.toString());
+					
 					return Toolbox.generateResult("status", "success",
 							"username", lProfileUsername, "password",
 							lProfilePassword);
@@ -95,6 +118,58 @@ public class ProfileService {
 		return Toolbox.generateResult("error", new Error("No profile"));
 	}
 
+
+	@RequestMapping(value = "/getEmptyPdf", method = RequestMethod.GET, produces = "application/pdf")
+	public @ResponseBody ResponseEntity<byte[]> getEmptyPdf() {
+		try {
+
+			String lMessagesStr = FileTools
+					.readFile("/datasource/messages.json");
+			Gson lGson = new Gson();
+			Map<Object, Object> lMessages = lGson.fromJson(lMessagesStr,
+					new HashMap<Object, Object>().getClass());
+			Map<Object, Object> lContext = new HashMap<Object, Object>();
+			lContext.put("messages", lMessages);
+			List<String> lDocsToProvide = new ArrayList<String>();
+			Map<Object, Object> lDocs = (Map<Object, Object>) (lMessages
+					.get("docs"));
+			Map<Object, Object> lData = new HashMap<Object, Object>();
+
+			lDocsToProvide.add((String) lDocs.get("signedForm"));
+			lDocsToProvide.add((String) lDocs.get("certificate"));
+			lDocsToProvide.add((String) lDocs.get("photo"));
+			lDocsToProvide.add((String) lDocs.get("payment"));
+
+				lDocsToProvide.add((String) lDocs.get("studentCard"));
+
+				lDocsToProvide.add((String) lDocs.get("employeeCard"));
+
+				lDocsToProvide.add((String) lDocs.get("swimmingCertificate"));
+
+			lData.put("docsToProvide", lDocsToProvide);
+			lContext.put("data", lData);
+			lContext.put("DataTools", DataTools.class);
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+
+			ByteArrayOutputStream os = mPdfGenerator.generatePdfStream(
+					lContext, "/templates/pdf/registrationFormEmpty.html");
+
+			String filename = "output.pdf";
+			headers.setContentDispositionFormData(filename, filename);
+			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+			ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(
+					((ByteArrayOutputStream) os).toByteArray(), headers,
+					HttpStatus.OK);
+
+			return response;
+		}catch(Exception lE){
+			
+		}
+		return null;
+	}
+	
 	@RequestMapping(value = "/getpdf", method = RequestMethod.GET, produces = "application/pdf")
 	public @ResponseBody ResponseEntity<byte[]> getPdf(
 			@RequestParam("username") String pUsername) {
@@ -141,8 +216,9 @@ public class ProfileService {
 
 			ByteArrayOutputStream os = mPdfGenerator.generatePdfStream(
 					lContext, "/templates/pdf/registrationForm.html");
-
-			String filename = "output.pdf";
+			SimpleDateFormat lSdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			
+			String filename = "Registration_form_"+lSdf.format(new Date())+".pdf";
 			headers.setContentDispositionFormData(filename, filename);
 			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 			ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(

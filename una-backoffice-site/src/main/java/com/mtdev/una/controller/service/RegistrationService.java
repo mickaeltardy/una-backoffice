@@ -107,9 +107,22 @@ public class RegistrationService {
 			User lUser = mUsersManager.createUser(pUsername, pPassword, false);
 			// TODO Refactoring
 			mProfilesManager.createProfile(pUsername, pName, pSurname, true);
+			
+			
 
-			if (mUsersManager.saveUser(lUser))
+			if (mUsersManager.saveUser(lUser)){
+				
+				
+				Map<Object, Object> lContext = new HashMap<Object, Object>();
+				lContext.put("password", pPassword);
+				lContext.put("username", pUsername);
+				
+				Writer lOutput = mDataRenderer.renderData(lContext,
+						"/templates/mail/mailAccountCreation.html");
+				
+				mMailManager.sendMail(lUser.getUsername(), "[UNA] Votre compte de membre", lOutput.toString());
 				return Toolbox.generateResult("result", "success");
+			}
 
 		}
 

@@ -1,12 +1,9 @@
 package com.mtdev.una.business;
 
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.springframework.stereotype.Component;
 
 import com.mtdev.una.business.interfaces.ResourcesManager;
+import com.mtdev.una.tools.FileTools;
 
 @Component
 public class ResourcesManagerImpl implements ResourcesManager {
@@ -17,9 +14,8 @@ public class ResourcesManagerImpl implements ResourcesManager {
 		try {
 
 			String lFileName = pFileName.replaceAll("-", "/");
-			URL lURL = this.getClass().getResource("/" + lFileName);
 
-			lResult = new String(Files.readAllBytes(Paths.get(lURL.getPath())));
+			lResult = FileTools.readFile("/" + lFileName);
 
 		} catch (Exception lE) {
 

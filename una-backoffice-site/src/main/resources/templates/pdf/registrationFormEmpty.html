@@ -1,45 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Insert title here</title>
 <style>
-body {
-    font-family: Arial;
-    font-size: 6px;
-    
-    
-    
+* {
+font-family: Arial, Helvetica, sans-serif;
 }
-.body{
-padding-left:40px;
-padding-right:40px;
-font-size: 11px;
+html,body {
+	
+	font-size: 6px;
+	padding:0px;
+	margin:0px;
 }
+
+.body {
+	padding-top: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 11px;
+}
+
 #photo {
-    width: 100px;
-    height: 70px;
-    border: 1px solid #000000;
-    float: right;
-    text-align: center;
-    padding-top: 50px;
+	width: 100px;
+	height: 70px;
+	border: 1px solid #000000;
+	float: right;
+	text-align: center;
+	padding-top: 50px;
 }
 
 .logo {
-    width: 80px;
-    height: 80px;
-    float: left;
-    margin-right: 20px;
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin-right: 20px;
 }
 
 #title {
-    float: left;
-    margin-left: 10px;
-    width: auto;
+	float: left;
+	margin-left: 10px;
+	width: auto;
 }
 
 #dataTable {
-    width: 100%;
+	width: 100%;
+}
+
+
+#confirmationContent {
+	line-height: 22px;
+	text-align: justify;
+}
+
+
+@page {
+	size: landscape;
+	padding:0px;
+	margin:0px;
 }
 
 .data {
@@ -90,9 +108,6 @@ width:100%;
 padding-bottom:5px;
 }
 
-#confirmationContent  {
-    line-height: 22px;
-}
 
 #confirmationDetails>table>tr>td {
     padding: 15px;
@@ -115,59 +130,57 @@ margin-right: 5px;
             <tr>
                 <td style="width: 48%">
                     <div class="header">
-                        <img class="logo"
-                            src="img/logo_una_blanc_small.jpg"
+                        <img class="logo" src="http://una-club.fr/unaResgistrationTool/server/img/logo_una_blanc_small.jpg" 
                             width="80px" height="80px" />
-                        <h3 style="margin: 5px;padding:0px">{{messages.legends.formTitle}}</h3>
-                        <h4 style="margin: 5px;padding:0px">{{messages.legends.formSubTitle}}</h4>
-                        <h5 style="margin: 5px;padding:0px">{{messages.labels.registrationNumber}}:
-                            {{data.regNumber}}</h5>
+                        <h3 style="margin: 5px;padding:0px">$messages.legends.formTitle</h3>
+                        <h4 style="margin: 5px;padding:0px">$messages.legends.formSubTitle</h4>
+                        
                     </div>
                     <div id="personalDetails" class="data">
-                        <div class="legend">{{messages.legends.personalInfo}}</div>
+                        <div class="legend">$messages.legends.personalInfo</div>
                         <table id="dataTable">
                             <tr>
                                 <td style="width: 80%;">
 
                                     <div class="field">
-                                        <b>{{messages.labels.surname}}</b>:
-                                        <i>{{data.surname}}</i>
+                                        <b>$messages.labels.surname</b>:
+                                        <i>$data.surname</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.name}}</b>:
-                                        <i>{{data.name}}</i>
+                                        <b>$messages.labels.name</b>:
+                                        <i>$data.name</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.sex}}</b>:
-                                        <i>{{data.sex}}</i>
+                                        <b>$messages.labels.sex</b>:
+                                        <i>$data.sex</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.birthdate}}</b>:
-                                        <i>{{data.birthdate}}</i>
+                                        <b>$messages.labels.birthdate</b>:
+                                        <i>$data.birthdate</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.nationality}}</b>:
-                                        <i>{{data.nationality}}</i>
+                                        <b>$messages.labels.nationality</b>:
+                                        <i>$data.nationality</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.address}}</b>:
-                                        <i>{{data.address}}</i>
+                                        <b>$messages.labels.address</b>:
+                                        <i>$data.address</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.zipcode}}</b>:
-                                        <i>{{data.zipcode}}</i>
+                                        <b>$messages.labels.zipcode</b>:
+                                        <i>$data.zipcode</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.city}}</b>:
-                                        <i>{{data.city}}</i>
+                                        <b>$messages.labels.city</b>:
+                                        <i>$data.city</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.email}}</b>:
-                                        <i>{{data.email}}</i>
+                                        <b>$messages.labels.email</b>:
+                                        <i>$data.email</i>
                                     </div>
                                     <div class="field">
-                                        <b>{{messages.labels.telephone}}</b>:
-                                        <i>{{data.telephone}}</i>
+                                        <b>$messages.labels.telephone</b>:
+                                        <i>$data.telephone</i>
                                     </div>
 
                                 </td>
@@ -178,97 +191,97 @@ margin-right: 5px;
                         </table>
                     </div>
                     <div id="entryDetails" class="data">
-                        <div class="legend">{{messages.legends.entryDetails}}</div>
-                        {% autoescape false %}
+                        <div class="legend">$messages.legends.entryDetails</div>
+                        
                         <div class="field">
-                            <b>{{messages.labels.entryType}}</b>: <i>{{data.entryType}}</i>
+                            <b>$messages.labels.entryType</b>: <i>$data.entryType</i>
                         </div>
                         <div class="field">
-                            <b>{{messages.labels.categoryType}}</b>: <i>{{data.category}}</i>
+                            <b>$messages.labels.categoryType</b>: <i>$data.category</i>
                         </div>
-                        <div class="field"><i>{{data.category1}}</i></div>
-                        <div class="field"><i>{{data.category2}}</i></div>
-                        {% endautoescape %}
+                        <div class="field"><i>$data.category1</i></div>
+                        <div class="field"><i>$data.category2</i></div>
+                        
                         <div class="field">
-                            <b>{{messages.labels.certificate}}</b>: <i>{{data.certificate}}</i>
+                            <b>$messages.labels.certificate</b>: <i>$data.certificate</i>
                         </div>
-                        {% if (data.insurance == "1" or data.insurance
-                        == messages.labels.yes) %}
-                        {% autoescape false %}
+                        #if ($data.insurance == "1" or $data.insurance
+                        == $messages.labels.yes)
+                        
                         <div class="field">
-                            <b>{{messages.labels.insurance.label}} (10.65 € )</b>:
+                            <b>$messages.labels.insurance.label (10.65 € )</b>:
                             <i><div class="square"></div> Oui <div class="square"></div> Non</i>
                         </div>
-                        {% endautoescape %}
-                        {% endif %} {% if (data.licenceNo != "") %}
+                        
+                        #end #if ($data.licenceNo != "")
                         <div class="field">
-                            <b>{{messages.labels.licenceNo}}</b>: <i>{{data.licenceNo}}</i>
+                            <b>$messages.labels.licenceNo</b>: <i>$data.licenceNo</i>
                         </div>
-                        {% endif %} {% if (data.previousClub != "") %}
+                        #end #if ($data.previousClub != "")
                         <div class="field">
-                            <b>{{messages.labels.previousClub}}</b>: <i>{{data.previousClub}}</i>
+                            <b>$messages.labels.previousClub</b>: <i>$data.previousClub</i>
                         </div>
-                        {% endif %} {% if (data.ufr != "") %}
+                        #end #if ($data.ufr != "")
                         <div class="field">
-                            <b>{{messages.labels.ufr}}</b>: <i>{{data.ufr}}</i>
+                            <b>$messages.labels.ufr</b>: <i>$data.ufr</i>
                         </div>
-                        {% endif %} {% if (data.school != "") %}
+                        #end #if ($data.school != "")
                         <div class="field">
-                            <b>{{messages.labels.school}}</b>: <i>{{data.school}}</i>
+                            <b>$messages.labels.school</b>: <i>$data.school</i>
                         </div>
-                        {% endif %} {% if (data.class != "") %}
+                        #end #if ($data.class != "")
                         <div class="field">
-                            <b>{{messages.labels.class}}</b>: <i>{{data.class}}</i>
+                            <b>$messages.labels.class</b>: <i>$data.class</i>
                         </div>
-                        {% endif %}
+                        #end
                     </div>
                     <div id="paymentDetails" class="data">
-                        <div class="legend">{{messages.legends.paymentDetails}}</div>
+                        <div class="legend">$messages.legends.paymentDetails</div>
                         <div class="field">
-                            <b>{{messages.labels.entryPrice}}</b>: <i>{{data.entryPrice}}
+                            <b>$messages.labels.entryPrice</b>: <i>$data.entryPrice
                                 Euros</i>
                         </div>
-                        {% if (data.insurance == "1" or data.insurance
-                        == messages.labels.yes) %}
+                        #if ($data.insurance == "1" or $data.insurance
+                        == $messages.labels.yes)
                         <div class="field">
-                            <b>{{messages.labels.insurancePrice}}</b>: <i>{{data.insurancePrice}}
+                            <b>$messages.labels.insurancePrice</b>: <i>$data.insurancePrice
                                 Euros</i>
                         </div>
-                        {% endif %}
+                        #end
                         <div class="field important">
-                            <b>{{messages.labels.totalPrice}}</b>: <i>{{data.totalPrice}}
+                            <b>$messages.labels.totalPrice</b>: <i>$data.totalPrice
                                 Euros</i>
                         </div>
                     </div>
                     <div id="fileDetails" class="data"   style="width:100%">
-                        <div class="legend" style="width:100%">{{messages.legends.fileDetails}}</div>
+                        <div class="legend" style="width:100%">$messages.legends.fileDetails</div>
                         <ul>
-                            {% for doc in data.docsToProvide %}
-                            <li  style="width:100%">{{doc}}</li> {% endfor %}
+                            #foreach ($doc in $data.docsToProvide)
+                            <li  style="width:100%">$doc</li> #end
                         </ul>
                     </div>
 
 
                 </td>
-                <td style="padding-left:80px;width:45%">
+                <td style="padding-left:80px;width:50%">
 
                     <div id="confirmationDetails" class="data">
-                        <div class="legend">{{messages.info.legalTitle}}</div>
-                        {% autoescape false %}
-                        <p id="confirmationContent">{{messages.info.legalText}}</p>
-                        {% endautoescape %}
-                        <table style="width: 80%">
+                        <div class="legend">$messages.info.legalTitle</div>
+                        
+                        <p id="confirmationContent">$messages.info.legalText</p>
+                        
+                        <table style="width: 90%">
                             <tr>
-                                <th>{{messages.info.legalSignature.labelMember}}</th>
-                                <th>{{messages.info.legalSignature.labelParent}}</th>
+                                <th>$messages.info.legalSignature.labelMember</th>
+                                <th>$messages.info.legalSignature.labelParent</th>
                             </tr>
                             <tr>
-                                <td>{{messages.info.legalSignature.notice}}</td>
-                                <td>{{messages.info.legalSignature.notice}}</td>
+                                <td>$messages.info.legalSignature.notice</td>
+                                <td>$messages.info.legalSignature.notice</td>
                             </tr>
                             <tr>
-                                <td>{{messages.info.legalSignature.required}}</td>
-                                <td>{{messages.info.legalSignature.required}}</td>
+                                <td>$messages.info.legalSignature.required</td>
+                                <td>$messages.info.legalSignature.required</td>
                             </tr>
                         </table>
                     </div>

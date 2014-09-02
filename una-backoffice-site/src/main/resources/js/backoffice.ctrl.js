@@ -199,7 +199,7 @@ var CommonCtrl = function($rootScope, $http, $route) {
 
 };
 
-var lBackOfficeApp = angular.module('unaBackOffice', [ 'ngRoute' ]);
+var lBackOfficeApp = angular.module('unaBackOffice', [ 'ngRoute', 'ngSanitize' ]);
 
 lBackOfficeApp
 		.config([

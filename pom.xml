@@ -6,10 +6,9 @@
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>una-backoffice-site</module>
 		<module>una-backoffice-app</module>
-		<module>una-backoffice-service</module>
 		<module>una-backoffice-server</module>
+		<module>una-backoffice-site</module>
 	</modules>
 
 
