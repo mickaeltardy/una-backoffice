@@ -37,9 +37,9 @@ public class UsersManagerImpl implements UsersManager {
 				: null;
 		User lUser = new User(pUsername, lPassword);
 		lUser.setRoles(mSecurityToolbox.getBasicRoles());
-		if ((pSave && saveUser(lUser)) || pSave)
+		if ((pSave && saveUser(lUser)) || !pSave)
 			return lUser;
-		else
+		else 
 			return null;
 	}
 

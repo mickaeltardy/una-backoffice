@@ -78,7 +78,7 @@ fieldset#docsToProvide ul {
 fieldset ul {
 	-webkit-padding-start: 0px;
 }
-
+.fakeButton, 
 button {
 	padding: 6px 30px 6px 30px;
 	border: 1px solid #CCCCCC;

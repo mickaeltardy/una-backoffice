@@ -5,10 +5,9 @@
 <title>Insert title here</title>
 <style>
 * {
-font-family: Arial;
+font-family: Arial, Helvetica, sans-serif;
 }
 html,body {
-	font-family: Arial;
 	font-size: 6px;
 	padding:0px;
 	margin:0px;
@@ -191,15 +190,15 @@ hr.half {
 						<div class="field">
 							<b>$messages.labels.previousClub</b>: <i>$data.previousClub</i>
 						</div>
-						#end #if ($data.ufr != "")
+						#end #if ($data.ufr && $data.ufr != "")
 						<div class="field">
 							<b>$messages.labels.ufr</b>: <i>$data.ufr</i>
 						</div>
-						#end #if ($data.school != "")
+						#end #if ($data.school && $data.school != "")
 						<div class="field">
 							<b>$messages.labels.school</b>: <i>$data.school</i>
 						</div>
-						#end #if ($data.schoolClass != "")
+						#end #if ($data.schoolClass && $data.schoolClass != "")
 						<div class="field">
 							<b>$messages.labels.schoolClass</b>: <i>$data.schoolClass</i>
 						</div>

@@ -87,8 +87,8 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 								if ($scope.member.birthdate) {
 									$scope.member.birthdate = new Date(
 											$scope.member.birthdate)
-									$scope.member.birthdayDay = $scope.member.birthdate
-											.getDate();
+									$scope.member.birthdayDayOfMonth = $scope.member.birthdate
+									.getDate();
 									$scope.member.birthdayMonth = $scope.member.birthdate
 											.getMonth() + 1;
 									$scope.member.birthdayYear = $scope.member.birthdate
@@ -135,10 +135,15 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 			url : "app/profile/saveProfile",
 			data : $scope.member
 		}).success(function(data, status) {
+			
+			window.location = "app/profile/getpdf?username="+$rootScope.loggedUser
+			/*
 			var iframe = jQuery("<iframe/>").attr({
 				src : "app/profile/getpdf?username=" + $rootScope.loggedUser,
 				style : "visibility:hidden;display:none"
 			}).appendTo("#pdfDownloadBtn");
+			*/
+			
 		});
 
 	}
@@ -285,10 +290,10 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	};
 
 	$scope.tryToSetUpBirthdate = function() {
-		if ($scope.member.birthdayDay > 0 && $scope.member.birthdayMonth > 0
+		if ($scope.member.birthdayDayOfMonth > 0 && $scope.member.birthdayMonth > 0
 				&& $scope.member.birthdayYear > 0) {
 			$scope.member.birthdate = new Date($scope.member.birthdayYear,
-					$scope.member.birthdayMonth - 1, $scope.member.birthdayDay,
+					$scope.member.birthdayMonth - 1, $scope.member.birthdayDayOfMonth,
 					0, 0, 0, 0);
 		}
 	}

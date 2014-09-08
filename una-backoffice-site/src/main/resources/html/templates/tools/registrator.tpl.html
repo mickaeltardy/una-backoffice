@@ -19,6 +19,7 @@
 		<div class="control"
 			data-ng-show="canShowController()">
 			<button data-ng-click="generatePdf()" id="pdfDownloadBtn">{{messages.labels.generatePdf}}</button>
+			<!-- <div class="fakeButton"><a href="app/profile/getpdf?username={{loggedUser}}">{{messages.labels.generatePdf}}</a></div> -->
 		</div>
 		<div id="formNotesTop">
 			<p>{{messages.info.requiredFields}}</p>
@@ -144,11 +145,11 @@
 					id="member.sex.m" /> <label for="member.sex.m" class="supLabel">M</label></li>
 				<li class="formItemTf required"><label for="member.birthdate">{{messages.labels.birthdate}}</label>
 					<div>
-						<select data-ng-model="member.birthdayDay"
+						<select data-ng-model="member.birthdayDayOfMonth"
 							data-ng-change="tryToSetUpBirthdate()"><option
 								data-ng-value="" value="">JJ</option>
-							<option data-ng-repeat="day in days" data-ng-value="day">{{day}}
-							</option></select><select data-ng-model="member.birthdayMonth"
+							<option data-ng-repeat="dayOfMonth in days" data-ng-value="dayOfMonth">{{dayOfMonth}}</option></select>
+							<select data-ng-model="member.birthdayMonth"
 							data-ng-change="tryToSetUpBirthdate()"><option
 								data-ng-value="" value="">MM</option>
 							<option data-ng-repeat="month in months" data-ng-value="month">{{month}}</option></select><select
