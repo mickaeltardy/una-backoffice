@@ -22,7 +22,7 @@
 		<commons-logging.version>1.2</commons-logging.version>
 		<guava.version>17.0</guava.version>
 		<cglib.version>3.1</cglib.version>
-		<javaee-api.version>6.0</javaee-api.version>
+		<javaee-api.version>7.0</javaee-api.version>
 		<spring-data-mongodb.version>1.5.2.RELEASE</spring-data-mongodb.version>
 		<mongo-java-driver.version>2.12.3</mongo-java-driver.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>

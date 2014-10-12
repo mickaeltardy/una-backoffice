@@ -26,6 +26,8 @@ public class Module {
 	
 	@Field
 	private List<String> resources;
+	
+	public Module(){}
 
 	public Module(String pCode, String pLabel) {
 		super();

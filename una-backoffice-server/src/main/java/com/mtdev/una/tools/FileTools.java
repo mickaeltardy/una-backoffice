@@ -35,8 +35,8 @@ public class FileTools {
 					lInputStream);
 
 			BufferedReader lBufferedReader = new BufferedReader(
-					lInputStreamReader);
-
+					   new InputStreamReader(pStream, "UTF8"));
+			
 			StringBuilder sb = new StringBuilder();
 
 			String line;

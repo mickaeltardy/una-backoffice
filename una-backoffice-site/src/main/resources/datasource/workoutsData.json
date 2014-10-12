@@ -1,0 +1,255 @@
+{
+    "athleteSex": [
+        {
+            "code": "m",
+            "label": "Gars"
+        },
+        {
+            "code": "f",
+            "label": "Filles"
+        }
+    ],
+    "athleteLevel": [
+        {
+            "code": "newbie",
+            "label": "Newbie"
+        },
+        {
+            "code": "advanced",
+            "label": "Confirmé"
+        }
+    ],
+    "athleteCategory": [
+        {
+            "code": "senior",
+            "label": "Senior"
+        },
+        {
+            "code": "student",
+            "label": "Etudiant"
+        },
+        {
+            "code": "junior",
+            "label": "Junior"
+        },
+        {
+            "code": "cadet",
+            "label": "Cadet"
+        }
+    ],
+    "workoutCategory": [
+        {
+            "code": "1x",
+            "label": "1x"
+        },
+        {
+            "code": "2x",
+            "label": "2x"
+        },
+        {
+            "code": "2-",
+            "label": "2-"
+        },
+        {
+            "code": "4x",
+            "label": "4x"
+        },
+        {
+            "code": "4-",
+            "label": "4-"
+        },
+        {
+            "code": "4+",
+            "label": "4+"
+        },
+        {
+            "code": "8+",
+            "label": "8+"
+        },
+        {
+            "code": "8x",
+            "label": "8x"
+        },
+        {
+            "code": "ergo",
+            "label": "ergo"
+        },
+        {
+            "code": "footing",
+            "label": "footing"
+        },
+        {
+            "code": "muscu",
+            "label": "muscu"
+        }
+    ],
+    "workoutClasses": [
+        {
+            "code": "boat",
+            "label": "Bateau"
+        },
+        {
+            "code": "ergo",
+            "label": "Ergo"
+        },
+        {
+            "code": "building",
+            "label": "Musculation"
+        },
+        {
+            "code": "jogging",
+            "label": "Footing"
+        }
+    ],
+    "boatTypes": [
+        {
+            "code": "1x",
+            "label": "1x", 
+            "type": "short"
+        },
+        {
+            "code": "2-",
+            "label": "2-", 
+            "type": "short"
+        },
+        {
+            "code": "2x",
+            "label": "2x", 
+            "type": "long"
+        },
+        {
+            "code": "4x",
+            "label": "4x", 
+            "type": "long"
+        },
+        {
+            "code": "4-",
+            "label": "4-", 
+            "type": "long"
+        },
+        {
+            "code": "4+",
+            "label": "4+", 
+            "type": "long"
+        },
+        {
+            "code": "8+",
+            "label": "8+", 
+            "type": "long"
+        },
+        {
+            "code": "8x",
+            "label": "8x", 
+            "type": "long"
+        }
+    ],
+    "workoutTypes" : {
+        "rowing": [
+            {
+                "code": "B1",
+                "label": "B1"
+            },
+            {
+                "code": "B2",
+                "label": "B2"
+            },
+            {
+                "code": "B3",
+                "label": "B3"
+            },
+            {
+                "code": "B4",
+                "label": "B4"
+            },
+            {
+                "code": "B5",
+                "label": "B5"
+            },
+            {
+                "code": "B6",
+                "label": "B6"
+            },
+            {
+                "code": "B7",
+                "label": "B7"
+            },
+            {
+                "code": "B8",
+                "label": "B8"
+            }
+            
+        ], 
+        "building": [
+            {
+                "code": "C2",
+                "label": "C2"
+            },
+            {
+                "code": "custom",
+                "label": "Circuit spécifique"
+            },
+            {
+                "code": "newbie",
+                "label": "Renforcement musculaire"
+            },
+            {
+                "code": "C1dc",
+                "label": "C1 DC"
+            },
+            {
+                "code": "C1tr",
+                "label": "C1 TR"
+            },
+            {
+                "code": "C1ep",
+                "label": "C1 EP"
+            },
+            {
+                "code": "C1sq",
+                "label": "C1 SQ"
+            }
+        ]
+    },
+    
+    "statistics" : [
+        {
+            "label" : "boat",
+            "workout_class" : "boat",
+            "count" : "distance",
+            "type" : ["", "rowing"] 
+        },
+        {
+            "label" : "shortBoat",
+            "workout_class" : "boat",
+            "workout_boat" : ["1x", "2-"],
+            "count" : "distance",
+            "type" : ["", "rowing"] 
+        },
+        {
+            "label" : "longBoat",
+            "workout_class" : "boat",
+            "workout_boat" : ["2x", "4-", "4x", "4+", "8+", "8x"],
+            "count" : "distance", 
+            "type" : ["", "rowing"]
+        },
+        {
+            "workout_class" : "jogging",
+            "count" : "distance" 
+        },
+        {
+            "workout_class" : "jogging",
+            "count" : "duration"
+        },
+        {
+            "workout_class" : "ergo",
+            "count" : "duration",
+            "type" : ["", "rowing"]
+        },
+        {
+            "workout_class" : "building",
+            "count" : "laps", 
+            "type" : ["", "building"]
+        }
+    ]
+    
+}

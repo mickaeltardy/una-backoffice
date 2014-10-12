@@ -82,4 +82,26 @@ public class AccessTool {
 		return lRoles;
 	}
 
+	public boolean isUserSupervisor(){
+		return doesUserHaveRole("supervisor");
+	}
+
+	public boolean isUserAdmin(){
+		return doesUserHaveRole("admin");
+	}
+	
+	public boolean doesUserHaveRole(String pRole){
+		List<String> lRoles = getUserRoles();
+		if(lRoles != null && lRoles.size() > 0){
+			for(String lRole : lRoles){
+				if(lRole.compareTo(pRole) == 0){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+
 }

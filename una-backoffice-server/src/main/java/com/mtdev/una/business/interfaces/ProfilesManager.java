@@ -17,4 +17,6 @@ public interface ProfilesManager {
 
 	boolean saveProfile(Profile pProfile);
 
+	Object updateProfile(String pUsername, Map<Object, Object> pProfileInput);
+
 }

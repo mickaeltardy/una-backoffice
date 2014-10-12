@@ -33,9 +33,9 @@
         <td class="clickable" data-ng-click="updateMemberInvalid(member);">{{member.invalid}}</td>
         <td class="clickable" data-ng-click="updateMemberState(member);">{{getMemberState(member.state)}}</td>
         <td>{{member.surname}} {{member.name}}</td>
-        <td>{{getMessage(member.dump.category.code, "categories")}}</td>
-        <td>{{member.dump.email}}</td>
-        <td>{{member.dump.telephone}}</td>
-        <td>{{member.insert_date}}</td>
+        <td>{{getMessage(member.category, "categories")}}</td>
+        <td>{{member.username}}</td>
+        <td>{{member.telephone}}</td>
+        <td>{{member.insertDate}}</td>
     </tr>
 </table>

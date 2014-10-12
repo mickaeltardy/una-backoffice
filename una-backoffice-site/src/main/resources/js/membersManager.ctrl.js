@@ -1,17 +1,17 @@
 function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
 
-	$http.get('../shared/data/workoutsData.json').success(function(data) {
+	$http.get('app/resources/workoutsData.datasource').success(function(data) {
 		$scope.workoutData = data;
 	});
 	
-	$http.get('../server/service/getFullMembersList').success(function(data) {
+	$http.get('app/supervisor/profiles').success(function(data) {
 
 		if (data) {
 			for (i = 0; i < data.length; i++) {
 				if (data[i].dump)
 					data[i].dump.docsToProvide = "";
-				if(data[i].invalid == 0){
+				if(data[i].invalid == 0 || !data[i].invalid){
 					$scope.members.push(data[i]);
 					$scope.filteredMembers.push(data[i]);
 				}
@@ -20,7 +20,7 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		}
 	});
 
-	$http.get('../shared/data/data.json').success(function(data) {
+	$http.get('app/resources/data.datasource').success(function(data) {
 		$scope.categories = data.categeries;
 		$scope.data = data;
 	});
@@ -33,7 +33,7 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		lMembers = new Array();
 		if ($scope.members) {
 			for (i = 0; i < $scope.members.length; i++) {
-				if ((($scope.filterCategory && $scope.members[i].dump.category.code == $scope.filterCategory) || !$scope.filterCategory)
+				if ((($scope.filterCategory && $scope.members[i].dump.category == $scope.filterCategory) || !$scope.filterCategory)
 						&& (($scope.filterState && $scope.members[i].state == $scope.filterState) || !$scope.filterState))
 					lMembers.push($scope.members[i]);
 			}
@@ -54,19 +54,19 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	$scope.updateMemberCategory = function(pMember, pCategory) {
 		$scope.changeCategory = false;
 		pMember.category = pCategory;
-		$scope.postMemberData(pMember.id, pMember.category, 'category');
+		$scope.postMemberData(pMember.username, pMember.category, 'category');
 	}
 	$scope.updateMemberAutonomy = function(pMember) {
 
 		pMember.autonomous = (pMember.autonomous == 1) ? 0 : 1;
-		$scope.postMemberData(pMember.id, pMember.autonomous, 'autonomous');
+		$scope.postMemberData(pMember.username, pMember.autonomous, 'autonomous');
 		
 
 	}
 	$scope.updateMemberLevel = function(pMember) {
 		
 		pMember.level = (pMember.level == "advanced") ? "newbie" : "advanced";
-		$scope.postMemberData(pMember.id, pMember.level, 'level');
+		$scope.postMemberData(pMember.username, pMember.level, 'level');
 		
 
 	}
@@ -74,13 +74,13 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		var lResult = 0;
 		var lData = new Object();
 
-		lData.memberId = pMemberId;
+		lData.username = pMemberId;
 
 		lData[pFieldName] = pData;
 
 		$http({
-			method : 'POST',
-			url : "../server/service/membersUpdate",
+			method : 'PUT',
+			url : "app/supervisor/profiles/"+lData.username,
 			data : lData
 		}).success(function(data, status) {
 			if (data == "OK") {

@@ -1,5 +1,6 @@
 package com.mtdev.una.business;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,7 +56,7 @@ public class ProfilesManagerImpl implements ProfilesManager {
 				lProfile.setUsername((String) pData.get("username"));
 			}
 			lProfile.setAddress((String) pData.get("address"));
-			lProfile.setBirthdate(parse((String)pData.get("birthdate")));
+			lProfile.setBirthdate(parse((String) pData.get("birthdate")));
 			lProfile.setCity((String) pData.get("city"));
 			lProfile.setLicence((String) pData.get("licence"));
 			lProfile.setName((String) pData.get("name"));
@@ -73,28 +75,28 @@ public class ProfilesManagerImpl implements ProfilesManager {
 		return lResult;
 	}
 
-	public static Date parse( String input ) throws java.text.ParseException {
+	public static Date parse(String input) throws java.text.ParseException {
 
-        //NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
-        //things a bit.  Before we go on we have to repair this.
-        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSz" );
-        
-        //this is zero time so we need to add that TZ indicator for 
-        if ( input.endsWith( "Z" ) ) {
-            input = input.substring( 0, input.length() - 1) + "GMT-00:00";
-        } else {
-            int inset = 6;
-        
-            String s0 = input.substring( 0, input.length() - inset );
-            String s1 = input.substring( input.length() - inset, input.length() );
+		// NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
+		// things a bit. Before we go on we have to repair this.
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
 
-            input = s0 + "GMT" + s1;
-        }
-        
-        return df.parse( input );
-        
-    }
-	
+		// this is zero time so we need to add that TZ indicator for
+		if (input.endsWith("Z")) {
+			input = input.substring(0, input.length() - 1) + "GMT-00:00";
+		} else {
+			int inset = 6;
+
+			String s0 = input.substring(0, input.length() - inset);
+			String s1 = input.substring(input.length() - inset, input.length());
+
+			input = s0 + "GMT" + s1;
+		}
+
+		return df.parse(input);
+
+	}
+
 	protected Date getDateFromString(Object pObject) {
 
 		try {
@@ -156,6 +158,30 @@ public class ProfilesManagerImpl implements ProfilesManager {
 		return mProfileDao.saveProfile(pProfile);
 	}
 
+	@Override
+	public Object updateProfile(String pUsername,
+			Map<Object, Object> pProfileInput) {
+
+		boolean lResult = false;
+
+		Profile lProfile = getProfileByUsername(pUsername);
+
+		for (Entry<Object, Object> pEntry : pProfileInput.entrySet()) {
+			try {
+				Field field = Profile.class.getDeclaredField((String) pEntry
+						.getKey());
+				field.setAccessible(true);
+				field.set(lProfile, pEntry.getValue());
+			} catch (Exception lE) {
+
+			}
+		}
+
+		lResult = mProfileDao.saveProfile(lProfile);
+
+		return lResult;
+	}
+
 	public boolean validateData(Map<Object, Object> pData) {
 
 		return Toolbox.mapContainsKeys(pData, getRequiredFields());
@@ -163,46 +189,42 @@ public class ProfilesManagerImpl implements ProfilesManager {
 
 	public Map<Object, Object> cleanupData(Map<Object, Object> pData) {
 		Map<Object, Object> lCleanData = new HashMap<Object, Object>();
-		
+
 		Object[] lFieldsToRemove = getStandardFields();
-		for (Entry<Object, Object> lEntry : pData.entrySet()){
+		for (Entry<Object, Object> lEntry : pData.entrySet()) {
 			boolean lKeep = true;
-			
+
 			for (Object lObject : lFieldsToRemove) {
-				if(((String)lObject).compareTo((String)lEntry.getKey()) == 0){
+				if (((String) lObject).compareTo((String) lEntry.getKey()) == 0) {
 					lKeep = false;
 					break;
 				}
 			}
-			if(((String)lEntry.getKey()).compareTo("certificate") == 0){
+			if (((String) lEntry.getKey()).compareTo("certificate") == 0) {
 				try {
-					lCleanData.put(lEntry.getKey(), parse((String)lEntry.getValue()));
+					lCleanData.put(lEntry.getKey(),
+							parse((String) lEntry.getValue()));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else if(lKeep)
+			} else if (lKeep)
 				lCleanData.put(lEntry.getKey(), lEntry.getValue());
 		}
 
-		
-		
 		return lCleanData;
 	}
 
 	public Object[] getStandardFields() {
 		Object[] lArray = getRequiredFields();
-		lArray = ArrayUtils.addAll(lArray, "docsToProvide", "id", "passwordConfirmation", "username", "password");
-		
-				
+		lArray = ArrayUtils.addAll(lArray, "docsToProvide", "id",
+				"passwordConfirmation", "username", "password");
 
 		return lArray;
 	}
-	
 
 	public Object[] getRequiredFields() {
-		Object[] lArray = {  "username",
-				"name", "surname", "sex", "birthdate",
+		Object[] lArray = { "username", "name", "surname", "sex", "birthdate",
 				"nationality", "address", "zipcode", "city", "telephone" };
 
 		return lArray;

@@ -1,5 +1,7 @@
 package com.mtdev.una.data.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,6 +25,13 @@ public class ProfileDao {
 		Profile lProfile = mMongoOperations.findOne(searchUserQuery,
 				Profile.class);
 		return lProfile;
+	}
+
+	public List<Profile> getAllProfiles() {
+
+		// find the saved user again.
+		List<Profile> lProfiles = mMongoOperations.findAll(Profile.class);
+		return lProfiles;
 	}
 
 	public boolean saveProfile(Profile pProfile) {

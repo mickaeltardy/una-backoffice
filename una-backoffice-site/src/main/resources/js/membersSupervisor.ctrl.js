@@ -1,7 +1,7 @@
 function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
 
-	$http.get('../server/service/getFullMembersList').success(function(data) {
+	$http.get('app/supervisor/profiles').success(function(data) {
 
 		if (data) {
 			for (i = 0; i < data.length; i++) {
@@ -14,13 +14,14 @@ function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 
 		}
 	});
+	
 
-	$http.get('../shared/data/data.json').success(function(data) {
+	$http.get('app/resources/data.datasource').success(function(data) {
 		$scope.categories = data.categeries;
 		$scope.data = data;
 	});
 
-	$scope.orderProp = "insert_date";
+	$scope.orderProp = "insertDate";
 
 	$scope.filterCategory = ""
 
@@ -28,7 +29,7 @@ function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 		lMembers = new Array();
 		if ($scope.members) {
 			for (i = 0; i < $scope.members.length; i++) {
-				if ((($scope.filterCategory && $scope.members[i].dump.category.code == $scope.filterCategory) || !$scope.filterCategory)
+				if ((($scope.filterCategory && $scope.members[i].dump.category == $scope.filterCategory) || !$scope.filterCategory)
 						&& (($scope.filterState && $scope.members[i].state == $scope.filterState) || !$scope.filterState))
 					lMembers.push($scope.members[i]);
 			}
@@ -43,7 +44,7 @@ function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 	$scope.updateMemberState = function(pMember) {
 
 		pMember.state = (pMember.state == 1) ? 0 : 1;
-		$scope.postMemberData(pMember.id, pMember.state, 'state');
+		$scope.postMemberData(pMember.username, pMember.state, 'state');
 		$scope.filterMembersByState();
 
 	}
@@ -51,7 +52,7 @@ function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 	$scope.updateMemberInvalid = function(pMember) {
 
 		pMember.invalid = (pMember.invalid == 1) ? 0 : 1;
-		$scope.postMemberData(pMember.id, pMember.invalid, 'invalid');
+		$scope.postMemberData(pMember.username, pMember.invalid, 'invalid');
 		
 
 	}
@@ -61,13 +62,13 @@ function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 		var lResult = 0;
 		var lData = new Object();
 
-		lData.memberId = pMemberId;
+		lData.username = pMemberId;
 
 		lData[pFieldName] = pData;
 
 		$http({
-			method : 'POST',
-			url : "../server/service/membersUpdate",
+			method : 'PUT',
+			url : "app/supervisor/profiles/"+lData.username,
 			data : lData
 		}).success(function(data, status) {
 			if (data == "OK") {

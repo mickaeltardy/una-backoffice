@@ -23,13 +23,13 @@ public class ModulesService {
 		try {
 			lModules.addAll(mModulesManager.getNoAuthModules());
 		} catch (Exception lE) {
-
+			lE.printStackTrace();
 		}
 
 		try {
 			lModules.addAll(mModulesManager.getAuthOnlyModules());
 		} catch (Exception lE) {
-
+			lE.printStackTrace();
 		}
 
 		return lModules;
