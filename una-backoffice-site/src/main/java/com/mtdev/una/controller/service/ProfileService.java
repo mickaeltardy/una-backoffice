@@ -119,6 +119,7 @@ public class ProfileService {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getEmptyPdf", method = RequestMethod.GET, produces = "application/pdf")
 	public @ResponseBody ResponseEntity<byte[]> getEmptyPdf() {
 		try {
@@ -170,6 +171,7 @@ public class ProfileService {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getpdf", method = RequestMethod.GET, produces = "application/pdf")
 	public @ResponseBody ResponseEntity<byte[]> getPdf(
 			@RequestParam("username") String pUsername) {
@@ -233,6 +235,7 @@ public class ProfileService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<Object, Object> getMapFromProfile(Profile pProfile) {
 		Map<Object, Object> lOutput = new HashMap<Object, Object>();
 
