@@ -26,16 +26,14 @@
         <th>Nom Prénom</th>
         <th>Catégorie d'inscription</th>
         <th>Mail</th>
-        <th>Tel</th>
         <th>Date d'inscription</th>
     </tr>
     <tr data-ng-repeat="member in filteredMembers |  orderBy:orderProp" data-ng-style="{'background-color':(member.state == 1 ? '#cccccc' : '#ffffff')}">
         <td class="clickable" data-ng-click="updateMemberInvalid(member);">{{member.invalid}}</td>
         <td class="clickable" data-ng-click="updateMemberState(member);">{{getMemberState(member.state)}}</td>
         <td>{{member.surname}} {{member.name}}</td>
-        <td>{{getMessage(member.category, "categories")}}</td>
+        <td>{{getMessage(member.regCategory, "categories")}}</td>
         <td>{{member.username}}</td>
-        <td>{{member.telephone}}</td>
         <td>{{member.insertDate}}</td>
     </tr>
 </table>

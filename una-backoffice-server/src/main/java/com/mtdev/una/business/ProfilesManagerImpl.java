@@ -3,12 +3,13 @@ package com.mtdev.una.business;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -69,7 +70,7 @@ public class ProfilesManagerImpl implements ProfilesManager {
 
 			lResult = mProfileDao.saveProfile(lProfile);
 		} catch (Exception lE) {
-
+			lE.printStackTrace();
 		}
 
 		return lResult;
@@ -228,6 +229,27 @@ public class ProfilesManagerImpl implements ProfilesManager {
 				"nationality", "address", "zipcode", "city", "telephone" };
 
 		return lArray;
+	}
+
+	@Override
+	public List<Profile> getValidProfiles() {
+		List<Profile> lProfiles = mProfileDao.getAllProfiles();
+		List<Profile> lFilteredProfiles = new ArrayList<Profile>();
+		for (Profile lProfile : lProfiles) {
+			if (!StringUtils.isEmpty(lProfile.getName())
+					&& !StringUtils.isEmpty(lProfile.getSurname())) {
+				try {
+					lProfile.setRegCategory((String) ((Map<Object, Object>) lProfile
+							.getData()).get("category"));
+				} catch (Exception lE) {
+					lE.printStackTrace();
+				}
+				// lProfile.setRegCategory();
+				lFilteredProfiles.add(lProfile);
+			}
+		}
+
+		return lFilteredProfiles;
 	}
 
 }

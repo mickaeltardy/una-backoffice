@@ -30,6 +30,8 @@ import com.mtdev.una.business.MailManager;
 import com.mtdev.una.business.PdfGenerator;
 import com.mtdev.una.business.interfaces.ProfilesManager;
 import com.mtdev.una.business.interfaces.UsersManager;
+import com.mtdev.una.data.view.ResponseView;
+import com.mtdev.una.data.view.Views;
 import com.mtdev.una.model.Profile;
 import com.mtdev.una.security.SecurityToolbox;
 import com.mtdev.una.tools.DataTools;
@@ -57,6 +59,9 @@ public class ProfileService {
 
 	@Autowired
 	protected DataRenderer mDataRenderer;
+	
+	
+	
 
 	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("true")
@@ -82,7 +87,7 @@ public class ProfileService {
 		}
 		if (lAuthUsername == null) {
 			if (!mUsersManager.doesUserExist(lProfileUsername)) {
-
+				
 				if (mProfilesManager.saveProfileAndUser(pProfileInput)) {
 					Map<Object, Object> lContext = new HashMap<Object, Object>();
 					lContext.put("password", lProfilePassword);
@@ -106,9 +111,23 @@ public class ProfileService {
 
 	@RequestMapping(value = "/getProfile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("@AccessTool.isAuthenticated()")
-	public @ResponseBody Object registerNewApplicationAccount(
+	public @ResponseBody Object getProfile(
 			@RequestParam("username") String pUsername) {
 
+		return getProfileData(pUsername);
+	}
+	
+	@RequestMapping(value = "/getPublicProfile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("@AccessTool.isAuthenticated()")
+	@ResponseView(Views.Public.class)
+	public @ResponseBody Object getPublicProfile(
+			@RequestParam("username") String pUsername) {
+
+		return getProfileData(pUsername);
+	}
+
+
+	private Object getProfileData(String pUsername) {
 		Profile lProfile = mProfilesManager.getProfileByUsername(pUsername);
 
 		if (lProfile != null) {
@@ -117,7 +136,6 @@ public class ProfileService {
 
 		return Toolbox.generateResult("error", new Error("No profile"));
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getEmptyPdf", method = RequestMethod.GET, produces = "application/pdf")

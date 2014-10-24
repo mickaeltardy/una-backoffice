@@ -2,13 +2,14 @@ package com.mtdev.una.data.view;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Adds support for Jackson's JsonView on methods annotated with a
@@ -18,13 +19,13 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
  *
  */
 public class ViewAwareJsonMessageConverter extends
-		MappingJacksonHttpMessageConverter {
+		MappingJackson2HttpMessageConverter {
 
 	public ViewAwareJsonMessageConverter() {
 		super();
 		ObjectMapper defaultMapper = new ObjectMapper();
 		defaultMapper.configure(
-				SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, true);
+				MapperFeature.DEFAULT_VIEW_INCLUSION, true);
 		setObjectMapper(defaultMapper);
 	}
 
@@ -42,24 +43,17 @@ public class ViewAwareJsonMessageConverter extends
 			throws IOException, HttpMessageNotWritableException {
 		JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders()
 				.getContentType());
-		ObjectMapper mapper = getMapperForView(view.getView());
-		JsonGenerator jsonGenerator = mapper.getJsonFactory()
-				.createJsonGenerator(outputMessage.getBody(), encoding);
+		
+		ObjectMapper mapper = getObjectMapper();
+		JsonGenerator jsonGenerator = mapper.getFactory()
+				.createGenerator(outputMessage.getBody(), encoding);
 		try {
-			mapper.writeValue(jsonGenerator, view.getData());
-		} catch (IOException ex) {
+			mapper.writerWithView(view.getView()).writeValue(jsonGenerator, view.getData());
+		} catch (Exception ex) {
 			throw new HttpMessageNotWritableException("Could not write JSON: "
 					+ ex.getMessage(), ex);
 		}
 	}
 
-	private ObjectMapper getMapperForView(Class<?> view) {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION,
-				false);
-		mapper.setSerializationConfig(mapper.getSerializationConfig().withView(
-				view));
-		return mapper;
-	}
 
 }

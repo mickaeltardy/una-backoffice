@@ -2,8 +2,7 @@ package com.mtdev.una.controller;
 
 import java.util.List;
 
-import org.codehaus.jackson.map.annotate.JsonView;
-
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mtdev.una.data.view.Views;
 
 public class Container {

@@ -6,4 +6,6 @@ public abstract class Constants {
 		public static final String sPasswordsSeparator = ":";
 	}
 
+	public static String dateFormat = "yyyy-MM-dd";
+
 }

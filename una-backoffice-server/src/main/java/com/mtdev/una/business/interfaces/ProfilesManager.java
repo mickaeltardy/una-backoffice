@@ -1,5 +1,6 @@
 package com.mtdev.una.business.interfaces;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mtdev.una.model.Profile;
@@ -18,5 +19,7 @@ public interface ProfilesManager {
 	boolean saveProfile(Profile pProfile);
 
 	Object updateProfile(String pUsername, Map<Object, Object> pProfileInput);
+
+	List<Profile> getValidProfiles();
 
 }

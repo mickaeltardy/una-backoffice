@@ -14,13 +14,38 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<security:global-method-security
 		pre-post-annotations="enabled" proxy-target-class="true" />
+	<!-- <annotation-driven> <message-converters> <beans:bean class="com.mtdev.una.data.view.ViewAwareJsonMessageConverter"> 
+		<beans:property name="objectMapper" ref="customJacksonMapper" /> </beans:bean> 
+		</message-converters> </annotation-driven> -->
 	<annotation-driven>
 		<message-converters>
-			<beans:bean class="com.mtdev.una.data.view.ViewAwareJsonMessageConverter" />
+			<beans:bean
+				class="com.mtdev.una.data.view.ViewAwareJsonMessageConverter">
+				<beans:property name="objectMapper" ref="objectMapper" />
+			</beans:bean>
 		</message-converters>
 	</annotation-driven>
+	<beans:bean id="objectMapper"
+		class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+		<!-- Add deserializers that require autowiring -->
+		<beans:property name="deserializersByType">
+			<beans:map key-type="java.lang.Class">
+				<beans:entry key="java.lang.String">
+					<beans:bean class="com.mtdev.una.tools.JsonStringDeserializer" />
+				</beans:entry>
+			</beans:map>
+		</beans:property>
+		<beans:property name="serializersByType">
+			<beans:map key-type="java.lang.Class">
+				<beans:entry key="java.util.Date">
+					<beans:bean class="com.mtdev.una.tools.JsonDateSerializer" />
+				</beans:entry>
+			</beans:map>
+		</beans:property>
+		
+	</beans:bean>
+
 	<beans:bean class="com.mtdev.una.data.view.JsonViewSupportFactoryBean" />
 	<context:component-scan base-package="com.mtdev.una.controller" />
-
 
 </beans:beans>

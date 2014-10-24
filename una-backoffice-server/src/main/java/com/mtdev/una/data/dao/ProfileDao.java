@@ -41,7 +41,7 @@ public class ProfileDao {
 				mMongoOperations.save(pProfile);
 				return true;
 			} catch (Exception lE) {
-
+				lE.printStackTrace();
 			}
 		}
 

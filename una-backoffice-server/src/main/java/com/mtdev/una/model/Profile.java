@@ -4,12 +4,14 @@ import java.util.Date;
 
 import lombok.Data;
 
-import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mtdev.una.data.view.Views;
+import com.mtdev.una.tools.JsonDateSerializer;
 
 @Data
 @Document(collection = "profiles")
@@ -33,6 +35,11 @@ public class Profile {
 	@Field
 	@JsonView(Views.Public.class)
 	String category;
+	
+
+	@Field
+	@JsonView(Views.Public.class)
+	String regCategory;
 	
 	@Field
 	@JsonView(Views.Public.class)
@@ -88,6 +95,7 @@ public class Profile {
 
 	@Field
 	@JsonView(Views.Public.class)
+	@JsonSerialize(using=JsonDateSerializer.class)
 	Date insertDate;
 
 	public Profile() {
@@ -122,6 +130,14 @@ public class Profile {
 		category = pCategory;
 	}
 	
+	public String getRegCategory() {
+		return regCategory;
+	}
+
+	public void setRegCategory(String pRegCategory) {
+		regCategory = pRegCategory;
+	}
+
 	public Integer getState() {
 		return state;
 	}

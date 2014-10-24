@@ -25,11 +25,11 @@
 #main-menu {
 	width: 100%;
 }
-/*
+
 #nav-panel {
     display: none;
 }
-*/
+
 #main-menu>ul>li>span {
 	font-size: 120%;
 	padding: 10px 10px;
@@ -41,8 +41,12 @@
 
 #content {
 	padding: 10px;
+	overflow: auto;
 }
 
 .openedEditor {
 	display: none;
+}
+#title{
+	font-size: 130%;
 }

@@ -114,7 +114,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		lData.push($scope.currentWorkout);
 		$http({
 			method : 'POST',
-			url : "../server/service/saveWorkouts",
+			url : "app/session/create",
 			data : lData
 		}).success(
 				function(data, status) {
@@ -122,7 +122,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 						if (!$scope.currentWorkout.id) {
 							$scope.currentWorkout.id = data.id / 1;
 							$scope.workouts.push($scope.currentWorkout)
-							$rootScope.$broadcast('workoutSubmit',
+							$rootScope.$broadcast('sessionSaved',
 									$scope.customWorkout);
 						}
 						$scope.currentWorkout = new Object();
@@ -208,7 +208,11 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	}
 
 	$scope.currentWorkout = new Object();
-
+	$scope.alertMonthChanged = function (pArg0, pArg1){
+		debugger;
+	}
+	$scope.$on("monthChanged", $scope.alertMonthChanged);
+	
 	$scope.$on("memberSelected", $scope.getActiveMemberWorkoutsList);
 
 	$scope.activeMember = new Object();

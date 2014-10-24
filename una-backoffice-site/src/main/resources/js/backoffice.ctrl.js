@@ -197,6 +197,11 @@ var CommonCtrl = function($rootScope, $http, $route) {
 
 	$rootScope.workoutsStatistics = "app/resources/templates-utils-workoutPersonalStats.tpl.html";
 
+	jQuery("#nav-button").click(function(){
+		jQuery("#nav-panel").slideToggle();
+		
+	})
+	
 };
 
 var lBackOfficeApp = angular.module('unaBackOffice', [ 'ngRoute', 'ngSanitize' ]);
@@ -296,8 +301,6 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 });
 
 lBackOfficeApp.directive('promptedFormField', promptedFormField);
-
-lBackOfficeApp.directive('calendarView', calendarView);
 
 lBackOfficeApp.directive('uploader', uploader);
 lBackOfficeApp.directive('dnduploader', dndUploader);

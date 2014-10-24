@@ -20,17 +20,22 @@
 	media="screen and (min-width: 640px) and (max-width: 1023px)" />
 
 <script type="text/javascript" src="app/resources/tools.js"></script>
-<script type="text/javascript"
-	src="js/lib/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/lib/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular-route.min.js"></script>
-<script
-	src="//code.angularjs.org/1.2.2/angular-sanitize.js"></script>
+<script src="//code.angularjs.org/1.2.2/angular-sanitize.js"></script>
 <script src="app/resources/authentication.tools.js"></script>
 <script src="app/resources/registrator.ctrl.js"></script>
+<script src="app/resources/workoutsCommons.ctrl.js"></script>
+<script src="app/resources/workoutStatistics.ctrl.js"></script>
+<script src="app/resources/workoutsManager.ctrl.js"></script>
+<script src="app/resources/workoutSupervisor.ctrl.js"></script>
 <script src="app/resources/membersManager.ctrl.js"></script>
 <script src="app/resources/membersSupervisor.ctrl.js"></script>
+<script src="app/resources/personalStatistics.ctrl.js"></script>
+<script src="app/resources/athletesStatistics.ctrl.js"></script>
+<script src="app/resources/simplifiedWorkoutsManager.ctrl.js"></script>
 <script src="app/resources/authenticator.js"></script>
 <script src="app/resources/signup.ctrl.js"></script>
 <script src="app/resources/directives.js"></script>
@@ -52,7 +57,12 @@
 			</div>
 		</div>
 		<div id="nav-panel">
-			<div id="profile"><div class="panel" data-ng-show="loggedUser"><div class="user">{{loggedUser}} </div><div class="button" data-ng-click="logout()">{{messages.labels.logout}}</div></div></div>
+			<div id="profile" data-ng-show="loggedUser">
+				<div class="panel">
+					<div class="user">{{loggedUser}}</div>
+					<div class="button" data-ng-click="logout()">{{messages.labels.logout}}</div>
+				</div>
+			</div>
 			<nav id="main-menu">
 				<ul>
 					<li data-ng-repeat="item in tools | orderBy:'order'"><span

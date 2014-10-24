@@ -15,7 +15,7 @@ public class ResourcesService {
 	@Autowired
 	protected ResourcesManager mResourcesManager;
 
-	@RequestMapping(value = "/{jsFile}.js", produces = "application/javascript")
+	@RequestMapping(value = "/{jsFile}.js", produces = "application/javascript;charset=utf-8")
 	@ResponseBody
 	public String getJavascriptFile(@PathVariable("jsFile") String pJsFileName) {
 		/*
@@ -32,7 +32,7 @@ public class ResourcesService {
 	}
 
 
-	@RequestMapping(value = "/{htmlFile}.html", produces = "text/html")
+	@RequestMapping(value = "/{htmlFile}.html", produces = "text/html;charset=utf-8")
 	@ResponseBody
 	public String getHtmlFile(@PathVariable("htmlFile") String pHtmlFileName) {
 		return mResourcesManager.getResourceFile("/html/"+pHtmlFileName+".html");

@@ -7,7 +7,7 @@ function promptedFormField() {
 
 	return {
 		restrict : 'A',
-		templateUrl : 'templates/utils/promptedFormField.tpl.html',
+		templateUrl : 'app/resources/templates-utils-promptedFormField.tpl.html',
 		scope : {
 			value : '=',
 			label : '@',
@@ -70,9 +70,9 @@ function dndUploader() {
 function CalendarCtrl($scope, $http, $rootScope) {
 
 	$scope.dayNames = [ 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di' ];
-	$scope.monthLabels = [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai',
-			'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre',
-			'Décembre' ];
+	$scope.monthLabels = [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai',
+			'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov',
+			'Déc' ];
 
 	$scope.switchCalendarView = function() {
 		$scope.calendarViewStyle = ($scope.calendarViewStyle == "calendarTable") ? "calendarList"
@@ -88,6 +88,8 @@ function CalendarCtrl($scope, $http, $rootScope) {
 		}
 
 		$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
+		$rootScope.$broadcast("calendarChanged", $scope);
+		
 	}
 
 	$scope.nextMonth = function() {
@@ -98,6 +100,8 @@ function CalendarCtrl($scope, $http, $rootScope) {
 			$scope.month++;
 		}
 		$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
+		$rootScope.$broadcast("calendarChanged", $scope);
+		
 	}
 
 	$scope.daysInMonth = function(pMonth, pYear) {
@@ -147,8 +151,6 @@ function CalendarCtrl($scope, $http, $rootScope) {
 			lDays.push(lDay);
 		}
 		
-		if(pCallback && $scope.dataRetreiveMethod && $rootScope[$scope.dataRetreiveMethod])
-			$rootScope[$scope.dataRetreiveMethod]($scope);
 		
 		return lDays;
 	}
@@ -177,6 +179,9 @@ function CalendarCtrl($scope, $http, $rootScope) {
 	$scope.month = new Date().getMonth();
 	$scope.year = new Date().getFullYear();
 	$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
+	
+	$rootScope.$broadcast("calendarChanged", $scope);
+	
 	$scope.calendarViewStyle = "calendarTable";
 	
 	this.getMonthLabel = $scope.getMonthLabel;
@@ -187,7 +192,7 @@ function calendarView() {
 
 	return {
 		restrict : 'A',
-		templateUrl : 'templates/utils/calendarView.tpl.html',
+		templateUrl : 'app/resources/templates-utils-calendarView.tpl.html',
 		scope : {
 			controlsList : '@',
 			dataRefreshMethod : '@',

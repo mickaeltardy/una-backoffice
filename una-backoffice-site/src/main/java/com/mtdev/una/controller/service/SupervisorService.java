@@ -30,9 +30,9 @@ public class SupervisorService {
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)
 	@ResponseView(Views.Public.class)
-	@PreAuthorize("@AccessTool.isUserSupervisor()")
+//	@PreAuthorize("@AccessTool.isUserSupervisor()")
 	public @ResponseBody List<Profile> getProfiles() {
-		return mProfileDao.getAllProfiles();
+		return mProfilesManager.getValidProfiles();
 	}
 	
 	@RequestMapping(value = "/profiles/{username:.+}", method = RequestMethod.PUT, consumes="application/json")

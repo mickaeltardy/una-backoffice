@@ -33,7 +33,7 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		lMembers = new Array();
 		if ($scope.members) {
 			for (i = 0; i < $scope.members.length; i++) {
-				if ((($scope.filterCategory && $scope.members[i].dump.category == $scope.filterCategory) || !$scope.filterCategory)
+				if ((($scope.filterCategory && $scope.members[i].regCategory == $scope.filterCategory) || !$scope.filterCategory)
 						&& (($scope.filterState && $scope.members[i].state == $scope.filterState) || !$scope.filterState))
 					lMembers.push($scope.members[i]);
 			}
@@ -49,7 +49,7 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		$scope.activeMember = pMember;
 		$scope.changeCategory = true;
 	
-		$("#categoryModifierDiv").css( {position:"absolute", top:event.pageY, left: event.pageX});
+		$("#categoryModifierDiv").css( {position:"absolute", top:(event.pageY-50), left: event.pageX});
 	}
 	$scope.updateMemberCategory = function(pMember, pCategory) {
 		$scope.changeCategory = false;
@@ -106,12 +106,14 @@ function MembersManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	};
 
 	$scope.filterMembersByCategory = function(pData) {
+		debugger;
 		$scope.filterCategory = pData.filterCategory
 		$scope.filteredMembers = $scope.getMembers();
 
 	}
 
 	$scope.filterMembersByState = function(pData) {
+		debugger;
 		if (pData)
 			$scope.filterState = pData.filterState
 		$scope.filteredMembers = $scope.getMembers();

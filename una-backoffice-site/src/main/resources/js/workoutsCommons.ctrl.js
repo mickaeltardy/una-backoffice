@@ -1,7 +1,7 @@
 function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
 
-	$http.get('../shared/data/workoutsData.json').success(function(data) {
+	$http.get('app/resources/workoutsData.datasource').success(function(data) {
 		$scope.workoutData = data;
 	});
 
@@ -191,5 +191,13 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 			lResult = true;
 		return lResult;
 	};
+	
+	$scope.storeDays = function(pScope){
+		if(pScope && pScope.days){
+			$scope.days = pScope.days;  
+		}
+	}
+	
+	$scope.$on("calendarChanged", $scope.storeDays);
 
 }
