@@ -5,4 +5,6 @@
 			data-ng-class="notification.cssClass">{{notification.text}}</li>
 	</ul>
 </div>
+<div class="boToolTitle" data-ng-show="toolUrl && toolUrl!=''">{{getToolLabel(tool)}}</div>
+
 <div class="boContent" data-ng-include="toolUrl"></div>

@@ -1,37 +1,21 @@
 function WorkoutSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 	this.prototype = WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope);
 
-	$scope.getAllTasksData = function(pScope) {
-		var lData = new Object();
-
-		if (pScope != null) {
-			if (pScope.days && pScope.days.length > 0) {
-				lData.dateFrom = pScope.days[0];
-				lData.dateTo = pScope.days[pScope.days.length - 1];
-			}
-		}
-		debugger;
-		$http({
-			method : 'POST',
-			url : "app/tasks/retrieve",
-			data : lData
-		}).success(function(data, status) {
-			if (data) {
-				for (i = 0; i < data.length; i++) {
-					$scope.workouts.push(data[i]);
-					$scope.filteredWorkouts.push(data[i]);
-				}
-				$rootScope.$broadcast("workoutsLoaded", data);
-			}
-		});
-	}
-
-	$scope.updateWorkouts = function(pData) {
+	$scope.updateWorkouts = function(pEvent, pScope) {
 		var lScope = new Object();
-		if ($scope.days) {
-			lScope.days = $scope.days;
+		var lDays = null;
+		if (pScope && pScope.days) {
+			lDays = pScope.days;
+		} else if ($scope.days) {
+			lDays = $scope.days;
 		}
-		$scope.getAllTasksData(lScope);
+
+		if (lDays && lDays.length > 0) {
+			lScope.dateFrom = $scope.getChromedDate(lDays[0].date);
+			lScope.dateTo = $scope.getChromedDate(lDays[lDays.length - 1].date);
+		}
+
+		$scope.getTasksDataByRequest(lScope);
 	}
 
 	$scope.getDate = function(pDate) {
@@ -71,10 +55,10 @@ function WorkoutSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 			url : "app/tasks/create",
 			data : lData
 		}).success(function(data, status) {
-			if (data.info) {
+			if (data.status == "success" && !data.error) {
 				if (!$scope.currentWorkout.id) {
 					$scope.currentWorkout.id = data.id / 1;
-					$scope.workouts.push($scope.currentWorkout)
+					$scope.tasks.push($scope.currentWorkout)
 				}
 				$scope.currentWorkout = new Object();
 				$scope.closeEditor();
@@ -112,38 +96,19 @@ function WorkoutSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 		$scope.editWorkoutShow = true;
 		$scope.currentWorkout = new Object();
 		$scope.currentWorkout.date = $scope.getChromedDate(pDay.date);
-		$scope.currentWorkout.type = 0;
-		$scope.currentWorkout.state = 1;
+		// $scope.currentWorkout.type = 0;
+		// $scope.currentWorkout.state = 1;
 	}
 
 	$scope.editWorkout = function(pWorkout) {
 		$scope.currentWorkout = new Object();
 		$scope.currentWorkout = pWorkout;
-		if ($scope.currentWorkout.type == 0)
+		if ($scope.currentWorkout.itemType == 0)
 			$scope.operationName = "Corriger un objectif";
 		else
 			$scope.operationName = "Corriger un résultat";
 		$scope.editWorkoutShow = true;
 
-	}
-
-	$rootScope.viewGoals = function(pDay) {
-		$scope.operationName = "Voir les objectifs";
-		$scope.showWorkoutsShow = true;
-		$scope.selDay = pDay;
-		$scope.selWorkoutType = 0;
-
-		$scope.filteredWorkouts = $scope.filterWorkouts(pDay,
-				$scope.selWorkoutType);
-	}
-	$rootScope.viewResults = function(pDay) {
-		$scope.operationName = "Voir les resultats";
-		$scope.showWorkoutsShow = true;
-		$scope.selDay = pDay;
-		$scope.selWorkoutType = 1;
-
-		$scope.filteredWorkouts = $scope.filterWorkouts(pDay,
-				$scope.selWorkoutType);
 	}
 
 	// TODO Refactoring
@@ -182,14 +147,15 @@ function WorkoutSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.currentWorkout = new Object();
 
-	$scope.workouts = new Array();
-	$scope.filteredWorkouts = new Array();
+	$scope.tasks = new Array();
+	$scope.filteredTasks = new Array();
+	$scope.sessions = new Array();
+	$scope.filteredSessions = new Array();
 	$scope.changeDate = function() {
 
 	}
 
-	$scope.$on("calendarChanged", $scope.getAllTasksData);
-
+	$scope.$on("calendarChanged", $scope.updateWorkouts);
 	$scope.$on("workoutsSaved", $scope.updateWorkouts);
 
 }

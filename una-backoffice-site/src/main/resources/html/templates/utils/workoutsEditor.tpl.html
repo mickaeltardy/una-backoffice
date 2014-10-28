@@ -7,10 +7,10 @@
             <li class="clickable"
                 data-ng-repeat="workout in filteredWorkouts"
                 data-ng-click="editWorkout(workout);">
-                <div data-ng-show="workout.type==0">
+                <div data-ng-show="workout.itemType==0">
                     {{workout.description}} {{workout.category}}
                     {{workout.sex}} {{workout.level}}</div>
-                <div data-ng-show="workout.type==1">
+                <div data-ng-show="workout.itemType==1">
                     {{workout.member_name}}: {{workout.description}}</div>
             </li>
         </ul>

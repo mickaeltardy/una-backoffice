@@ -6,19 +6,21 @@ function WorkoutStatisticsCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.applyFilter = function() {
 		if ($scope.filter) {
-			$scope.filteredWorkouts = new Array();
-			var lWorkoutsCnt = $scope.workouts.length;
+			lFilteredWorkouts = new Array();
+			var lWorkouts = $scope.getWorkoutsByType(1);
+			var lWorkoutsCnt = lWorkouts.length;
 			for (i = 0; i < lWorkoutsCnt; i++) {
-				if ($scope.workoutAcceptable($scope.workouts[i], $scope.filter))
-					$scope.filteredWorkouts.push($scope.workouts[i]);
+				if ($scope.workoutAcceptable(lWorkouts[i], $scope.filter))
+					lFilteredWorkouts.push(lWorkouts[i]);
 			}
+			$scope.setFilteredWorkoutsByType(lFilteredWorkouts, 1)
 		}
 	}
 
 	$scope.workoutAcceptable = function(pWorkout, pFilter) {
 		var lResult = true;
-		var lFilterFields = [ 'type', 'athlete_category', 'athlete_level',
-				'athlete_sex', 'member_name', 'workout_type', 'workout_boat', 'workout_class' ]
+		var lFilterFields = [ 'type', 'athleteCategory', 'athleteLevel',
+				'athleteSex', 'athleteId', 'type', 'boat', 'class' ]
 
 		for ( var i = 0; i < lFilterFields.length; i++) {
 			if (pFilter[lFilterFields[i]]
@@ -41,7 +43,11 @@ function WorkoutStatisticsCtrl($scope, $http, $routeParams, $rootScope) {
 	$scope.filter.type = 1;
 	$scope.members = new Array();
 
-	$scope.$on("workoutsLoaded", $scope.applyFilter);
+	$scope.$on("sessionsLoaded", $scope.applyFilter);
 
-	$scope.$on("workoutsLoaded", $scope.updateMembersList);
+	$scope.$on("sessionsLoaded", $scope.updateMembersList);
+	
+	$scope.$on("tasksLoaded", $scope.applyFilter);
+
+	$scope.$on("tasksLoaded", $scope.updateMembersList);
 }

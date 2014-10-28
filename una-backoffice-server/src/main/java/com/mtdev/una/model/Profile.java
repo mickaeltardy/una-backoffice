@@ -18,6 +18,7 @@ import com.mtdev.una.tools.JsonDateSerializer;
 public class Profile {
 
 	@Id
+	@JsonView(Views.Public.class)
 	private String id;
 
 	@Field

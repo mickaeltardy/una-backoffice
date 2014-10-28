@@ -3,8 +3,10 @@ package com.mtdev.una.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.mtdev.una.tools.JsonDateDeserializer;
@@ -16,6 +18,10 @@ public class WorkoutImpl implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -275825226591791177L;
+
+	@Id
+	@JsonProperty
+	private String id;
 
 	@Field
 	protected String authorId;
@@ -60,6 +66,19 @@ public class WorkoutImpl implements Serializable {
 
 	@Field
 	protected Object athleteSex;
+
+	@Field
+	protected int itemType;
+
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String pId) {
+		id = pId;
+	}
 
 	public String getAuthorId() {
 		return authorId;
@@ -173,4 +192,13 @@ public class WorkoutImpl implements Serializable {
 		athleteSex = pAthleteSex;
 	}
 
+	public int getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(int pItemType) {
+		itemType = pItemType;
+	}
+
+	
 }

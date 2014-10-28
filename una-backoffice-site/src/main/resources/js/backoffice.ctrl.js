@@ -7,14 +7,6 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 		$rootScope.$broadcast("messagesLoaded", 1);
 	});
 
-	
-	$scope.messages = $rootScope.messages;
-
-	$scope.loggedUser = $rootScope.loggedUser;
-
-	
-
-	
 	$scope.checkAuth = function() {
 
 		$http.get('app/auth/check').success(function(data) {
@@ -28,7 +20,18 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 		});
 
 	}
-	$scope.checkAuth();
+	$scope.loadPublicProfile = function() {
+		$http.get('app/profile/' + $rootScope.loggedUser + '/public').success(
+				function(data) {
+					$rootScope.profile = data;
+					if (data.id) {
+
+						$scope.profile = data;
+						$rootScope = $scope.profile;
+						$scope.$broadcast("profileLoaded", $scope.profile);
+					}
+				});
+	}
 
 	$rootScope.validateExternalAccount = function(pRequest) {
 		$scope.serverRequestOngoing(true);
@@ -92,11 +95,11 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 	}
 
 	$scope.getToolLabel = function(pTool) {
-		if ($rootScope.tools) {
-			var lToolsCnt = $rootScope.tools.length;
+		if ($scope.tools) {
+			var lToolsCnt = $scope.tools.length;
 			for (i = 0; i < lToolsCnt; i++) {
-				if ($rootScope.tools[i] && $rootScope.tools[i].code == pTool)
-					return $rootScope.tools[i].label;
+				if ($scope.tools[i] && $scope.tools[i].code == pTool)
+					return $scope.tools[i].label;
 
 			}
 		}
@@ -150,6 +153,20 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 
 		return lResult;
 	}
+	
+	jQuery("#nav-panel").hide();
+	
+	$scope.tool = $routeParams.tool;
+	
+	$scope.tools = $rootScope.tools;
+	
+	$scope.messages = $rootScope.messages;
+
+	$scope.loggedUser = $rootScope.loggedUser;
+
+	$scope.checkAuth();
+
+	$scope.$on("auth.success", $scope.loadPublicProfile)
 
 }
 
@@ -179,13 +196,13 @@ var CommonCtrl = function($rootScope, $http, $route) {
 	$rootScope.tool = ($route.current.params.tool) ? $route.current.params.tool
 			: 'login';
 
-	$rootScope.getModules = function(){
+	$rootScope.getModules = function() {
 		$http.get('app/modules').success(function(data) {
 			$rootScope.tools = data;
 		});
 	}
 	$rootScope.getModules();
-	
+
 	$rootScope.menuUrl = "app/resources/templates-menu.backoffice.html";
 	if ($route.current.params.tool) {
 		$rootScope.redirection = $route.current.params.tool + "/";
@@ -196,15 +213,16 @@ var CommonCtrl = function($rootScope, $http, $route) {
 	$rootScope.workoutsEditor = "app/resources/templates-utils-newWorkoutsEditor.tpl.html";
 
 	$rootScope.workoutsStatistics = "app/resources/templates-utils-workoutPersonalStats.tpl.html";
-
-	jQuery("#nav-button").click(function(){
-		jQuery("#nav-panel").slideToggle();
-		
-	})
+	jQuery("#nav-button").off("click")
 	
+	jQuery("#nav-button").click(function() {
+			jQuery("#nav-panel").slideToggle();
+	})
+
 };
 
-var lBackOfficeApp = angular.module('unaBackOffice', [ 'ngRoute', 'ngSanitize' ]);
+var lBackOfficeApp = angular.module('unaBackOffice',
+		[ 'ngRoute', 'ngSanitize' ]);
 
 lBackOfficeApp
 		.config([
@@ -272,8 +290,7 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 			$location.path("");
 		});
 	}
-	
-	
+
 	// register listener to watch route changes
 	$rootScope.$on("$routeChangeStart", function(event, next, current) {
 		if ($rootScope.checkModuleAccess(next.params.tool)) {
@@ -287,16 +304,11 @@ lBackOfficeApp.run(function($rootScope, $http, $location) {
 		 * should redirect now $location.path("/login"); } }
 		 */
 		/*
-		if ($rootScope.loggedUser == null) {
-			// no logged user, we should be going to #login
-			if (next.templateUrl == "templates/login.gui.html") {
-				// already going to #login, no redirect needed
-			} else {
-				// not going to #login, we should redirect now
-				$location.path("/login");
-			}
-		}
-		*/
+		 * if ($rootScope.loggedUser == null) { // no logged user, we should be
+		 * going to #login if (next.templateUrl == "templates/login.gui.html") { //
+		 * already going to #login, no redirect needed } else { // not going to
+		 * #login, we should redirect now $location.path("/login"); } }
+		 */
 	});
 });
 

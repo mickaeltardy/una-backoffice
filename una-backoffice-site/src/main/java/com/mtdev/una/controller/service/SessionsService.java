@@ -33,13 +33,13 @@ public class SessionsService extends WorkoutService<Session> {
 	public @ResponseBody Object retrieveWorkouts(
 			@RequestBody Map<Object, Object> pRequest) {
 
-		return super.retrieveWorkouts(pRequest, Session.class);
+		return getDao().getWorkoutsByStrictRequest(pRequest, Session.class);
 	}
 
 	@Override
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public Object removeWorkout(@RequestBody Session pWorkout) {
-		return super.removeWorkout(pWorkout);
+	public @ResponseBody Object removeWorkouts(@RequestBody List<Session> pWorkouts) {
+		return super.removeWorkouts(pWorkouts);
 	}
 
 	@RequestMapping(value = "/retrieveCal", produces = "text/plain")

@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,11 +60,8 @@ public class ProfileService {
 
 	@Autowired
 	protected DataRenderer mDataRenderer;
-	
-	
-	
 
-	@RequestMapping(value = "/saveProfile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("true")
 	public @ResponseBody Object registerNewApplicationAccount(
 			@RequestBody Map<Object, Object> pProfileInput) {
@@ -79,7 +77,7 @@ public class ProfileService {
 				|| mSecurityToolbox.isAdminRole()) {
 
 			if (mProfilesManager.saveProfile(pProfileInput)) {
-				
+
 				return Toolbox.generateResult("status", "success");
 
 			}
@@ -87,7 +85,7 @@ public class ProfileService {
 		}
 		if (lAuthUsername == null) {
 			if (!mUsersManager.doesUserExist(lProfileUsername)) {
-				
+
 				if (mProfilesManager.saveProfileAndUser(pProfileInput)) {
 					Map<Object, Object> lContext = new HashMap<Object, Object>();
 					lContext.put("password", lProfilePassword);
@@ -98,7 +96,7 @@ public class ProfileService {
 
 					mMailManager.sendMail(lProfileUsername,
 							"[UNA] Votre compte de membre", lOutput.toString());
-					
+
 					return Toolbox.generateResult("status", "success",
 							"username", lProfileUsername, "password",
 							lProfilePassword);
@@ -109,29 +107,27 @@ public class ProfileService {
 		return Toolbox.generateResult("error", "failed to save profile");
 	}
 
-	@RequestMapping(value = "/getProfile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{username:.+}/full", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("@AccessTool.isAuthenticated()")
 	public @ResponseBody Object getProfile(
-			@RequestParam("username") String pUsername) {
-
+			@PathVariable("username") String pUsername) {
 		return getProfileData(pUsername);
 	}
-	
-	@RequestMapping(value = "/getPublicProfile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "/{username:.+}/public", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("@AccessTool.isAuthenticated()")
 	@ResponseView(Views.Public.class)
 	public @ResponseBody Object getPublicProfile(
-			@RequestParam("username") String pUsername) {
+			@PathVariable("username") String pUsername) {
 
 		return getProfileData(pUsername);
 	}
-
 
 	private Object getProfileData(String pUsername) {
 		Profile lProfile = mProfilesManager.getProfileByUsername(pUsername);
 
 		if (lProfile != null) {
-			return Toolbox.generateResult("profile", lProfile);
+			return lProfile;
 		}
 
 		return Toolbox.generateResult("error", new Error("No profile"));
@@ -159,11 +155,11 @@ public class ProfileService {
 			lDocsToProvide.add((String) lDocs.get("photo"));
 			lDocsToProvide.add((String) lDocs.get("payment"));
 
-				lDocsToProvide.add((String) lDocs.get("studentCard"));
+			lDocsToProvide.add((String) lDocs.get("studentCard"));
 
-				lDocsToProvide.add((String) lDocs.get("employeeCard"));
+			lDocsToProvide.add((String) lDocs.get("employeeCard"));
 
-				lDocsToProvide.add((String) lDocs.get("swimmingCertificate"));
+			lDocsToProvide.add((String) lDocs.get("swimmingCertificate"));
 
 			lData.put("docsToProvide", lDocsToProvide);
 			lContext.put("data", lData);
@@ -183,12 +179,12 @@ public class ProfileService {
 					HttpStatus.OK);
 
 			return response;
-		}catch(Exception lE){
-			
+		} catch (Exception lE) {
+
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getpdf", method = RequestMethod.GET, produces = "application/pdf")
 	public @ResponseBody ResponseEntity<byte[]> getPdf(
@@ -237,8 +233,9 @@ public class ProfileService {
 			ByteArrayOutputStream os = mPdfGenerator.generatePdfStream(
 					lContext, "/templates/pdf/registrationForm.html");
 			SimpleDateFormat lSdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			
-			String filename = "Registration_form_"+lSdf.format(new Date())+".pdf";
+
+			String filename = "Registration_form_" + lSdf.format(new Date())
+					+ ".pdf";
 			headers.setContentDispositionFormData(filename, filename);
 			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 			ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(

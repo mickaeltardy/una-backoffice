@@ -10,4 +10,7 @@ public class Session extends WorkoutImpl {
 	 */
 	private static final long serialVersionUID = 3441947666303037956L;
 
+	public int getItemType() {
+		return 1;
+	}
 }

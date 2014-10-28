@@ -1,0 +1,83 @@
+.simplifiedWorkoutManager{
+	width:100%;
+}
+.simplifiedWorkoutManager .controlPanel,
+.simplifiedWorkoutManager .workoutsList,
+.simplifiedWorkoutManager .memberInfo{
+	float:left;
+	clear:both;
+	display: block;
+	width:100%;
+}
+
+.simplifiedWorkoutManager .workoutsList .removeBtn,
+.simplifiedWorkoutManager .workoutsList .workoutItem {
+	float : left;
+	padding : 10px;
+	border-bottom:1px #cccccc dotted;
+}
+
+.simplifiedWorkoutManager .workoutsList .removeBtn{
+	max-width:20px;
+	width:10%;
+	text-align: center;
+	font-weight: bold
+	
+}
+.simplifiedWorkoutManager .workoutsList li {
+	clear:both;
+	overflow: auto;
+	padding:0px;
+	margin:0px;
+}
+
+.simplifiedWorkoutManager .workoutsList>ul{
+	list-style-type: none;
+    margin-left: 0;
+    padding-left: 0px;
+}
+.simplifiedWorkoutManager .controlPanel button{
+	float:left;
+}
+.simplifiedWorkoutManager .workoutItem {
+	width:85%;
+	
+}
+.simplifiedWorkoutManager .workoutItem .date {
+	width:100px;
+	font-weight: bold;
+	display: block;
+	float:left;
+	
+}
+.simplifiedWorkoutManager .workoutsList>ul>li:hover{
+    background: none;
+}
+
+.simplifiedWorkoutManager .workoutsList>ul>li .removeBtn:hover{
+    background: rgba(255, 0, 0, 0.1);
+}
+.simplifiedWorkoutManager .workoutsList>ul>li .workoutItem:hover{
+     background: #bbbbbb !important;
+}
+
+
+.simplifiedWorkoutManager .workoutItem .description {
+    font-style: italic;
+    display: block;
+    float:left;
+}
+@media screen and (max-width: 639px){
+.simplifiedWorkoutManager .workoutItem {
+    width:80%;
+    
+}
+.frontEnd .workoutEditor input,
+.frontEnd .workoutEditor textarea  {
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 98%;
+    border: 1px solid #999999;
+}
+}

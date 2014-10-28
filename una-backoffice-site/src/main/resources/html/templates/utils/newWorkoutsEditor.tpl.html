@@ -26,87 +26,89 @@ ul.buttonsList {
 	margin: 0px;
 	padding: 0px;
 }
-button.invalid{
-    background: #cccccc;
+
+button.invalid {
+	background: #cccccc;
 }
 </style>
 <div class="frontEnd" data-ng-show="showWorkoutsShow">
 
-    <div class="workoutsList">
-        <div class="title">{{operationName}}</div>
-        <div class="closeBtn" data-ng-click="closeViewer()">Close</div>
-        <ul>
-            <li class="clickable"
-                data-ng-repeat="workout in filteredWorkouts"
-                data-ng-click="editWorkout(workout);">
-                <div data-ng-show="workout.type==0">
-                    {{workout.description}} {{workout.category}}
-                    {{workout.sex}} {{workout.level}}</div>
-                <div data-ng-show="workout.type==1">
-                    {{workout.member_name}}: {{getWorkoutLabel(workout)}}</div>
-            </li>
-        </ul>
-    </div>
+	<div class="workoutsList">
+		<div class="title">{{operationName}}</div>
+		<div class="closeBtn" data-ng-click="closeViewer()">Close</div>
+		<ul>
+			<li class="clickable" data-ng-repeat="workout in filteredWorkouts"
+				data-ng-click="editWorkout(workout);">
+				<div data-ng-show="workout.itemType==0">
+					{{workout.description}} {{workout.category}} {{workout.sex}}
+					{{workout.level}}</div>
+				<div data-ng-show="workout.itemType==1">
+					{{workout.athleteId}}: {{getWorkoutLabel(workout)}}</div>
+			</li>
+		</ul>
+	</div>
 </div>
 <div class="frontEnd" data-ng-show="editWorkoutShow">
-    <div class="workoutEditor">
-        <div class="title">{{operationName}}</div>
-        <div class="closeBtn" data-ng-click="closeEditor()">Close</div>
-        <ul>
-            <li><label for="workout.date" class="fieldLabel">
-                    Date </label><input
-                type="date" id="workoutDate"
-                data-ng-init="setDatePicker()"
-                data-ng-model="currentWorkout.date"
-                data-ng-change="changeDate()" /></li>
-            <li><label for="workoutCategories" class="fieldLabel"
-                data-ng-model="currentWorkout.workout_class">Categorie</label>
+	<div class="workoutEditor">
+		<div class="title">{{operationName}}</div>
+		<div class="closeBtn" data-ng-click="closeEditor()">Close</div>
+		<ul>
+			<li><label for="workout.date" class="fieldLabel"> Date </label><input
+				type="date" id="workoutDate" data-ng-init="setDatePicker()"
+				data-ng-model="currentWorkout.date" data-ng-change="changeDate()" /></li>
+			<li><label for="workoutCategories" class="fieldLabel"
+				data-ng-model="currentWorkout.category">Categorie</label>
 
-                <ul id="workoutClasses" class="buttonsList">
-                    <li data-ng-repeat="d in workoutData.workoutClasses"
-                        data-ng-click="selectWorkoutClass(d.code)"
-                        data-ng-class="{'selected' : (currentWorkout && currentWorkout.workout_class == d.code)}">
-                        {{d.label}}</li>
+				<ul id="workoutClasses" class="buttonsList">
+					<li data-ng-repeat="d in workoutData.workoutClasses"
+						data-ng-click="selectWorkoutClass(d.code)"
+						data-ng-class="{'selected' : (currentWorkout && currentWorkout.category == d.code)}">
+						{{d.label}}</li>
 
-                </ul> <input type="hidden" /></li>
-            <li data-ng-show="isWorkoutTypeEstimationRequired()"><label
-                for="workout.type" class="fieldLabel" data-ng-class="{'required' : isWorkoutTypeEstimationRequired() }">Type</label>
-                <ul id="workoutWorkoutType" class="buttonsList">
-                    <li data-ng-repeat="d in getCurrentWorkoutClassWorkoutType()"
-                        data-ng-click="selectWorkoutWorkoutType(d.code)"
-                        data-ng-class="{'selected' : (currentWorkout && currentWorkout.workout_type == d.code)}">
-                        {{d.label}}</li>
-                </ul>
-                </li>
-            <li data-ng-show="isBoatTypeEstimationRequired()"><label
-                for="workout.type" class="fieldLabel" data-ng-class="{'required' : isBoatTypeEstimationRequired() }">Bateau</label>
-                <ul id="workoutBoatType" class="buttonsList">
-                    <li data-ng-repeat="d in getCurrentWorkoutClassBoatType()"
-                        data-ng-click="selectWorkoutBoatType(d.code)"
-                        data-ng-class="{'selected' : (currentWorkout && currentWorkout.workout_boat == d.code)}">
-                        {{d.label}}</li>
-                </ul>
-                </li>
-            <li data-ng-show="isDistanceEstimationAvailable()"><label
-                for="workout.distance" class="fieldLabel" data-ng-class="{'required' : isDistanceEstimationRequired() }">Distance (km)</label><input
-                id="workout.distance" type="number" step="any"
-                data-ng-model="currentWorkout.distance" /></li>
-            <li data-ng-show="isLapsEstimationRequired()"><label
-                for="workout.laps" class="fieldLabel" data-ng-class="{'required' : isLapsEstimationRequired() }">Tours (nbr)</label><input
-                id="workout.laps" data-ng-model="currentWorkout.laps" type="number" step="any" /></li>
-            <li data-ng-show="isTimeEstimationAvailable()"><label
-                for="workout.duration" class="fieldLabel" data-ng-class="{'required' : isTimeEstimationRequired() }">Durée</label><input
-                id="workout.duration" type="text"
-                data-ng-model="currentWorkout.duration" /></li>
-            
-            <li><label for="workout.comment" class="fieldLabel">Comment</label>
-                <textarea id="workout.comment"
-                    data-ng-model="currentWorkout.comment"></textarea></li>
-        </ul>
-        <div id="formControl">
-            <button data-ng-click="validateAndSubmit()" data-ng-class="{'invalid' : !validate(), 'valid' : validate()}">Valider</button>
-            <button data-ng-click="closeEditor()">Annuler</button>
+				</ul> <input type="hidden" /></li>
+			<li data-ng-show="isWorkoutTypeEstimationRequired()"><label
+				for="workout.itemType" class="fieldLabel"
+				data-ng-class="{'required' : isWorkoutTypeEstimationRequired() }">Type</label>
+				<ul id="workoutWorkoutType" class="buttonsList">
+					<li data-ng-repeat="d in getCurrentWorkoutClassWorkoutType()"
+						data-ng-click="selectWorkoutWorkoutType(d.code)"
+						data-ng-class="{'selected' : (currentWorkout && currentWorkout.type == d.code)}">
+						{{d.label}}</li>
+				</ul></li>
+			<li data-ng-show="isBoatTypeEstimationRequired()"><label
+				for="workout.itemType" class="fieldLabel"
+				data-ng-class="{'required' : isBoatTypeEstimationRequired() }">Bateau</label>
+				<ul id="workoutBoatType" class="buttonsList">
+					<li data-ng-repeat="d in getCurrentWorkoutClassBoatType()"
+						data-ng-click="selectWorkoutBoatType(d.code)"
+						data-ng-class="{'selected' : (currentWorkout && currentWorkout.boat == d.code)}">
+						{{d.label}}</li>
+				</ul></li>
+			<li data-ng-show="isDistanceEstimationAvailable()"><label
+				for="workout.distance" class="fieldLabel"
+				data-ng-class="{'required' : isDistanceEstimationRequired() }">Distance
+					(km)</label><input id="workout.distance" type="number" step="any"
+				data-ng-model="currentWorkout.distance" /></li>
+			<li data-ng-show="isLapsEstimationRequired()"><label
+				for="workout.laps" class="fieldLabel"
+				data-ng-class="{'required' : isLapsEstimationRequired() }">Tours
+					(nbr)</label><input id="workout.laps" data-ng-model="currentWorkout.laps"
+				type="number" step="any" /></li>
+			<li data-ng-show="isTimeEstimationAvailable()"><label
+				for="workout.duration" class="fieldLabel"
+				data-ng-class="{'required' : isTimeEstimationRequired() }">Durée</label><input
+				id="workout.duration" type="text"
+				data-ng-model="currentWorkout.duration" /></li>
 
-        </div>
-    </div>
+			<li><label for="workout.comment" class="fieldLabel">Comment</label>
+				<textarea id="workout.comment"
+					data-ng-model="currentWorkout.comment"></textarea></li>
+		</ul>
+		<div id="formControl">
+			<button data-ng-click="validateAndSubmit()"
+				data-ng-class="{'invalid' : !validate(), 'valid' : validate()}">Valider</button>
+			<button data-ng-click="closeEditor()">Annuler</button>
+
+		</div>
+	</div>
 </div>

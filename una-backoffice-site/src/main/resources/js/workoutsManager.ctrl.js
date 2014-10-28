@@ -8,12 +8,13 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$rootScope.getGoals = function(pDay) {
 		var lTodo = "";
-		for ( var i = 0; i < $scope.workouts.length; i++) {
-			if ($scope.getDate($scope.workouts[i].date) - pDay.date === 0
-					&& 0 == $scope.workouts[i].type) {
+
+		var lWorkouts = $scope.getWorkoutsByType(0);
+		for (var i = 0; i < lWorkouts.length; i++) {
+			if ($scope.getDate(lWorkouts[i].date) - pDay.date === 0) {
 				if (lTodo.length > 0)
 					lTodo += "<br />";
-				lTodo += $scope.getWorkoutLabel($scope.workouts[i]);
+				lTodo += $scope.getWorkoutLabel(lWorkouts[i]);
 			}
 		}
 		return lTodo;
@@ -24,11 +25,13 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 		var lFound = false;
 
-		for ( var i = 0; i < $scope.workouts.length; i++) {
-			if ($scope.workouts[i] != null
-					&& $scope.getDate($scope.workouts[i].date) - pDay.date === 0
-					&& 0 == $scope.workouts[i].type && lFound == false) {
-				lGoal = $scope.workouts[i];
+		var lWorkouts = $scope.getWorkoutsByType(0);
+
+		for (var i = 0; i < lWorkouts.length; i++) {
+			if (lWorkouts[i] != null
+					&& $scope.getDate(lWorkouts[i].date) - pDay.date === 0
+					&& lFound == false) {
+				lGoal = lWorkouts[i];
 				lFound = true;
 			}
 		}
@@ -65,63 +68,60 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 			$rootScope.$broadcast('memberSelected', $scope.activeMember);
 		}
 	}
+	
+	$scope.updateMyWorkouts = function(pType, pScope) {
+		if ($rootScope.profile) {
+			var lScope = new Object();
+			var lDays = null;
 
-	$scope.getMemberSpecificQuery = function(pMember) {
-		var lQuery = "";
-		if (pMember) {
-			(pMember.id) ? lQuery += "member_id=" + pMember.id : '';
-			(pMember.category) ? lQuery += "&athlete_category="
-					+ pMember.category : '';
-			(pMember.sex) ? lQuery += "&athlete_sex=" + pMember.sex : '';
-			(pMember.level) ? lQuery += "&athlete_level=" + pMember.level : '';
+			lScope.athleteId = $rootScope.profile.username;
+			lScope.athleteLevel = $rootScope.profile.level;
+			lScope.athleteCategory = $rootScope.profile.category;
+			lScope.athleteSex = $rootScope.profile.sex;
+
+			if (pScope && pScope.days) {
+				lDays = pScope.days;
+			} else if ($scope.days) {
+				lDays = $scope.days;
+			}
+
+			if (lDays && lDays.length > 0) {
+				lScope.dateFrom = $scope.getChromedDate(lDays[0].date);
+				lScope.dateTo = $scope
+						.getChromedDate(lDays[lDays.length - 1].date);
+			}
+
+			if (pType == "sessions")
+				$scope.getSessionsDataByRequest(lScope);
+			else if (pType == "tasks")
+				$scope.getTasksDataByRequest(lScope);
 		}
-		return lQuery;
 	}
 
-	$scope.getActiveMemberWorkoutsList = function() {
-		var lQuery = $scope.getMemberSpecificQuery($scope.activeMember);
-
-		$scope.workouts = new Array();
-		$scope.filteredWorkouts = new Array();
-
-		$http.get('../server/service/getWorkouts?' + lQuery).success(
-				function(data) {
-
-					if (data) {
-						for ( var i = 0; i < data.length; i++) {
-
-							$scope.workouts.push(data[i]);
-
-							$scope.filteredWorkouts.push(data[i]);
-
-						}
-						$rootScope.$broadcast("workoutsLoaded", data);
-
-					}
-				});
-
+	$scope.updateMySessions = function(pEvents, pScope) {
+		$scope.updateMyWorkouts("sessions", pScope);
 	}
 
-	$rootScope.getMyWorkoutData = function(pCallback) {
-		$scope.getMembersList();
-
+	$scope.updateMyTasks = function(pEvents, pScope) {
+		$scope.updateMyWorkouts("tasks", pScope);
 	}
 
 	$scope.submit = function() {
 
 		var lResult = 0;
 		var lData = new Array();
+
 		lData.push($scope.currentWorkout);
 		$http({
 			method : 'POST',
-			url : "app/session/create",
+			url : "app/sessions/create",
 			data : lData
 		}).success(
 				function(data, status) {
-					if (data.info) {
+					if (data.status == "success" && !data.error) {
 						if (!$scope.currentWorkout.id) {
 							$scope.currentWorkout.id = data.id / 1;
-							$scope.workouts.push($scope.currentWorkout)
+							$scope.sessions.push($scope.currentWorkout)
 							$rootScope.$broadcast('sessionSaved',
 									$scope.customWorkout);
 						}
@@ -151,24 +151,26 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		$scope.editWorkoutShow = true;
 		$scope.currentWorkout = new Object();
 		$scope.currentWorkout.date = $scope.getChromedDate(pDay.date);
-		$scope.currentWorkout.type = 1;
-		$scope.currentWorkout.state = 1;
-		$scope.currentWorkout.member_id = $scope.activeMember.id;
+		$scope.currentWorkout.itemType = 1;
+		/* $scope.currentWorkout.state = 1; */
+		$scope.currentWorkout.athleteId = $rootScope.profile.username;
 		lWorkout = $rootScope.getFirstGoalOfTheDay(pDay);
 		// Description is no more required
 		$scope.currentWorkout.description = "";
-		$scope.currentWorkout.workout_type = lWorkout.workout_type;
-		$scope.currentWorkout.workout_boat = lWorkout.workout_boat;
-		$scope.currentWorkout.workout_class = lWorkout.workout_class;
+		$scope.currentWorkout.type = lWorkout.type;
+		$scope.currentWorkout.boat = lWorkout.boat;
+		$scope.currentWorkout.category = lWorkout.category;
 		$scope.currentWorkout.distance = lWorkout.distance;
 		$scope.currentWorkout.duration = lWorkout.duration;
 		$scope.currentWorkout.laps = lWorkout.laps;
-		$scope.currentWorkout.athlete_level = $scope.activeMember.level;
-		$scope.currentWorkout.athlete_sex = $scope.activeMember.sex;
-		$scope.currentWorkout.athlete_category = $scope.activeMember.category;
-		var lMembers = (lWorkout.members) ? lWorkout.members : new Array();
-		$scope.currentWorkout.members = lMembers;
-		$scope.currentWorkout.members_dump = lWorkout.members_dump;
+		$scope.currentWorkout.athleteLevel = $rootScope.profile.level;
+		$scope.currentWorkout.athleteSex = $rootScope.profile.sex;
+		$scope.currentWorkout.athleteCategory = $rootScope.profile.category;
+		/*
+		 * var lMembers = (lWorkout.members) ? lWorkout.members : new Array();
+		 * $scope.currentWorkout.members = lMembers;
+		 * $scope.currentWorkout.members_dump = lWorkout.members_dump;
+		 */
 		$scope.scrollUp();
 
 	}
@@ -180,7 +182,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		$scope.currentWorkout.distance = pWorkout.distance / 1;
 		$scope.currentWorkout.laps = pWorkout.laps / 1;
 
-		if ($scope.currentWorkout.type == 0)
+		if ($scope.currentWorkout.itemType == 0)
 			$scope.operationName = "Corriger un objectif";
 		else
 			$scope.operationName = "Corriger un résultat";
@@ -208,16 +210,18 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	}
 
 	$scope.currentWorkout = new Object();
-	$scope.alertMonthChanged = function (pArg0, pArg1){
+	$scope.alertMonthChanged = function(pArg0, pArg1) {
 		debugger;
 	}
 	$scope.$on("monthChanged", $scope.alertMonthChanged);
-	
+
 	$scope.$on("memberSelected", $scope.getActiveMemberWorkoutsList);
 
 	$scope.activeMember = new Object();
-	$scope.workouts = new Array();
-	$scope.filteredWorkouts = new Array();
+	$scope.sessions = new Array();
+	$scope.filteredSessions = new Array();
+	$scope.tasks = new Array();
+	$scope.filteredSessions = new Array();
 
 	$scope.changeDate = function(pDate) {
 		if (pDate)
@@ -321,7 +325,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		if (lCaretPorition >= lDump.length - 1) {
 			lCurrenItem = lItems.length - 1;
 		} else {
-			for ( var i = 0; i < lItems.length; i++) {
+			for (var i = 0; i < lItems.length; i++) {
 				lTmpLength += (lItems[i].length) + 1;
 				if (lTmpLength > lCaretPorition) {
 					lCurrenItem = i;
@@ -411,38 +415,38 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	}
 
 	$scope.isDistanceEstimationRequired = function() {
-		return ($scope.currentWorkout && ($scope.currentWorkout.workout_class == "boat"));
+		return ($scope.currentWorkout && ($scope.currentWorkout.category == "boat"));
 	}
 
 	$scope.isDistanceEstimationAvailable = function() {
 		return ($scope.currentWorkout && ($scope.isDistanceEstimationRequired()
-				|| $scope.currentWorkout.workout_class == "ergo" || $scope.currentWorkout.workout_class == "footing"));
+				|| $scope.currentWorkout.category == "ergo" || $scope.currentWorkout.category == "footing"));
 	}
 
 	$scope.isLapsEstimationRequired = function() {
-		return ($scope.currentWorkout && ($scope.currentWorkout.workout_class == "building"))
+		return ($scope.currentWorkout && ($scope.currentWorkout.category == "building"))
 	}
 
 	$scope.isTimeEstimationAvailable = function() {
-		return ($scope.currentWorkout && $scope.currentWorkout.workout_class)
+		return ($scope.currentWorkout && $scope.currentWorkout.category)
 	}
 
 	$scope.isBoatTypeEstimationRequired = function() {
-		return ($scope.currentWorkout && ($scope.currentWorkout.workout_class == "boat"))
+		return ($scope.currentWorkout && ($scope.currentWorkout.category == "boat"))
 	}
 
 	$scope.isTimeEstimationRequired = function() {
-		return ($scope.currentWorkout.workout_class == "ergo")
+		return ($scope.currentWorkout.category == "ergo")
 	}
 	$scope.isWorkoutTypeEstimationRequired = function() {
-		return ($scope.currentWorkout && ($scope.currentWorkout.workout_class == "boat"
-				|| $scope.currentWorkout.workout_class == "building" || $scope.currentWorkout.workout_class == "ergo"))
+		return ($scope.currentWorkout && ($scope.currentWorkout.category == "boat"
+				|| $scope.currentWorkout.category == "building" || $scope.currentWorkout.category == "ergo"))
 	}
 	$scope.selectWorkoutClass = function(pClass) {
 		if (!$scope.currentWorkout)
 			$scope.currentWorkout = new Object();
 
-		$scope.currentWorkout.workout_class = pClass;
+		$scope.currentWorkout.category = pClass;
 		$scope.selectWorkoutWorkoutType("");
 		$scope.selectWorkoutBoatType("");
 	}
@@ -450,28 +454,28 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		if (!$scope.currentWorkout)
 			$scope.currentWorkout = new Object();
 
-		$scope.currentWorkout.workout_type = pType;
+		$scope.currentWorkout.type = pType;
 	}
 	$scope.selectWorkoutBoatType = function(pBoat) {
 		if (!$scope.currentWorkout)
 			$scope.currentWorkout = new Object();
 
-		$scope.currentWorkout.workout_boat = pBoat;
+		$scope.currentWorkout.boat = pBoat;
 	}
 
 	$scope.getCurrentWorkoutClassBoatType = function() {
-		if ($scope.currentWorkout && $scope.currentWorkout.workout_class) {
+		if ($scope.currentWorkout && $scope.currentWorkout.category) {
 			return $scope.workoutData.boatTypes;
 		}
 	}
 
 	$scope.isCurrentWorkoutClassRowing = function() {
-		return ($scope.currentWorkout && ($scope.currentWorkout.workout_class == "boat" || $scope.currentWorkout.workout_class == "ergo"))
+		return ($scope.currentWorkout && ($scope.currentWorkout.category == "boat" || $scope.currentWorkout.category == "ergo"))
 	}
 
 	$scope.getCurrentWorkoutClassWorkoutType = function() {
-		if ($scope.currentWorkout && $scope.currentWorkout.workout_class) {
-			var lClass = $scope.currentWorkout.workout_class;
+		if ($scope.currentWorkout && $scope.currentWorkout.category) {
+			var lClass = $scope.currentWorkout.category;
 			if ($scope.isCurrentWorkoutClassRowing())
 				lClass = "rowing";
 			return $scope.workoutData.workoutTypes[lClass];
@@ -488,15 +492,13 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		var lResult = true;
 		var lTemp = $scope.currentWorkout;
 		if (lTemp) {
-			if (lTemp.workout_class) {
-				if ($scope.isBoatTypeEstimationRequired()
-						&& !lTemp.workout_boat)
+			if (lTemp.category) {
+				if ($scope.isBoatTypeEstimationRequired() && !lTemp.boat)
 					lResult = false;
 				if ($scope.isTimeEstimationRequired()
 						&& $scope.processEstimation(lTemp.duration) == 0)
 					lResult = false;
-				if ($scope.isWorkoutTypeEstimationRequired()
-						&& !lTemp.workout_type)
+				if ($scope.isWorkoutTypeEstimationRequired() && !lTemp.type)
 					lResult = false;
 				if ($scope.isDistanceEstimationRequired()
 						&& $scope.processEstimation(lTemp.distance) == 0)
@@ -548,7 +550,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 				lMult = lTmp[0];
 				lValue = lTmp[1];
 			}
-			for ( var i = 0; i < lSuffixes.length; i++) {
+			for (var i = 0; i < lSuffixes.length; i++) {
 				lValue = lValue.replace(lSuffixes[i], "");
 			}
 			lValue = lValue.replace(",", ".");
@@ -584,42 +586,40 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		var lEval = 0;
 		var lGoal = 0;
 		var pType = pStatistics.type;
-		var pBoatType = pStatistics.workout_boat;
+		var lWorkouts = $scope.workouts;
+		var pBoatType = pStatistics.boat;
 		var lCountUnit = $scope.getCountUnit(pStatistics);
 		if (!pDateStop)
 			pDateStop = new Date();
-		for ( var i = 0; i < $scope.workouts.length; i++) {
-			if ($scope.getDate($scope.workouts[i].date) - pDateStop <= 0
-					&& (!pDateStart || $scope.getDate($scope.workouts[i].date)
+		for (var i = 0; i < lWorkouts.length; i++) {
+			if ($scope.getDate(lWorkouts[i].date) - pDateStop <= 0
+					&& (!pDateStart || $scope.getDate(lWorkouts[i].date)
 							- pDateStart >= 0)
-					&& ((typeof pStatistics.workout_class === 'string' && $scope.workouts[i].workout_class == pStatistics.workout_class) || pStatistics.workout_class
-							.indexOf($scope.workouts[i].workout_class) >= 0)
-					&& (pType != "" && pType == $scope.workouts[i].workout_type || (pType == "" || !pType))
+					&& ((typeof pStatistics.category === 'string' && lWorkouts[i].category == pStatistics.category) || pStatistics.category
+							.indexOf(lWorkouts[i].category) >= 0)
+					&& (pType != "" && pType == lWorkouts[i].type || (pType == "" || !pType))
 					&& (pBoatType
-							&& ((typeof $scope.workouts[i].workout_boat === 'string' && $scope
-									.arrayContains(pBoatType,
-											$scope.workouts[i].workout_boat)) || typeof $scope.workouts[i].workout_boat !== 'string'
+							&& ((typeof lWorkouts[i].boat === 'string' && $scope
+									.arrayContains(pBoatType, lWorkouts[i].boat)) || typeof lWorkouts[i].boat !== 'string'
 									&& $scope.arrayContained(pBoatType,
-											$scope.workouts[i].workout_boat)) || (pBoatType == "" || !pBoatType))) {
+											lWorkouts[i].boat)) || (pBoatType == "" || !pBoatType))) {
 				var lTmpEval = $scope
-						.processEstimation($scope.workouts[i][lCountUnit]);
+						.processEstimation(lWorkouts[i][lCountUnit]);
 
 				if (lTmpEval > 0) {
-					if ($scope.workouts[i].type == 1
-							&& pMember.id == $scope.workouts[i].member_id)
+					if (lWorkouts[i].itemType == 1
+							&& pMember.username == lWorkouts[i].athleteId)
 						lEval += lTmpEval;
-					else if ($scope.workouts[i].type == 0
-							&& (!$scope.workouts[i].athlete_sex || $scope
-									.arrayContains(
-											$scope.workouts[i].athlete_sex,
+					else if (lWorkouts[i].itemType == 0
+							&& (!lWorkouts[i].athleteSex || $scope
+									.arrayContains(lWorkouts[i].athleteSex,
 											pMember.sex))
-							&& (!$scope.workouts[i].athlete_level || $scope
-									.arrayContains(
-											$scope.workouts[i].athlete_level,
+							&& (!lWorkouts[i].athleteLevel || $scope
+									.arrayContains(lWorkouts[i].athleteLevel,
 											pMember.level))
-							&& (!$scope.workouts[i].athlete_category || $scope
+							&& (!lWorkouts[i].athleteCategory || $scope
 									.arrayContains(
-											$scope.workouts[i].athlete_category,
+											lWorkouts[i].athleteCategory,
 											pMember.category)))
 						lGoal += lTmpEval;
 				}
@@ -635,16 +635,15 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		lStat.type = pType;
 
 		lStat.label = (pStatistics.label) ? pStatistics.label
-				: pStatistics.workout_class;
+				: pStatistics.category;
 		lStat.label = $scope.messages.statistics.labels[lStat.label];
 		lStat.showSpecific = false;
 		return lStat;
-
 	}
 
 	$scope.getWorkoutType = function(pType) {
 		var lResult = null;
-		for ( var i = 0; i < $scope.workoutData.workoutTypes.length; i++) {
+		for (var i = 0; i < $scope.workoutData.workoutTypes.length; i++) {
 			if ($scope.workoutData.workoutTypes[i]['code'] == pType) {
 				lResult = $scope.workoutData.workoutType;
 				break;
@@ -664,22 +663,22 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		var lResults = new Array();
 		var lStats = $scope.workoutData.statistics;
 
-		for ( var i = 0; i < lStats.length; i++) {
+		for (var i = 0; i < lStats.length; i++) {
 			var lTmpStat = new Object();
 			lTmpStat.label = lStats[i].label;
-			lTmpStat.workout_class = lStats[i].workout_class;
-			lTmpStat.workout_boat = lStats[i].workout_boat;
+			lTmpStat.category = lStats[i].category;
+			lTmpStat.boat = lStats[i].boat;
 			lTmpStat.count = lStats[i].count;
 			var lStat = new Object();
 			if (lStats[i].type) {
 				var lSpecific = new Array();
-				for ( var j = 0; j < lStats[i].type.length; j++) {
+				for (var j = 0; j < lStats[i].type.length; j++) {
 					lTmpStat.type = lStats[i].type[j];
 					if (lStats[i].type[j] == "") {
 						lStat = $scope.getStatistics(lTmpStat, pMember,
 								pDateStart, pDateStop);
 					} else if ($scope.workoutData.workoutTypes[lStats[i].type[j]]) {
-						for ( var k = 0; k < $scope.workoutData.workoutTypes[lStats[i].type[j]].length; k++) {
+						for (var k = 0; k < $scope.workoutData.workoutTypes[lStats[i].type[j]].length; k++) {
 							lTmpStat.type = $scope.workoutData.workoutTypes[lStats[i].type[j]][k].code
 							lSpecific.push($scope.getStatistics(lTmpStat,
 									pMember, pDateStart, pDateStop));
@@ -715,11 +714,11 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 				- (lNow.getDay() + 6) % 7);
 		var lMonthStart = new Date(lNow.getFullYear(), lNow.getMonth(), 1);
 		var lWeekStats = new Object();
-		lWeekStats.stats = $scope.getPersonalStatistics($scope.activeMember,
+		lWeekStats.stats = $scope.getPersonalStatistics($rootScope.profile,
 				lWeekStart, lNow);
 		lWeekStats.label = "week";
 		var lMonthStats = new Object();
-		lMonthStats.stats = $scope.getPersonalStatistics($scope.activeMember,
+		lMonthStats.stats = $scope.getPersonalStatistics($rootScope.profile,
 				lMonthStart, lNow);
 		lMonthStats.label = "month";
 		/*
@@ -729,4 +728,8 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		 */
 		$scope.personalStatistics = [ lWeekStats, lMonthStats ];
 	}
+
+	$scope.$on("calendarChanged", $scope.updateMyTasks)
+	$scope.$on("profileLoaded", $scope.updateMyTasks)
+
 }

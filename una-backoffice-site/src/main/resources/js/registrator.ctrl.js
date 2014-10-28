@@ -74,21 +74,21 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 
 	$scope.loadProfile = function() {
 		$http
-				.get('app/profile/getProfile?username=' + $rootScope.loggedUser)
+				.get('app/profile/' + $rootScope.loggedUser + '/full')
 				.success(
 						function(data) {
 							debugger;
-							if (data.profile) {
-								var lData = data.profile.data;
-								delete data.profile.data;
+							if (data.id) {
+								var lData = data.data;
+								delete data.data;
 
-								$scope.member = $scope.mergeOptions(
-										data.profile, lData);
+								$scope.member = $scope
+										.mergeOptions(data, lData);
 								if ($scope.member.birthdate) {
 									$scope.member.birthdate = new Date(
 											$scope.member.birthdate)
 									$scope.member.birthdayDayOfMonth = $scope.member.birthdate
-									.getDate();
+											.getDate();
 									$scope.member.birthdayMonth = $scope.member.birthdate
 											.getMonth() + 1;
 									$scope.member.birthdayYear = $scope.member.birthdate
@@ -132,19 +132,21 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	$scope.generatePdf = function() {
 		$http({
 			method : 'POST',
-			url : "app/profile/saveProfile",
+			url : "app/profile/save",
 			data : $scope.member
-		}).success(function(data, status) {
-			
-			window.location = "app/profile/getpdf?username="+$rootScope.loggedUser
-			/*
-			var iframe = jQuery("<iframe/>").attr({
-				src : "app/profile/getpdf?username=" + $rootScope.loggedUser,
-				style : "visibility:hidden;display:none"
-			}).appendTo("#pdfDownloadBtn");
-			*/
-			
-		});
+		}).success(
+				function(data, status) {
+
+					window.location = "app/profile/getpdf?username="
+							+ $rootScope.loggedUser
+					/*
+					 * var iframe = jQuery("<iframe/>").attr({ src :
+					 * "app/profile/getpdf?username=" + $rootScope.loggedUser,
+					 * style : "visibility:hidden;display:none"
+					 * }).appendTo("#pdfDownloadBtn");
+					 */
+
+				});
 
 	}
 
@@ -171,7 +173,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	}
 	$scope.submit = function() {
 		var lResult = true;
-		var lMessage = ""
+		var lMessage = "";
 		var lErrors = new Array();
 		$scope.serverRequestOngoing(false);
 		if (!validate(lErrors)) {
@@ -184,7 +186,7 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 			$rootScope.notifications = new Array();
 			$http({
 				method : 'POST',
-				url : "app/profile/saveProfile",
+				url : "app/profile/save",
 				data : $scope.member
 			})
 					.success(
@@ -290,11 +292,12 @@ function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
 	};
 
 	$scope.tryToSetUpBirthdate = function() {
-		if ($scope.member.birthdayDayOfMonth > 0 && $scope.member.birthdayMonth > 0
+		if ($scope.member.birthdayDayOfMonth > 0
+				&& $scope.member.birthdayMonth > 0
 				&& $scope.member.birthdayYear > 0) {
 			$scope.member.birthdate = new Date($scope.member.birthdayYear,
-					$scope.member.birthdayMonth - 1, $scope.member.birthdayDayOfMonth,
-					0, 0, 0, 0);
+					$scope.member.birthdayMonth - 1,
+					$scope.member.birthdayDayOfMonth, 0, 0, 0, 0);
 		}
 	}
 

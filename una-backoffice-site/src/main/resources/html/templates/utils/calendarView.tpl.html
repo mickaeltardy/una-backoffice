@@ -138,7 +138,7 @@
             data-ng-class="{'outside' : !day.inside, 'today' : day.today == 0, 'past' : day.today == -1, 'future' : day.today == 1}">
             <div class="dayLabel">{{day.label}}</div>
             <p
-                        data-ng-bind-html-unsafe= "call(dayContentMethod, day)"></p>
+                        data-ng-bind-html = "call(dayContentMethod, day)"></p>
             <ul class="controls">
                 <li data-ng-repeat="control in controls"
                     data-ng-show="(!control.display || (control.display == 'past' && day.today <= 0) || (control.display == 'future' && day.today >= 0)) && (!control.displayMethod || call(control.displayMethod, day)) "

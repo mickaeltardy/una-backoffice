@@ -214,39 +214,39 @@
     "statistics" : [
         {
             "label" : "boat",
-            "workout_class" : "boat",
+            "category" : "boat",
             "count" : "distance",
             "type" : ["", "rowing"] 
         },
         {
             "label" : "shortBoat",
-            "workout_class" : "boat",
+            "category" : "boat",
             "workout_boat" : ["1x", "2-"],
             "count" : "distance",
             "type" : ["", "rowing"] 
         },
         {
             "label" : "longBoat",
-            "workout_class" : "boat",
+            "category" : "boat",
             "workout_boat" : ["2x", "4-", "4x", "4+", "8+", "8x"],
             "count" : "distance", 
             "type" : ["", "rowing"]
         },
         {
-            "workout_class" : "jogging",
+            "category" : "jogging",
             "count" : "distance" 
         },
         {
-            "workout_class" : "jogging",
+            "category" : "jogging",
             "count" : "duration"
         },
         {
-            "workout_class" : "ergo",
+            "category" : "ergo",
             "count" : "duration",
             "type" : ["", "rowing"]
         },
         {
-            "workout_class" : "building",
+            "category" : "building",
             "count" : "laps", 
             "type" : ["", "building"]
         }

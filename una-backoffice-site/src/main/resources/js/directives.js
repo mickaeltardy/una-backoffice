@@ -55,8 +55,7 @@ function dndUploader() {
 		scope : {
 			action : '@'
 		},
-		controller : [ '$scope', '$http', '$rootScope',
-				DragAndDropUploaderCtrl ],
+		controller : [ '$scope', '$http', '$rootScope', DragAndDropUploaderCtrl ],
 		link : function(scope, http, elem, attrs, ctrl) {
 			return true;
 		},
@@ -66,13 +65,11 @@ function dndUploader() {
 
 }
 
-
 function CalendarCtrl($scope, $http, $rootScope) {
 
 	$scope.dayNames = [ 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di' ];
-	$scope.monthLabels = [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai',
-			'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov',
-			'Déc' ];
+	$scope.monthLabels = [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul',
+			'Aou', 'Sep', 'Oct', 'Nov', 'Déc' ];
 
 	$scope.switchCalendarView = function() {
 		$scope.calendarViewStyle = ($scope.calendarViewStyle == "calendarTable") ? "calendarList"
@@ -89,7 +86,7 @@ function CalendarCtrl($scope, $http, $rootScope) {
 
 		$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
 		$rootScope.$broadcast("calendarChanged", $scope);
-		
+
 	}
 
 	$scope.nextMonth = function() {
@@ -101,7 +98,7 @@ function CalendarCtrl($scope, $http, $rootScope) {
 		}
 		$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
 		$rootScope.$broadcast("calendarChanged", $scope);
-		
+
 	}
 
 	$scope.daysInMonth = function(pMonth, pYear) {
@@ -134,11 +131,9 @@ function CalendarCtrl($scope, $http, $rootScope) {
 
 	$scope.getDaysOfMonth = function(pMonth, pYear, pCallback) {
 		var lDays = new Array();
-		
-		
+
 		var lDaysCnt = $scope.daysInMonth(pMonth, pYear);
-		
-		
+
 		var lFirstDay = $scope.convertDay(new Date(pYear, pMonth, 1).getDay());
 		var lLastDay = $scope.convertDay(new Date(pYear, pMonth + 1, 0)
 				.getDay());
@@ -150,17 +145,22 @@ function CalendarCtrl($scope, $http, $rootScope) {
 
 			lDays.push(lDay);
 		}
-		
-		
+
 		return lDays;
 	}
 
 	$scope.getMonthLabel = function(pMonthId) {
 		return $scope.monthLabels[pMonthId];
 	}
-	
-	
-	
+
+	$scope.registerUpdateEvents = function(pEvents) {
+		if (pEvents && pEvents.length > 0) {
+		}
+		for (var i = 0; i < pEvents.length; i++) {
+			$scope.$on(pEvents[i], $scope.refreshCalendarData);
+
+		}
+	}
 
 	$scope.call = function(pFn, pDay) {
 		if (pFn && $scope[pFn])
@@ -168,24 +168,24 @@ function CalendarCtrl($scope, $http, $rootScope) {
 		else if (pFn && $rootScope[pFn])
 			return $rootScope[pFn](pDay);
 		else
-			return ""
+			return "";
 	}
 
-	$scope.refreshCalendarData = function (){
+	$scope.refreshCalendarData = function() {
+		debugger;
 		$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, false);
 	}
-	
+
 	$scope.days = new Array();
 	$scope.month = new Date().getMonth();
 	$scope.year = new Date().getFullYear();
 	$scope.days = $scope.getDaysOfMonth($scope.month, $scope.year, true);
-	
+
 	$rootScope.$broadcast("calendarChanged", $scope);
-	
+
 	$scope.calendarViewStyle = "calendarTable";
-	
+
 	this.getMonthLabel = $scope.getMonthLabel;
-	
 
 }
 function calendarView() {
@@ -197,12 +197,14 @@ function calendarView() {
 			controlsList : '@',
 			dataRefreshMethod : '@',
 			dataRetreiveMethod : '@',
-			dayContentMethod : '@'
+			dayContentMethod : '@',
+			updateEvents : '@'
 		},
 		controller : [ '$scope', '$http', '$rootScope', CalendarCtrl ],
 		link : function(scope, elem, attrs) {
-			scope.$on("workoutsLoaded", scope.refreshCalendarData);
 			scope.controls = scope.$eval(scope.controlsList);
+			debugger;
+			scope.registerUpdateEvents(scope.updateEvents);
 		}
 	}
 }

@@ -23,24 +23,63 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 		}
 		return true;
 	}
-	$rootScope.getAllWorkoutData = function(pCallback) {
-		$scope.workouts = new Array();
-		$scope.filteredWorkouts = new Array();
-		$http.get('../server/service/getWorkouts').success(function(data) {
 
+	$scope.getTasksDataByRequest = function(pScope) {
+
+		var lData = pScope;
+		$http({
+			method : 'POST',
+			url : "app/tasks/retrieve",
+			data : lData
+		}).success(function(data, status) {
 			if (data) {
+				$scope.tasks = new Array();
+				$scope.filteredTasks = new Array();
 				for (i = 0; i < data.length; i++) {
-
-					$scope.workouts.push(data[i]);
-
-					$scope.filteredWorkouts.push(data[i]);
-
+					$scope.tasks.push(data[i]);
+					$scope.filteredTasks.push(data[i]);
 				}
-				$rootScope.$broadcast("workoutsLoaded", data);
-
+				$rootScope.$broadcast("tasksLoaded", data);
+			}
+		});
+	}
+	$scope.getSessionsDataByRequest = function(pScope) {
+		var lData = pScope;
+		$http({
+			method : 'POST',
+			url : "app/sessions/retrieve",
+			data : lData
+		}).success(function(data, status) {
+			if (data) {
+				$scope.sessions = new Array();
+				$scope.filteredSessions = new Array();
+				for (i = 0; i < data.length; i++) {
+					$scope.sessions.push(data[i]);
+					$scope.filteredSessions.push(data[i]);
+				}
+				$rootScope.$broadcast("sessionsLoaded", data);
 			}
 		});
 
+	}
+
+	$scope.getWorkoutsDataByRequest = function(pUrl, pScope) {
+		var lData = pScope;
+		$http({
+			method : 'POST',
+			url : pUrl,
+			data : lData
+		}).success(function(data, status) {
+			if (data) {
+				$scope.workouts = new Array();
+				$scope.filteredWorkouts = new Array();
+				for (i = 0; i < data.length; i++) {
+					$scope.workouts.push(data[i]);
+					$scope.filteredWorkouts.push(data[i]);
+				}
+				$rootScope.$broadcast("workoutsLoaded", data);
+			}
+		});
 	}
 	// --------
 
@@ -53,18 +92,38 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 			lDay = "0" + lDay;
 		return pDate.getFullYear() + "-" + lMonth + "-" + lDay;
 	}
+	
+	$scope.getWorkoutsByType = function(pType){
+		var lWorkouts = new Array();
+		if(pType == 0){
+			lWorkouts = $scope.tasks;
+		}else if (pType == 0){ 
+			lWorkouts = $scope.sessions;
+		}
+		return lWorkouts;
+	}
 
+	$scope.setFilteredWorkoutsByType = function(pFilteredWorkouts, pType){
+		
+		if(pType == 0){
+			$scope.filteredTasks = pFilteredWorkouts;
+		}else if (pType == 0){ 
+			$scope.filteredSessions = pFilteredWorkouts;
+		}
+	}
+	
 	$scope.filterWorkouts = function(pDay, pType) {
 		if ($scope.selDay)
 			;
 		if ($scope.selWorkoutType)
 			;
-
+		var lWorkouts = $scope.getWorkoutsByType(pType);
+		
 		var filteredWorkouts = new Array();
-		for (i = 0; i < $scope.workouts.length; i++) {
-			if ($scope.getDate($scope.workouts[i].date) - pDay.date === 0
-					&& $scope.workouts[i].type == pType)
-				filteredWorkouts.push($scope.workouts[i]);
+		for (i = 0; i < lWorkouts.length; i++) {
+			if ($scope.getDate(lWorkouts[i].date) - pDay.date === 0
+					&& lWorkouts[i].itemType == pType)
+				filteredWorkouts.push(lWorkouts[i]);
 		}
 		return filteredWorkouts;
 
@@ -100,9 +159,10 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.getCnt = function(pDay, pType) {
 		var lGoalsCnt = 0;
-		for (i = 0; i < $scope.workouts.length; i++) {
-			if ($scope.getDate($scope.workouts[i].date) - pDay.date === 0
-					&& pType == $scope.workouts[i].type)
+		var lWorkouts = $scope.getWorkoutsByType(pType);
+		
+		for (i = 0; i < lWorkouts.length; i++) {
+			if ($scope.getDate(lWorkouts[i].date) - pDay.date === 0)
 				lGoalsCnt++;
 		}
 		return lGoalsCnt;
@@ -124,7 +184,7 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 		else {
 			if (pWorkout.workout_class) {
 				var lClassLabel = "";
-				for ( var i = 0; i < $scope.workoutData.workoutClasses.length; i++) {
+				for (var i = 0; i < $scope.workoutData.workoutClasses.length; i++) {
 					if ($scope.workoutData.workoutClasses[i]['code'] == pWorkout.workout_class) {
 						if (pWorkout.workout_boat) {
 							if ($scope.isShortBoat(pWorkout.workout_boat))
@@ -139,8 +199,8 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 				}
 				lResult += lClassLabel + " / ";
 			}
-			if (pWorkout.workout_type)
-				lResult += pWorkout.workout_type + " / ";
+			if (pWorkout.type)
+				lResult += pWorkout.type + " / ";
 			if (pWorkout.distance)
 				lResult += pWorkout.distance + "km / ";
 			if (pWorkout.duration)
@@ -166,18 +226,17 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 		var lBoat = null;
 		if (pBoat && typeof pBoat === 'string') {
 			lBoat = $scope.findItemByCode($scope.workoutData.boatTypes, pBoat);
-			if(lBoat && lBoat.type)
+			if (lBoat && lBoat.type)
 				lType = lBoat.type
 		} else if (pBoat && pBoat.length) {
-			for ( var i = 0; i < pBoat.length; i++) {
+			for (var i = 0; i < pBoat.length; i++) {
 				var lTmp = $scope.findItemByCode($scope.workoutData.boatTypes,
 						pBoat[i]);
-				if(lTmp && lTmp.type){
-					if (!lType){
+				if (lTmp && lTmp.type) {
+					if (!lType) {
 						lBoat = lTmp;
 						lType = lTmp.type;
-					}
-					else if (lType != lTmp.type) {
+					} else if (lType != lTmp.type) {
 						lBoat = null;
 						lType = null;
 						break;
@@ -191,13 +250,13 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 			lResult = true;
 		return lResult;
 	};
-	
-	$scope.storeDays = function(pScope){
-		if(pScope && pScope.days){
-			$scope.days = pScope.days;  
+
+	$scope.storeDays = function(pScope) {
+		if (pScope && pScope.days) {
+			$scope.days = pScope.days;
 		}
 	}
-	
+
 	$scope.$on("calendarChanged", $scope.storeDays);
 
 }

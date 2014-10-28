@@ -24,24 +24,24 @@ public class SupervisorService {
 
 	@Autowired
 	ProfileDao mProfileDao;
-	
+
 	@Autowired
 	ProfilesManager mProfilesManager;
-	
+
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)
 	@ResponseView(Views.Public.class)
-//	@PreAuthorize("@AccessTool.isUserSupervisor()")
+	@PreAuthorize("@AccessTool.isUserSupervisor()")
 	public @ResponseBody List<Profile> getProfiles() {
 		return mProfilesManager.getValidProfiles();
 	}
-	
-	@RequestMapping(value = "/profiles/{username:.+}", method = RequestMethod.PUT, consumes="application/json")
+
+	@RequestMapping(value = "/profiles/{username:.+}", method = RequestMethod.PUT, consumes = "application/json")
 	@ResponseView(Views.Public.class)
 	@PreAuthorize("@AccessTool.isUserSupervisor()")
-	public @ResponseBody Object updateProfile(@PathVariable("username") String pUsername, @RequestBody Map<Object, Object> pProfileInput) {
+	public @ResponseBody Object updateProfile(
+			@PathVariable("username") String pUsername,
+			@RequestBody Map<Object, Object> pProfileInput) {
 		return mProfilesManager.updateProfile(pUsername, pProfileInput);
 	}
-	
-	
 
 }

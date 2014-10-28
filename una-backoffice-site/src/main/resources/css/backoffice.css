@@ -148,10 +148,7 @@ ul.itemsSet>li {
 .memberInfo {
 	border-top: 1px #000000 solid;
 	border-bottom: 1px #000000 solid;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	font-size: 80%;
 }
 
 .memberInfo>ul {
@@ -163,15 +160,15 @@ ul.itemsSet>li {
 }
 
 .memberInfo>ul>li {
-	padding: 5px;
+	padding: 1px;
 }
 
 .memberInfo>ul>li:nth-child(even) {
-	background-color: #eeeeee;
+	background-color: #dddddd;
 }
 
 .memberInfo>ul>li .label {
-	width: 100px;
+	width: 80px;
 	font-weight: bold;
 	float: left;
 	display: block;
@@ -260,6 +257,9 @@ table {
 
 .workoutsPersonalStats .header {
 	font-weight: bold;
+	background: #eeeeee;
+	border-bottom: #000000 thin solid;
+	overflow: auto;
 }
 
 .workoutsPersonalStats.data {

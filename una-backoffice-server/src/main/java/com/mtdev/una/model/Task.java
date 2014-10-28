@@ -10,6 +10,8 @@ public class Task extends WorkoutImpl {
 	 */
 	private static final long serialVersionUID = 7262096650048411638L;
 
-
+	public int getItemType() {
+		return 0;
+	}
 	
 }

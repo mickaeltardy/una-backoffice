@@ -59,7 +59,16 @@
 		<div id="nav-panel">
 			<div id="profile" data-ng-show="loggedUser">
 				<div class="panel">
-					<div class="user">{{loggedUser}}</div>
+				<div class="memberInfo">
+					<ul>
+						<li><span class="label">Nom</span>: <span class="vaue">{{profile.name}}
+								{{profile.surname}}</span></li>
+						<li><span class="label">Sex</span>: <span class="vaue">{{profile.sex}}</span></li>
+						<li><span class="label">Catégorie</span>: <span class="vaue">{{profile.category}}</span></li>
+						<li><span class="label">Niveau</span>: <span class="vaue">{{profile.level}}</span></li>
+						<li><span class="label">Autonomie</span>: <span class="vaue">{{profile.autonomous}}</span></li>
+					</ul>
+					</div>
 					<div class="button" data-ng-click="logout()">{{messages.labels.logout}}</div>
 				</div>
 			</div>
