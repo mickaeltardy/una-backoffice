@@ -99,6 +99,22 @@
         {
             "code": "jogging",
             "label": "Footing"
+        },
+        {
+            "code": "swimming",
+            "label": "Natation"
+        },
+        {
+            "code": "cycling",
+            "label": "Velo"
+        },
+        {
+            "code": "competition",
+            "label": "Compétition"
+        },
+        {
+            "code": "other",
+            "label": "Autre"
         }
     ],
     "boatTypes": [

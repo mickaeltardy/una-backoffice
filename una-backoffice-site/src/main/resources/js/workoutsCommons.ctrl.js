@@ -182,14 +182,14 @@ function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
 		if (pWorkout.description)
 			lResult += pWorkout.description;
 		else {
-			if (pWorkout.workout_class) {
+			if (pWorkout.category) {
 				var lClassLabel = "";
 				for (var i = 0; i < $scope.workoutData.workoutClasses.length; i++) {
-					if ($scope.workoutData.workoutClasses[i]['code'] == pWorkout.workout_class) {
-						if (pWorkout.workout_boat) {
-							if ($scope.isShortBoat(pWorkout.workout_boat))
+					if ($scope.workoutData.workoutClasses[i]['code'] == pWorkout.category) {
+						if (pWorkout.boat) {
+							if ($scope.isShortBoat(pWorkout.boat))
 								lClassLabel += $scope.messages.statistics.labels['shortBoat'];
-							else if ($scope.isLongBoat(pWorkout.workout_boat))
+							else if ($scope.isLongBoat(pWorkout.boat))
 								lClassLabel += $scope.messages.statistics.labels['longBoat'];
 						}
 						if (!lClassLabel) {

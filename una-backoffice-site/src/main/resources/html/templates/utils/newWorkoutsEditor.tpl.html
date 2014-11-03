@@ -87,7 +87,7 @@ button.invalid {
 			<li data-ng-show="isDistanceEstimationAvailable()"><label
 				for="workout.distance" class="fieldLabel"
 				data-ng-class="{'required' : isDistanceEstimationRequired() }">Distance
-					(km)</label><input id="workout.distance" type="number" step="any"
+					<span class="note">(en km)</span></label><input id="workout.distance" type="number" step="any"
 				data-ng-model="currentWorkout.distance" /></li>
 			<li data-ng-show="isLapsEstimationRequired()"><label
 				for="workout.laps" class="fieldLabel"
@@ -96,8 +96,8 @@ button.invalid {
 				type="number" step="any" /></li>
 			<li data-ng-show="isTimeEstimationAvailable()"><label
 				for="workout.duration" class="fieldLabel"
-				data-ng-class="{'required' : isTimeEstimationRequired() }">Durée</label><input
-				id="workout.duration" type="text"
+				data-ng-class="{'required' : isTimeEstimationRequired() }">Durée <span class="note">(formats acceptés: MM, MM', NxMM', MM min)</span></label><input
+				id="workout.duration" type="text" placeholder="formats acceptés: MM, MM', NxMM', MM min"
 				data-ng-model="currentWorkout.duration" /></li>
 
 			<li><label for="workout.comment" class="fieldLabel">Comment</label>

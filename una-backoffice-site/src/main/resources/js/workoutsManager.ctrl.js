@@ -68,17 +68,21 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 			$rootScope.$broadcast('memberSelected', $scope.activeMember);
 		}
 	}
-	
+
 	$scope.updateMyWorkouts = function(pType, pScope) {
 		if ($rootScope.profile) {
 			var lScope = new Object();
 			var lDays = null;
 
 			lScope.athleteId = $rootScope.profile.username;
+			/*
+			 * FIXME Updating profiles prevents from loading the sessions
+			 */
+			/*
 			lScope.athleteLevel = $rootScope.profile.level;
 			lScope.athleteCategory = $rootScope.profile.category;
 			lScope.athleteSex = $rootScope.profile.sex;
-
+			*/
 			if (pScope && pScope.days) {
 				lDays = pScope.days;
 			} else if ($scope.days) {
@@ -420,7 +424,10 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.isDistanceEstimationAvailable = function() {
 		return ($scope.currentWorkout && ($scope.isDistanceEstimationRequired()
-				|| $scope.currentWorkout.category == "ergo" || $scope.currentWorkout.category == "footing"));
+				|| $scope.currentWorkout.category == "ergo"
+				|| $scope.currentWorkout.category == "jogging"
+				|| $scope.currentWorkout.category == "cycling"
+				|| $scope.currentWorkout.category == "swimming" || $scope.currentWorkout.category == "competition"));
 	}
 
 	$scope.isLapsEstimationRequired = function() {

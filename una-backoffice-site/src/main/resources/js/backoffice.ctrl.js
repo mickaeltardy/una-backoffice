@@ -154,7 +154,6 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 		return lResult;
 	}
 	
-	jQuery("#nav-panel").hide();
 	
 	$scope.tool = $routeParams.tool;
 	
@@ -278,7 +277,7 @@ lBackOfficeApp
 lBackOfficeApp.run(function($rootScope, $http, $location) {
 	// $rootScope.loggedUser = "yyy";
 
-	$rootScope.defaultPath = "registrator";
+	$rootScope.defaultPath = "simplifiedWorkoutsManager";
 
 	$rootScope.checkModuleAccess = function(pModule) {
 		console.log(pModule);

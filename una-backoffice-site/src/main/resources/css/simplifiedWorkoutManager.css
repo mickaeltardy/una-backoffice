@@ -14,14 +14,23 @@
 .simplifiedWorkoutManager .workoutsList .workoutItem {
 	float : left;
 	padding : 10px;
-	border-bottom:1px #cccccc dotted;
+	border-top:1px #cccccc dotted;
+}
+
+.simplifiedWorkoutManager .workoutsList .removeBtn,
+.simplifiedWorkoutManager .workoutsList .workoutItem,
+.simplifiedWorkoutManager .workoutItem .date, 
+.simplifiedWorkoutManager .workoutItem .description  {
+
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .simplifiedWorkoutManager .workoutsList .removeBtn{
-	max-width:20px;
 	width:10%;
 	text-align: center;
-	font-weight: bold
+	font-weight: bold;
 	
 }
 .simplifiedWorkoutManager .workoutsList li {
@@ -40,11 +49,11 @@
 	float:left;
 }
 .simplifiedWorkoutManager .workoutItem {
-	width:85%;
+	width:75%;
 	
 }
 .simplifiedWorkoutManager .workoutItem .date {
-	width:100px;
+	width:25%;
 	font-weight: bold;
 	display: block;
 	float:left;
@@ -67,6 +76,12 @@
     display: block;
     float:left;
 }
+span.note{
+	font-style: italic;
+	color: #999999;
+	font-size: 90%;
+}
+
 @media screen and (max-width: 639px){
 .simplifiedWorkoutManager .workoutItem {
     width:80%;
