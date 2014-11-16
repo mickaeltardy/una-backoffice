@@ -1,11 +1,9 @@
 function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 	this.prototype = WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope);
-
-	$http.get('../server/service/getCompactMembersList').success(
-			function(data) {
-				$scope.athletes = data;
-			});
-
+	/*
+	 * $http.get('../server/service/getCompactMembersList').success(
+	 * function(data) { $scope.athletes = data; });
+	 */
 	$rootScope.getGoals = function(pDay) {
 		var lTodo = "";
 
@@ -79,21 +77,20 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 			 * FIXME Updating profiles prevents from loading the sessions
 			 */
 			/*
-			lScope.athleteLevel = $rootScope.profile.level;
-			lScope.athleteCategory = $rootScope.profile.category;
-			lScope.athleteSex = $rootScope.profile.sex;
-			*/
+			 * lScope.athleteLevel = $rootScope.profile.level;
+			 * lScope.athleteCategory = $rootScope.profile.category;
+			 * lScope.athleteSex = $rootScope.profile.sex;
+			 */
 			if (pScope && pScope.days) {
 				lDays = pScope.days;
 			} else if ($scope.days) {
 				lDays = $scope.days;
 			}
-
-			if (lDays && lDays.length > 0) {
-				lScope.dateFrom = $scope.getChromedDate(lDays[0].date);
-				lScope.dateTo = $scope
-						.getChromedDate(lDays[lDays.length - 1].date);
-			}
+			/*
+			 * if (lDays && lDays.length > 0) { lScope.dateFrom =
+			 * $scope.getChromedDate(lDays[0].date); lScope.dateTo = $scope
+			 * .getChromedDate(lDays[lDays.length - 1].date); }
+			 */
 
 			if (pType == "sessions")
 				$scope.getSessionsDataByRequest(lScope);
@@ -114,7 +111,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 		var lResult = 0;
 		var lData = new Array();
-
+		$scope.serverRequestOngoing(false);
 		lData.push($scope.currentWorkout);
 		$http({
 			method : 'POST',
@@ -122,6 +119,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 			data : lData
 		}).success(
 				function(data, status) {
+					$scope.serverRequestOngoing(false);
 					if (data.status == "success" && !data.error) {
 						if (!$scope.currentWorkout.id) {
 							$scope.currentWorkout.id = data.id / 1;
@@ -135,7 +133,9 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 						alert(data.message);
 					} else
 						alert("Void");
-				});
+				}).error(function() {
+			$scope.serverRequestOngoing(false);
+		});
 		return true;
 
 	}
@@ -177,6 +177,10 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		 */
 		$scope.scrollUp();
 
+	}
+
+	$scope.showAllWorkouts = function() {
+		$scope.workoutsLimit = 10000;
 	}
 
 	$scope.editWorkout = function(pWorkout) {
@@ -738,5 +742,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.$on("calendarChanged", $scope.updateMyTasks)
 	$scope.$on("profileLoaded", $scope.updateMyTasks)
-
+	
+	$scope.workoutsLimit = 10;
+	
 }

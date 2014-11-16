@@ -56,6 +56,42 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 		});
 	}
 
+	$scope.authenticate = function(pUsername, pPassword) {
+		$http(
+				{
+					method : "POST",
+					data : $scope.param({
+						"j_username" : pUsername,
+						"j_password" : pPassword
+					}),
+					url : 'j_spring_security_check',
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8'
+					}
+				})
+				.success(
+						function(data) {
+							$scope.serverRequestOngoing(false);
+							if (data.status == "success") {
+
+								$rootScope.loggedUser = data.username;
+
+								var lRedirection = ($rootScope.redirection) ? $rootScope.redirection
+										: $rootScope.defaultPath;
+
+								$location.path(lRedirection);
+							} else {
+
+								$rootScope.notifications.push({
+									"cssClass" : "error",
+									"text" : $scope.messages.errors.invalidAuth
+								});
+							}
+						});
+	}
+
+	
+	
 	$scope.param = function(obj) {
 		var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
 
@@ -87,7 +123,11 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 	};
 
 	$scope.serverRequestOngoing = function(pStatus) {
-		$rootScope.preloaderDisplay = pStatus;
+		var lPreloader = jQuery("#preloaderContainer");
+		if (pStatus && !lPreloader.is(":visible"))
+			lPreloader.fadeIn();
+		else if (!pStatus && lPreloader.is(":visible"))
+			lPreloader.fadeOut();
 	}
 
 	$scope.isArrayValid = function(pArray) {
@@ -153,12 +193,11 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 
 		return lResult;
 	}
-	
-	
+
 	$scope.tool = $routeParams.tool;
-	
+
 	$scope.tools = $rootScope.tools;
-	
+
 	$scope.messages = $rootScope.messages;
 
 	$scope.loggedUser = $rootScope.loggedUser;
@@ -213,9 +252,9 @@ var CommonCtrl = function($rootScope, $http, $route) {
 
 	$rootScope.workoutsStatistics = "app/resources/templates-utils-workoutPersonalStats.tpl.html";
 	jQuery("#nav-button").off("click")
-	
+
 	jQuery("#nav-button").click(function() {
-			jQuery("#nav-panel").slideToggle();
+		jQuery("#nav-panel").slideToggle();
 	})
 
 };

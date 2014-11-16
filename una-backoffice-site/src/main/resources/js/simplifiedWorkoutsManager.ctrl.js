@@ -13,7 +13,7 @@ function SimplifiedWorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) 
 		for (i = 0; i < lWorkoutsCnt; i++) {
 				lFilteredWorkouts.push(lWorkouts[i]);
 		}
-		$scope.setlFilteredWorkoutsByType(lFilteredWorkouts, 1)
+		$scope.setFilteredWorkoutsByType(lFilteredWorkouts, 1)
 	}
 
 	$scope.orderProp = "date";

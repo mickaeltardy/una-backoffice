@@ -14,7 +14,7 @@
     <div class="workoutsList">
         <ul>
             <li class="clickable"
-                data-ng-repeat="workout in filteredSessions  |  orderBy:orderProp">
+                data-ng-repeat="workout in filteredSessions  |  orderBy:orderProp : reverse = true |  limitTo: workoutsLimit">
                 <div class="removeBtn"
                     data-ng-click="removeWorkout(workout);">X</div>
                 <div data-ng-show="workout.itemType==1" class="workoutItem"
@@ -24,6 +24,7 @@
                 </div>
             </li>
         </ul>
+        <button data-ng-click="showAllWorkouts()">Afficher tous les entrainements</button>
     </div>
 
     
