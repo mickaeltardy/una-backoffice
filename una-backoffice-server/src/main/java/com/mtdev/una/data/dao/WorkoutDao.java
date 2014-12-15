@@ -1,13 +1,13 @@
 package com.mtdev.una.data.dao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,9 @@ public class WorkoutDao<T> {
 
 	@Autowired
 	MongoOperations mMongoOperations;
+	
+	@Autowired
+	MongoTemplate mMongoTemplate;
 
 	public List<T> getAllWorkouts(Class<T> pClass) {
 		List<T> lSessions = mMongoOperations.findAll(pClass);

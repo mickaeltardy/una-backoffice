@@ -67,12 +67,14 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 		}
 	}
 
-	$scope.updateMyWorkouts = function(pType, pScope) {
-		if ($rootScope.profile) {
-			var lScope = new Object();
+	$scope.updateMyWorkouts = function(pType, pScope, pProfile) {
+		var lScope = new Object();
+
+		lScope.athleteId = (pScope && pScope.athleteId) ? pScope.athleteId
+				: ($rootScope.profile) ? $rootScope.profile.username : null;
+		if (lScope.athleteId) {
 			var lDays = null;
 
-			lScope.athleteId = $rootScope.profile.username;
 			/*
 			 * FIXME Updating profiles prevents from loading the sessions
 			 */
@@ -717,7 +719,10 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 	}
 
-	$scope.loadPersonalStatistics = function() {
+	$scope.loadPersonalStatistics = function(pScope, pWorkouts, pMember) {
+
+		var lMember = (pMember) ? pMember : $rootScope.profile;
+
 		var lNow = new Date();
 
 		var lWeekStart = new Date(lNow.getFullYear(), lNow.getMonth(), lNow
@@ -725,12 +730,12 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 				- (lNow.getDay() + 6) % 7);
 		var lMonthStart = new Date(lNow.getFullYear(), lNow.getMonth(), 1);
 		var lWeekStats = new Object();
-		lWeekStats.stats = $scope.getPersonalStatistics($rootScope.profile,
-				lWeekStart, lNow);
+		lWeekStats.stats = $scope.getPersonalStatistics(lMember, lWeekStart,
+				lNow);
 		lWeekStats.label = "week";
 		var lMonthStats = new Object();
-		lMonthStats.stats = $scope.getPersonalStatistics($rootScope.profile,
-				lMonthStart, lNow);
+		lMonthStats.stats = $scope.getPersonalStatistics(lMember, lMonthStart,
+				lNow);
 		lMonthStats.label = "month";
 		/*
 		 * var lFullStats = new Object(); lFullStats.stats =
@@ -742,7 +747,7 @@ function WorkoutsManagerCtrl($scope, $http, $routeParams, $rootScope) {
 
 	$scope.$on("calendarChanged", $scope.updateMyTasks)
 	$scope.$on("profileLoaded", $scope.updateMyTasks)
-	
+
 	$scope.workoutsLimit = 10;
-	
+
 }

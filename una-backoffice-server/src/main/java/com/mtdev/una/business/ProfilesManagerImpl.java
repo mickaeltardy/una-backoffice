@@ -57,7 +57,7 @@ public class ProfilesManagerImpl implements ProfilesManager {
 				lProfile.setUsername((String) pData.get("username"));
 			}
 			lProfile.setAddress((String) pData.get("address"));
-			lProfile.setBirthdate(parse((String) pData.get("birthdate")));
+			lProfile.setBirthdate((Date)pData.get("birthdate"));
 			lProfile.setCity((String) pData.get("city"));
 			lProfile.setLicence((String) pData.get("licence"));
 			lProfile.setName((String) pData.get("name"));
@@ -201,15 +201,7 @@ public class ProfilesManagerImpl implements ProfilesManager {
 					break;
 				}
 			}
-			if (((String) lEntry.getKey()).compareTo("certificate") == 0) {
-				try {
-					lCleanData.put(lEntry.getKey(),
-							parse((String) lEntry.getValue()));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if (lKeep)
+			if (lKeep)
 				lCleanData.put(lEntry.getKey(), lEntry.getValue());
 		}
 
