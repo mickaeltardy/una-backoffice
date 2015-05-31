@@ -33,10 +33,9 @@ public class PdfGenerator {
 			os.close();
 			return os;
 		} catch (Exception lE) {
-
+			lE.printStackTrace();
+			return null;
 		}
-
-		return null;
 	}
 
 }

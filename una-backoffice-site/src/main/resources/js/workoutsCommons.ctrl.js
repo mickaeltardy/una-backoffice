@@ -1,5 +1,5 @@
-function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+function WorkoutCommonsCtrl($scope, $http, $routeParams, $rootScope, $location) {
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 
 	$http.get('app/resources/workoutsData.datasource').success(function(data) {
 		$scope.workoutData = data;

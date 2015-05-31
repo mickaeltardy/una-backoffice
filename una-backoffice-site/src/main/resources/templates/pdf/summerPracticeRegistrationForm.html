@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<title>Insert title here</title>
+<style>
+h1, h2, h3 {
+	margin: 5px;
+}
+
+ul {
+	list-style: none;
+}
+
+ul.docs {
+	list-style: circle;
+}
+
+ul.value {
+	margin: 0;
+	padding: 0 1em;
+	list-style: none;
+	float: left;
+}
+
+ul.value>li {
+	margin-left: 40px;
+}
+ul.value>li.selected:before{
+	background:#999;
+}
+ul.value>li:before {
+	content: " ";
+	border: 1px #000 solid;
+	display: block;
+	height: 16px;
+	width: 20px;
+	margin-left: -20px;
+	left: -1em;
+	top: 0.9em;
+	position: relative;
+}
+
+li>span.value {
+	min-width: 250px;
+	height: 16px;
+	content: " ";
+	display: block;
+	float: left;
+	border-bottom: 1px solid #000000;
+}
+
+li>span.label {
+	float: left;
+	height: 20px;
+}
+
+li>span {
+	float: left;
+	margin: 5px;
+}
+
+li {
+	clear: both;
+}
+
+div.parental-permission {
+	display: block;
+	float: none;
+	clear: both;
+}
+
+@page {
+	size: landscape;
+	padding: 0px;
+	margin: 0px;
+}
+
+.left-column, .right-column {
+	width: 48%;
+	float: left;
+	margin: 5px;
+}
+
+div.parental-permission>div {
+	clear: both;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	overflow: auto;
+}
+
+div.parental-permission>div>span.text {
+	float: left;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	margin-top: 6px
+}
+
+div.parental-permission>div>span.value {
+	min-width: 300px;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	height: 18px;
+	content: " ";
+	float: left;
+	border-bottom: 1px solid #000000;
+	height: 20px;
+	margin-bottom: 10px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+td>ul {
+	margin: 0px;
+	padding: 5px;
+}
+
+body {
+	font-family: Arial;
+}
+/*
+.left-column {
+	background: url('img/logo_una_blanc.jpg') no-repeat top left;
+	background-size: auto 100px;
+}
+*/
+
+
+body::after {
+	content: " ";
+	/* background: url('img/logo_una_blanc.jpg') no-repeat center center;*/
+	background-size: auto 80%;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+}
+
+.left-column>img {
+	float:left;
+	padding-right:20px;
+}
+.left-column>h1{
+font-size: 28px;}
+</style>
+</head>
+<body>
+
+	<div class="left-column">
+		<img src="http://una-club.fr/unaResgistrationTool/server/img/logo_una_blanc.jpg" width="100" />
+		<h1>Université Nantes Aviron</h1>
+		<h2>Stage d'été</h2>
+		<h3>Formulaire d'inscription</h3>
+		<ul class="form">
+			<li><span class="label">Nom</span> <span class="value">$DataTools.getLabelFromMap($data, "name")</span></li>
+			<li><span class="label">Prénom</span> <span class="value">$DataTools.getLabelFromMap($data, "firstname")</span></li>
+			<li><span class="label">Sex</span>
+				<ul class="value">
+					<li #if ($data.sex =='m') class="selected" #end>M</li>
+					<li #if ($data.sex =='f') class="selected" #end>F</li>
+				</ul></li>
+			<li><span class="label">Date de naissance</span> <span
+				class="value">$data.birthdate</span></li>
+			<li><span class="label">Adresse</span> <span class="value">$DataTools.getLabelFromMap($data, "address")</span></li>
+			<li><span class="label">Code Postal</span> <span class="value">$DataTools.getLabelFromMap($data, "zipcode")</span></li>
+			<li><span class="label">Ville</span> <span class="value">$DataTools.getLabelFromMap($data, "city")</span></li>
+			<li><span class="label">Téléphone</span> <span class="value">$DataTools.getLabelFromMap($data, "telephone")</span></li>
+			<li><span class="label">Date de stage</span>
+				<ul class="value">
+					<li #if ($data.session =='s1') class="selected" #end>du 29 juin au 3 juillet</li>
+					<li #if ($data.session =='s2') class="selected" #end>du 6 juillet au 10 juillet</li>
+					<li #if ($data.session =='s3') class="selected" #end>du 13 juillet au 17 juillet</li>
+				</ul></li>
+			<li><span class="label">Tarif</span>
+				<ul class="value">
+					<li #if ($data.price =='t1') class="selected" #end>Tarif standard</li>
+					<li #if ($data.price =='t2') class="selected" #end>Enfant personnel université de nantes</li>
+					<li #if ($data.price =='t3') class="selected" #end>Enfants membres du CPUN</li>
+				</ul></li>
+		</ul>
+	</div>
+	<div class="right-column">
+		<h3>Tarifs</h3>
+		<table>
+			<col width="8%" />
+			<col width="16%" />
+			<col width="18%" />
+			
+			<tr>
+				<th></th>
+				<th>Date</th>
+				<th>Horaire</th>
+				<th>Tarif</th>
+			</tr>
+			<tr>
+				<td>S1</td>
+				<td>29/06 - 03/07</td>
+				<td rowspan="3">14h à 16h</td>
+				<td rowspan="2"><ul>
+						<li>Tarif standard 70&#8364;</li>
+						<li>Enfant personnel université de nantes 60&#8364;</li>
+						<li>Enfants membres du cpun 50&#8364;</li>
+					</ul></td>
+			</tr>
+			<tr>
+				<td>S2</td>
+				<td>07/07 - 10/07</td>
+			</tr>
+			<tr>
+				<td>S3</td>
+				<td>13/06 - 17/07 (sauf 14/07)</td>
+				<td><ul>
+						<li>Tarif standard 56&#8364;</li>
+						<li>Enfant personnel université de nantes 48&#8364;</li>
+						<li>Enfants membres du cpun 40&#8364;</li>
+					</ul></td>
+			</tr>
+		</table>
+		<h3>Modalités d'inscription</h3>
+		<ul class="docs">
+			<li>Fiche d’inscription avec autorisation parentale remplie</li>
+			<li>Diplôme de natation (25 m minimum)</li>
+			<li>Certificat médical</li>
+			<li>Votre règlement par chèque, à l’ordre de l’UNA</li>
+			<li>Justificatif en cas de tarif réduit (voir tableau ci dessus)</li>
+		</ul>
+		<h3>Autorisation parentale</h3>
+		<div class="parental-permission">
+			<div>
+				<span class="text">Je soussigné(e), </span><span class="value">
+				</span><span class="text"> autorise mon enfant à pratiquer l’aviron
+					à l’UNA lors d'un stage d'été.</span>
+			</div>
+			<div>J'autorise également la prise de vue et la publication de
+				l’image sur laquelle mon enfant apparait ; ceci, sur différents
+				supports (écrit, électronique, audio-visuel) et sans limitation de
+				durée.</div>
+			<div>Lu et approuvé</div>
+			<div>
+				<span class="text">Le</span> <span class="value"> </span>
+			</div>
+			<div>
+				<span class="text">A</span> <span class="value"> </span>
+			</div>
+			<div>Signature</div>
+
+			<span class="value"> </span>
+		</div>
+
+	</div>
+</body>
+</html>

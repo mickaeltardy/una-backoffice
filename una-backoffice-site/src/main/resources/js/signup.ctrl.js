@@ -1,5 +1,5 @@
 function SignupCtrl($scope, $http, $routeParams, $rootScope, $location) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location) ;
 
 	$scope.submit = function() {
 		var lResult = true;

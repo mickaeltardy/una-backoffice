@@ -1,5 +1,5 @@
-function CrewsCompositorCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+function CrewsCompositorCtrl($scope, $http, $routeParams, $rootScope, $location) {
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 	$http.get('../server/service/getFullAthletesList').success(function(data) {
 		$scope.athletes = data;
 	});

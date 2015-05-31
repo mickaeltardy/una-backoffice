@@ -1,5 +1,5 @@
-function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+function MembersSupervisorCtrl($scope, $http, $routeParams, $rootScope, $location) {
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 
 	$http.get('app/supervisor/profiles').success(function(data) {
 

@@ -1,5 +1,5 @@
 var lData;
-function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
+function BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location) {
 
 	$http.get('app/resources/messages.datasource').success(function(data) {
 		$rootScope.messages = data;
@@ -209,14 +209,14 @@ function BackofficeCtrl($scope, $http, $routeParams, $rootScope) {
 }
 
 function FileMgrCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 
 }
 function CrewCompositorCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 }
 function StatsCtrl($scope, $http, $routeParams, $rootScope) {
-	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope);
+	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope, $location);
 }
 
 var CommonCtrl = function($rootScope, $http, $route) {

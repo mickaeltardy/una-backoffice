@@ -1,5 +1,5 @@
 var lData;
-function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location) {
+function RegistratorCtrl($scope, $http, $routeParams, $rootScope, $location, $location) {
 	this.prototype = BackofficeCtrl($scope, $http, $routeParams, $rootScope,
 			$location);
 
