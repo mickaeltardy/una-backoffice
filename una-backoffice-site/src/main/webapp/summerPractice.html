@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html data-ng-app="unaBackOffice">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<title>UNA Web Site - Espace membre</title>
+
+<link rel="stylesheet" href="app/resources/backoffice.css" />
+<link rel="stylesheet" href="app/resources/main.css" />
+<link rel="stylesheet" type="text/css" href="app/resources/commons.css"
+	media="all" />
+<link rel="stylesheet" href="app/resources/desktop.css"
+	media="screen and (min-width: 1024px)" />
+<link rel="stylesheet" href="app/resources/large.css"
+	media="screen and (min-width: 1960px)" />
+<link rel="stylesheet" href="app/resources/phone.css"
+	media="screen and (max-width: 639px)" />
+<link rel="stylesheet" href="app/resources/tablet.css"
+	media="screen and (min-width: 640px) and (max-width: 1023px)" />
+
+<script type="text/javascript" src="app/resources/tools.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="js/lib/jquery.filedownload.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<style>
+.control {
+	margin-bottom: 40px;
+}
+
+.control>button {
+	width: 90%;
+	margin: 0px auto;
+	display: block;
+}
+</style>
+</head>
+<body>
+	<header>
+		<div id="logo"></div>
+		<div id="title">UNA Web Site - Espace membre</div>
+		<div id="nav-button">
+			<span class="icon-bar"></span><span class="icon-bar"></span><span
+				class="icon-bar"></span>
+		</div>
+	</header>
+	<div id="page">
+
+		<div id="preloaderContainer">
+			<div id="preloader">
+				<img src="img/preloader.gif" width="100px" height="100px" />
+			</div>
+		</div>
+
+		<div id="content">
+			<style>
+fieldset.sectionFs>div>ul>li>label {
+	padding-left: 10px;
+}
+</style>
+			<div class="container marketing">
+
+				<div class="row featurette">
+					<h2 class="featurette-heading">Inscription aux Stages d'été
+						2015</h2>
+					<div class="col-md-12">
+						<form id="summerPracticeRegistration" method="post">
+							<fieldset id="personal" class="sectionFs">
+								<legend>Choix de stage</legend>
+								<div>
+									<ul>
+
+
+										<li class="formItem"><input type="checkbox"
+											name="session" id="s1" value="s1"><label for="s1">Stage
+												1 : du 29 juin au 3 juillet</label></li>
+										<li class="formItem"><input type="checkbox"
+											name="session" id="s2" value="s3"><label for="s2">Stage
+												2 : du 6 juin au 10 juillet</label></li>
+										<li class="formItem"><input type="checkbox"
+											name="session" id="s3" value="s3"><label for="s3">Stage
+												3 : du 13 juin au 17 juillet</label></li>
+									</ul>
+								</div>
+							</fieldset>
+							<fieldset id="personal" class="sectionFs">
+								<legend>Choix du tarif</legend>
+								<div>
+									<ul>
+										<li class="formItem"><input type="radio" name="price"
+											id="t1" value="t1"><label for="t1">Tarif
+												standard</label></li>
+										<li class="formItem"><input type="radio" name="price"
+											id="t2" value="t2"><label for="t2">Enfant
+												personnel Université de Nantes</label></li>
+										<li class="formItem"><input type="radio" name="price"
+											id="t3" value="t3"><label for="t3">Enfants
+												membres du CPUN</label></li>
+
+									</ul>
+								</div>
+							</fieldset>
+							<fieldset id="personal" class="sectionFs">
+								<legend>Informations personnelles</legend>
+								<ul>
+									<li class="formItemTf required"><label for="surname">Nom</label>
+										<input type="text" name="surname" id="surname" /></li>
+									<li class="formItemTf required"><label for="name">Prénom</label>
+										<input type="text" name="name" id="name" /></li>
+									<li class="formItemTf required"><label for="sex.f">Sexe</label>
+										<input type="radio" name="sex" value="f" id="sex.f" /> <label
+										for="sex.f" class="supLabel">F</label> <input type="radio"
+										name="sex" value="m" id="sex.m" /> <label for="sex.m"
+										class="supLabel">M</label></li>
+									<li class="formItemTf required"><label for="birthdate">Date
+											de naissance</label> <input type="text" name="birthdate"
+										id="birthdate" /></li>
+									<li class="formItemTf required"><label for="address">Adresse</label>
+										<input type="text" name="address" id="address" />
+									<li class="formItemTf required"><label for="zipcode">Code
+											postal</label> <input type="text" name="zipcode" id="zipcode"
+										placeholder="12345" /></li>
+									<li class="formItemTf required"><label for="city">Ville</label>
+										<input type="text" name="city" id="city" /></li>
+									<li class="formItemTf required"><label for="telephone">Téléphone</label>
+										<input type="text" name="telephone" id="telephone"
+										placeholder="0123456789" /></li>
+
+								</ul>
+							</fieldset>
+							<div class="control">
+								<button onclick="generatePdf(); return false;">Télécharger
+									le formulaire rempli</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+			<script>
+				$.fn.serializeObject = function() {
+					var o = {};
+					var a = this.serializeArray();
+					$.each(a, function() {
+						if (o[this.name] !== undefined) {
+							if (!o[this.name].push) {
+								o[this.name] = [ o[this.name] ];
+							}
+							o[this.name].push(this.value || '');
+						} else {
+							o[this.name] = this.value || '';
+						}
+					});
+					return o;
+				};
+				window.onload = function() {
+					$("#birthdate").datepicker({
+						dateFormat : "dd/mm/yy"
+					});
+				};
+				var generatePdf = function() {
+					var lFrm = $("#summerPracticeRegistration");
+					var lData = JSON.stringify(lFrm.serializeObject());
+					$("#preloaderContainer").show();
+					$.fileDownload(
+							"app/registration/summerPracticeRegistration", {
+								httpMethod : 'POST',
+								data : {
+									"regData" : lData
+								},
+								successCallback : function() {
+									$("#preloaderContainer").hide();
+								}
+							})
+
+				}
+			</script>
+		</div>
+	</div>
+
+
+	<footer>
+		<div id="copyright">support [at] una-club.fr</div>
+	</footer>
+
+</body>
+</html>

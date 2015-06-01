@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.mtdev.una.business.DataRenderer;
 import com.mtdev.una.business.MailManager;
@@ -207,14 +208,16 @@ public class RegistrationService {
 	
 	
 
-	@RequestMapping(value = "/summerPracticeRegistration", method = RequestMethod.POST, produces = "application/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/summerPracticeRegistration", produces = "application/pdf")
 	@PreAuthorize("true")
-	public @ResponseBody ResponseEntity<byte[]> summerPracticeRegistration(@RequestBody Object pInput
+	public @ResponseBody ResponseEntity<byte[]> summerPracticeRegistration(@RequestParam("regData") String pInput
 			) {
+		ObjectMapper lMapper = new ObjectMapper();
 		try {
-			
+			Object lInput = lMapper.readValue(
+							pInput, Object.class);
 			Map<Object, Object> lContext = new HashMap<Object, Object>();
-			lContext.put("data", pInput);
+			lContext.put("data", lInput);
 			lContext.put("DataTools", DataTools.class);
 
 			HttpHeaders headers = new HttpHeaders();
@@ -228,10 +231,14 @@ public class RegistrationService {
 					+ ".pdf";
 			headers.setContentDispositionFormData(filename, filename);
 			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+		
+			headers.add("Set-Cookie","fileDownload=true; path=/");
+			headers.add("Cookie","fileDownload=true; path=/");
 			ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(
 					((ByteArrayOutputStream) os).toByteArray(), headers,
 					HttpStatus.OK);
-
+			
 			return response;
 		} catch (Exception lE) {
 			lE.printStackTrace();

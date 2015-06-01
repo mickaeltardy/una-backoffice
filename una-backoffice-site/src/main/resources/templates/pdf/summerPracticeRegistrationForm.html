@@ -164,8 +164,8 @@ font-size: 28px;}
 		<h2>Stage d'été</h2>
 		<h3>Formulaire d'inscription</h3>
 		<ul class="form">
-			<li><span class="label">Nom</span> <span class="value">$DataTools.getLabelFromMap($data, "name")</span></li>
-			<li><span class="label">Prénom</span> <span class="value">$DataTools.getLabelFromMap($data, "firstname")</span></li>
+			<li><span class="label">Nom</span> <span class="value">$DataTools.getLabelFromMap($data, "surname")</span></li>
+			<li><span class="label">Prénom</span> <span class="value">$DataTools.getLabelFromMap($data, "name")</span></li>
 			<li><span class="label">Sex</span>
 				<ul class="value">
 					<li #if ($data.sex =='m') class="selected" #end>M</li>
@@ -179,9 +179,9 @@ font-size: 28px;}
 			<li><span class="label">Téléphone</span> <span class="value">$DataTools.getLabelFromMap($data, "telephone")</span></li>
 			<li><span class="label">Date de stage</span>
 				<ul class="value">
-					<li #if ($data.session =='s1') class="selected" #end>du 29 juin au 3 juillet</li>
-					<li #if ($data.session =='s2') class="selected" #end>du 6 juillet au 10 juillet</li>
-					<li #if ($data.session =='s3') class="selected" #end>du 13 juillet au 17 juillet</li>
+					<li #if ($data.session.toString().contains('s1')) class="selected" #end>du 29 juin au 3 juillet</li>
+					<li #if ($data.session.toString().contains('s1')) class="selected" #end>du 6 juillet au 10 juillet</li>
+					<li #if ($data.session.toString().contains('s1')) class="selected" #end>du 13 juillet au 17 juillet</li>
 				</ul></li>
 			<li><span class="label">Tarif</span>
 				<ul class="value">
