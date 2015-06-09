@@ -79,10 +79,10 @@ fieldset.sectionFs>div>ul>li>label {
 												1 : du 29 juin au 3 juillet</label></li>
 										<li class="formItem"><input type="checkbox"
 											name="session" id="s2" value="s2"><label for="s2">Stage
-												2 : du 6 juin au 10 juillet</label></li>
+												2 : du 6 juillet au 10 juillet</label></li>
 										<li class="formItem"><input type="checkbox"
 											name="session" id="s3" value="s3"><label for="s3">Stage
-												3 : du 13 juin au 17 juillet</label></li>
+												3 : du 13 juillet au 17 juillet</label></li>
 									</ul>
 								</div>
 							</fieldset>
@@ -160,7 +160,8 @@ fieldset.sectionFs>div>ul>li>label {
 				};
 				window.onload = function() {
 					$("#birthdate").datepicker({
-						dateFormat : "dd/mm/yy"
+						dateFormat : "dd/mm/yy",
+						firstDay: 1
 					});
 				};
 				var generatePdf = function() {
