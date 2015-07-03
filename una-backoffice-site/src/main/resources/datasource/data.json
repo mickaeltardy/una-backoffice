@@ -2,19 +2,19 @@
     "categeries": [
         {
             "code": "studentUniv",
-            "price": "85" 
+            "price": "90" 
         }, {
             "code": "studentOther",
-            "price": "130" 
+            "price": "135" 
         }, {
             "code": "adultUniv",
-            "price": "170" 
+            "price": "180" 
         }, {
             "code": "school",
-            "price": "150" 
+            "price": "158" 
         }, {
             "code": "adult",
-            "price": "250"
+            "price": "260"
         }
     ],
     "driverLicence": [
