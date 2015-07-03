@@ -115,7 +115,7 @@
         "schoolClass": "Classe",
         "insurance": {
             "label" : "Assurance supplementaire I.A.Sport+", 
-            "accept" : "Je souhaite souscrire la garantie I. A. Sport+ qui se substituera, en cas d'accident corporel, à la garantie de base de la licence. J'intègre la cotisation complémentaire de 10,65e pour la saison sportive 2014/2015 au règlement de ma cotisation. J’ai bien noté que la garantie I. A. Sport+ serait acquise à compter de la date de souscription jusqu’à la fin de période de validité de ma licence.",
+            "accept" : "Je souhaite souscrire la garantie I. A. Sport+ qui se substituera, en cas d'accident corporel, à la garantie de base de la licence. J'intègre la cotisation complémentaire de 10,65e pour la saison sportive 2015/2016 au règlement de ma cotisation. J’ai bien noté que la garantie I. A. Sport+ serait acquise à compter de la date de souscription jusqu’à la fin de période de validité de ma licence.",
             "refuse" : "Je ne souhaite pas souscrire cette garantie."},
         "insuranceDetail": "Souscrire",
         "insuranceDetailLink": "Plus de détails",
@@ -155,7 +155,7 @@
         "generatePdf" : "Charger le PDF"
     },
     "info": {
-        "formDetails": ["La licence de l’UNA est valable du 1er septembre 2015 au 31 août 2016 inclus", "Règlement de la cotisation en 3 paiements possible : 3 chèques doivent être établis dont un premier de 60€ minimum", "En cas de démission au cours de la saison la cotisation reste entièrement acquise à l ’UNA", "Chèques Pass Culture & Sport 2014 sont acceptés (ne sont pas pris ceux de 2013)", "L’UNA s’autorise l’exploitation des photos et vidéos de ses sociétaires à des fins exclusivement promotionnelles"],
+        "formDetails": ["La licence de l’UNA est valable du 1er septembre 2015 au 31 août 2016 inclus", "Règlement de la cotisation en 3 paiements possible : 3 chèques doivent être établis dont un premier de 60€ minimum", "En cas de démission au cours de la saison la cotisation reste entièrement acquise à l ’UNA", "Chèques Pass Culture & Sport 2015 sont acceptés (ne sont pas pris ceux de 2014)", "L’UNA s’autorise l’exploitation des photos et vidéos de ses sociétaires à des fins exclusivement promotionnelles"],
         "localAddress": "Veuillez indiquer votre adresse nantaise",
         "localAddressAlert": "Veuillez indiquer votre adresse nantaise lorsque vous allez renseigner les info personelles",
         "noPrice": "Veuillez remplir le formulaire pour afficher le prix de l'inscription",
